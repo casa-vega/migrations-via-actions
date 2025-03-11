@@ -1,0 +1,96 @@
+# Bitbucket Server Exporter
+
+This is a utility written in Ruby that uses the Bitbucket Server API to export Bitbucket Server data in a format that is understandable by GitHub Enterprise's `ghe-migrator` utility. This serves the purpose of performing a high-fidelity migration of data from Bitbucket Server (formerly known as Stash) to GitHub Enterprise.
+
+**Note**: This project is maintained by the [Migration Tools](https://github.com/github/migration-tools)
+    - Formerly [Data Liberation team](https://github.com/github/data-liberation).
+
+## Installation
+
+From the command line, run
+
+    $ git clone https://github.com/github/bbs-exporter.git
+    $ cd bbs-exporter
+    $ script/bootstrap
+
+## Usage
+
+Set environment variables for connecting to Bitbucket Server. Exclude the port number to use the default port, or use a secure port.
+
+    $ export BITBUCKET_SERVER_URL=https://<BITBUCKER_SERVER_HOSTNAME>:<BITBUCKET_SERVER_PORT>
+
+Set your Bitbucket Server username password *OR* personal access token. **NOTE:** Personal Access Tokens were [introduced in Bitbucket Server 5.6](https://confluence.atlassian.com/bitbucketserver/personal-access-tokens-939515499.html)
+
+  - Using your Bitbucket Server username and password
+  ```
+  $ export BITBUCKET_SERVER_API_USERNAME=tinyrick
+  $ export BITBUCKET_SERVER_API_PASSWORD=n0tp4ssw0rd
+  ```
+
+  - Using a Personal Access Token:
+  ```
+  $ export BITBUCKET_SERVER_API_TOKEN=SOMETOKEN
+  ```
+
+Create an export archive by issuing a path to `--repository` (or `-r`) in the form of `project_key/repository` or `~username/repository`. This option can be specified multiple times to export multiple repositories at once. From inside the project's root directory, run:
+
+    $ bundle exec exe/bbs-exporter -r MIGR8/hugo-pages -r ~synthead/test-repo -o migration_archive.tar.gz
+
+You can provide a [CSV file](./spec/fixtures/export_list.csv) with a list of project keys and repository names to export.
+
+    $ bbs-exporter -f path/to/export_list.csv -o migration_archive.tar.gz
+
+To get a list (CSV file) of all repositories on a Bitbucket Server instance, run the following command:
+
+    $ bbs-exporter --fetch-repos
+
+
+### Specifying models to export
+
+If you want to selectively export certain models, use the `--except` or `--only` flag. Currently, the optional models are `commit_comments`, `pull_requests` and `teams`.
+
+    $ bbs-exporter [...] --except pull_requests,teams
+    $ bbs-exporter [...] --only pull_requests
+
+### Disable SSL verification
+
+The utility will not validate SSL certificates against the certificate store if you provide the `--ssl-no-verify` flag
+
+    $ bbs-exporter [...] --ssl-no-verify
+
+### Configuring timeout, retry, and pagination options
+
+If your Bitbucket Server instance has a very high reponse time, it might be helpful to tune some timeout, retry, and pagination options.  These are the environment variables and CLI options that you can use to adjust these settings:
+
+| Environment variable                    | CLI option               | Description                                                                        |
+|-----------------------------------------|--------------------------|------------------------------------------------------------------------------------|
+| `BITBUCKET_SERVER_OPEN_TIMEOUT`         | `--open-timeout`         | Set the timeout for opening connections, in seconds.                               |
+| `BITBUCKET_SERVER_READ_TIMEOUT`         | `--read-timeout`         | Set the timeout for reading server responses, in seconds.                          |
+| `BITBUCKET_SERVER_RETRIES`              | `--retries`              | Retry timed-out connections a specified amount of times before giving up.          |
+| `BITBUCKET_SERVER_PAGINATION_LIMIT`     | `--pagination-limit`     | Fetch a specified number of items when fetching data from paged APIs.              |
+| `BITBUCKET_SERVER_GIT_PAGINATION_LIMIT` | `--git-pagination-limit` | Fetch a specified number of items when fetching data from paged APIs for Git data. |
+
+## Docker support
+
+A Dockerfile is provided to build an image and run bbs-exporter inside of a Docker container.  For more information, see [the Docker documentation](docs/Docker.md).
+
+## Development
+
+After checking out the repo, run `bin/setup` to install dependencies.  To run tests, run `bundle exec rspec`. For an interactive console, run `bin/console`.
+
+To install this gem onto your local machine, run `bundle exec rake install`.
+
+# Release
+
+After having you code reviewed and merged to master, create a new issue to bump up the version, regression test and publish.
+Create [a release issue](https://github.com/github/bbs-exporter/issues/new?assignees=&labels=&template=01_release.md&title=New+Release) to track the steps required.
+    - This [issue](https://github.com/github/bbs-exporter/issues/707) is also good reference
+
+### Generating documentation
+
+Documentation is written with [YARD](http://yardoc.org/) and can be generated by running the `yardoc` command.
+
+## Contributing
+
+Bug reports and pull requests are welcome on GitHub at https://github.com/github/bbs-exporter. This project is intended to be a safe, welcoming space for collaboration.
+    - https://github.com/github/migration-friction is also a repository the team monitors

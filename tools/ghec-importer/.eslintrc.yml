@@ -1,0 +1,15 @@
+env:
+  commonjs: true
+  es2021: true
+  node: true
+extends: 'eslint:recommended'
+parserOptions:
+  ecmaVersion: 12
+rules: {}
+globals:
+  beforeEach: true
+  afterEach: true
+  jest: true
+  describe: true
+  test: true
+  expect: true

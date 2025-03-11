@@ -1,0 +1,882 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://example.com/rest/api/1.0/projects/MIGR8/repos/hugo-pages
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.17.3
+      Accept:
+      - "*/*"
+      Authorization:
+      - "<API_BASIC_AUTH>"
+      Accept-Encoding:
+      - gzip,deflate
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.12.1
+      Date:
+      - Thu, 30 Sep 2021 22:32:17 GMT
+      Content-Type:
+      - application/json;charset=UTF-8
+      Connection:
+      - keep-alive
+      Cache-Control:
+      - private, no-cache, no-transform
+      Expires:
+      - Thu, 01 Jan 1970 00:00:00 UTC
+      X-Arequestid:
+      - "@16BQAY7x1352x192172x0"
+      X-Asen:
+      - SEN-10038470
+      Set-Cookie:
+      - BITBUCKETSESSIONID=F76F51498BD2C26F59DC8F0EC6102CF6; Path=/; Secure; HttpOnly
+      X-Auserid:
+      - '55'
+      X-Ausername:
+      - unit-test
+      X-Asessionid:
+      - 1qfaw33
+      Vary:
+      - X-AUSERNAME,Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    body:
+      encoding: ASCII-8BIT
+      string: '{"slug":"hugo-pages","id":6,"name":"hugo-pages","scmId":"git","state":"AVAILABLE","statusMessage":"Available","forkable":true,"project":{"key":"MIGR8","id":2,"name":"Migrate
+        Me","description":"Test project description","public":false,"type":"NORMAL","links":{"self":[{"href":"https://example.com/projects/MIGR8"}]}},"public":true,"links":{"clone":[{"href":"ssh://git@example.com:7999/migr8/hugo-pages.git","name":"ssh"},{"href":"https://unit-test@example.com/scm/migr8/hugo-pages.git","name":"http"}],"self":[{"href":"https://example.com/projects/MIGR8/repos/hugo-pages/browse"}]}}'
+    http_version: null
+    adapter_metadata:
+      vcr_decompressed: gzip
+  recorded_at: Thu, 30 Sep 2021 22:32:16 GMT
+- request:
+    method: get
+    uri: https://example.com/rest/api/1.0/projects/MIGR8/repos/hugo-pages/pull-requests/9
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.17.3
+      Accept:
+      - "*/*"
+      Authorization:
+      - "<API_BASIC_AUTH>"
+      Accept-Encoding:
+      - gzip,deflate
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.12.1
+      Date:
+      - Thu, 30 Sep 2021 22:32:17 GMT
+      Content-Type:
+      - application/json;charset=UTF-8
+      Connection:
+      - keep-alive
+      Cache-Control:
+      - private, no-cache, no-transform
+      Expires:
+      - Thu, 01 Jan 1970 00:00:00 UTC
+      X-Arequestid:
+      - "@16BQAY7x1352x192173x0"
+      X-Asen:
+      - SEN-10038470
+      Set-Cookie:
+      - BITBUCKETSESSIONID=86FA30AEEA5A0397E24BF0D085A3C864; Path=/; Secure; HttpOnly
+      X-Auserid:
+      - '55'
+      X-Ausername:
+      - unit-test
+      X-Asessionid:
+      - ty8tpa
+      Vary:
+      - X-AUSERNAME,Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    body:
+      encoding: ASCII-8BIT
+      string: '{"id":9,"version":7,"title":"PR with attachments","description":"[![octocat.png](attachment:6/955b9a8607%2Foctocat.png)](attachment:6/955b9a8607%2Foctocat.png
+        ''octocat'')","state":"OPEN","open":true,"closed":false,"createdDate":1560799414918,"updatedDate":1562180725156,"fromRef":{"id":"refs/heads/attachments-in-comments","displayId":"attachments-in-comments","latestCommit":"268576529491c67f19db1af0fd2906cee0abb1f2","repository":{"slug":"hugo-pages","id":6,"name":"hugo-pages","scmId":"git","state":"AVAILABLE","statusMessage":"Available","forkable":true,"project":{"key":"MIGR8","id":2,"name":"Migrate
+        Me","description":"Test project description","public":false,"type":"NORMAL","links":{"self":[{"href":"https://example.com/projects/MIGR8"}]}},"public":true,"links":{"clone":[{"href":"ssh://git@example.com:7999/migr8/hugo-pages.git","name":"ssh"},{"href":"https://unit-test@example.com/scm/migr8/hugo-pages.git","name":"http"}],"self":[{"href":"https://example.com/projects/MIGR8/repos/hugo-pages/browse"}]}}},"toRef":{"id":"refs/heads/master","displayId":"master","latestCommit":"8b72d91417eb24704dfa79e73daae03e11a206cb","repository":{"slug":"hugo-pages","id":6,"name":"hugo-pages","scmId":"git","state":"AVAILABLE","statusMessage":"Available","forkable":true,"project":{"key":"MIGR8","id":2,"name":"Migrate
+        Me","description":"Test project description","public":false,"type":"NORMAL","links":{"self":[{"href":"https://example.com/projects/MIGR8"}]}},"public":true,"links":{"clone":[{"href":"ssh://git@example.com:7999/migr8/hugo-pages.git","name":"ssh"},{"href":"https://unit-test@example.com/scm/migr8/hugo-pages.git","name":"http"}],"self":[{"href":"https://example.com/projects/MIGR8/repos/hugo-pages/browse"}]}}},"locked":false,"author":{"user":{"name":"synthead","emailAddress":"synthead@github.com","id":2,"displayName":"Maxwell
+        Pray","active":true,"slug":"synthead","type":"NORMAL","links":{"self":[{"href":"https://example.com/users/synthead"}]}},"role":"AUTHOR","approved":false,"status":"UNAPPROVED"},"reviewers":[],"participants":[],"links":{"self":[{"href":"https://example.com/projects/MIGR8/repos/hugo-pages/pull-requests/9"}]}}'
+    http_version: null
+    adapter_metadata:
+      vcr_decompressed: gzip
+  recorded_at: Thu, 30 Sep 2021 22:32:16 GMT
+- request:
+    method: get
+    uri: https://example.com/rest/api/1.0/projects/MIGR8/repos/hugo-pages/pull-requests/9/commits?limit=5000
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.17.3
+      Accept:
+      - "*/*"
+      Authorization:
+      - "<API_BASIC_AUTH>"
+      Accept-Encoding:
+      - gzip,deflate
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.12.1
+      Date:
+      - Thu, 30 Sep 2021 22:32:17 GMT
+      Content-Type:
+      - application/json;charset=UTF-8
+      Connection:
+      - keep-alive
+      Cache-Control:
+      - private, no-cache, no-transform
+      Expires:
+      - Thu, 01 Jan 1970 00:00:00 UTC
+      X-Arequestid:
+      - "@16BQAY7x1352x192174x0"
+      X-Asen:
+      - SEN-10038470
+      Set-Cookie:
+      - BITBUCKETSESSIONID=098760D9965DC2855CBFB954FEB3D75E; Path=/; Secure; HttpOnly
+      X-Auserid:
+      - '55'
+      X-Ausername:
+      - unit-test
+      X-Asessionid:
+      - p6qhz1
+      Vary:
+      - X-AUSERNAME,Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    body:
+      encoding: ASCII-8BIT
+      string: '{"values":[{"id":"268576529491c67f19db1af0fd2906cee0abb1f2","displayId":"26857652949","author":{"name":"synthead","emailAddress":"synthead@github.com","id":2,"displayName":"Maxwell
+        Pray","active":true,"slug":"synthead","type":"NORMAL"},"authorTimestamp":1560799060000,"committer":{"name":"synthead","emailAddress":"synthead@github.com","id":2,"displayName":"Maxwell
+        Pray","active":true,"slug":"synthead","type":"NORMAL"},"committerTimestamp":1560799060000,"message":"Remove
+        \"testing\" from README.md.","parents":[{"id":"6150ca7e1fd18c96e2907a4ba31880e8b2329459","displayId":"6150ca7e1fd"}]}],"size":1,"isLastPage":true,"start":0,"limit":5000,"nextPageStart":null}'
+    http_version: null
+    adapter_metadata:
+      vcr_decompressed: gzip
+  recorded_at: Thu, 30 Sep 2021 22:32:17 GMT
+- request:
+    method: head
+    uri: https://example.com/projects/MIGR8/repos/hugo-pages/attachments/955b9a8607/octocat.png
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.17.3
+      Accept:
+      - "*/*"
+      Authorization:
+      - "<API_BASIC_AUTH>"
+      Accept-Encoding:
+      - gzip,deflate
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.12.1
+      Date:
+      - Thu, 30 Sep 2021 22:32:17 GMT
+      Content-Type:
+      - image/png
+      Content-Length:
+      - '3834'
+      Connection:
+      - keep-alive
+      Cache-Control:
+      - private, max-age=2419200
+      Expires:
+      - Thu, 28 Oct 2021 22:32:17 GMT
+      X-Arequestid:
+      - "@16BQAY7x1352x192175x0"
+      X-Asen:
+      - SEN-10038470
+      Set-Cookie:
+      - BITBUCKETSESSIONID=24D467A35F98273C4EE4980C6E2098B9; Path=/; Secure; HttpOnly
+      X-Auserid:
+      - '55'
+      X-Ausername:
+      - unit-test
+      X-Asessionid:
+      - 1yywrv6
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Content-Type-Options:
+      - nosniff
+      Pragma:
+      - ''
+      Content-Disposition:
+      - inline; filename="octocat.png"; filename*=UTF-8''octocat.png
+    body:
+      encoding: ASCII-8BIT
+      string: ''
+    http_version: null
+  recorded_at: Thu, 30 Sep 2021 22:32:17 GMT
+- request:
+    method: get
+    uri: https://example.com/projects/MIGR8/repos/hugo-pages/attachments/955b9a8607/octocat.png
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.17.3
+      Accept:
+      - "*/*"
+      Authorization:
+      - "<API_BASIC_AUTH>"
+      Accept-Encoding:
+      - gzip,deflate
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.12.1
+      Date:
+      - Thu, 30 Sep 2021 22:32:17 GMT
+      Content-Type:
+      - image/png
+      Content-Length:
+      - '3834'
+      Connection:
+      - keep-alive
+      Cache-Control:
+      - private, max-age=2419200
+      Expires:
+      - Thu, 28 Oct 2021 22:32:17 GMT
+      X-Arequestid:
+      - "@16BQAY7x1352x192176x0"
+      X-Asen:
+      - SEN-10038470
+      Set-Cookie:
+      - BITBUCKETSESSIONID=13BF52E7E1B88FA68FBB3AC77EE008EE; Path=/; Secure; HttpOnly
+      X-Auserid:
+      - '55'
+      X-Ausername:
+      - unit-test
+      X-Asessionid:
+      - 1j0v8er
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Content-Type-Options:
+      - nosniff
+      Pragma:
+      - ''
+      Content-Disposition:
+      - inline; filename="octocat.png"; filename*=UTF-8''octocat.png
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        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
+    http_version: null
+  recorded_at: Thu, 30 Sep 2021 22:32:17 GMT
+- request:
+    method: get
+    uri: https://example.com/rest/api/1.0/projects/MIGR8/repos/hugo-pages/pull-requests/9/activities?limit=250
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.17.3
+      Accept:
+      - "*/*"
+      Authorization:
+      - "<API_BASIC_AUTH>"
+      Accept-Encoding:
+      - gzip,deflate
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.12.1
+      Date:
+      - Thu, 30 Sep 2021 22:34:56 GMT
+      Content-Type:
+      - application/json;charset=UTF-8
+      Connection:
+      - keep-alive
+      Cache-Control:
+      - private, no-cache, no-transform
+      Expires:
+      - Thu, 01 Jan 1970 00:00:00 UTC
+      X-Arequestid:
+      - "@16BQAY7x1354x192303x0"
+      X-Asen:
+      - SEN-10038470
+      Set-Cookie:
+      - BITBUCKETSESSIONID=D8AC9C3A5FCEDBB20220F21E96850969; Path=/; Secure; HttpOnly
+      X-Auserid:
+      - '55'
+      X-Ausername:
+      - unit-test
+      X-Asessionid:
+      - 12rasp
+      Vary:
+      - X-AUSERNAME,Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    body:
+      encoding: ASCII-8BIT
+      string: '{"size":8,"limit":250,"isLastPage":true,"values":[{"id":516,"createdDate":1564080621322,"user":{"name":"synthead","emailAddress":"synthead@github.com","id":2,"displayName":"Maxwell
+        Pray","active":true,"slug":"synthead","type":"NORMAL","links":{"self":[{"href":"https://example.com/users/synthead"}]}},"action":"COMMENTED","commentAction":"ADDED","comment":{"properties":{"repositoryId":6},"id":177,"version":0,"text":"[i-am-a.txt](attachment:6/c130bc1d9f%2Fi-am-a.txt)","author":{"name":"synthead","emailAddress":"synthead@github.com","id":2,"displayName":"Maxwell
+        Pray","active":true,"slug":"synthead","type":"NORMAL","links":{"self":[{"href":"https://example.com/users/synthead"}]}},"createdDate":1564080621322,"updatedDate":1564080621322,"comments":[],"tasks":[],"permittedOperations":{"editable":false,"deletable":true}}},{"id":515,"createdDate":1564079571534,"user":{"name":"synthead","emailAddress":"synthead@github.com","id":2,"displayName":"Maxwell
+        Pray","active":true,"slug":"synthead","type":"NORMAL","links":{"self":[{"href":"https://example.com/users/synthead"}]}},"action":"COMMENTED","commentAction":"ADDED","comment":{"properties":{"repositoryId":6},"id":176,"version":0,"text":"[![octocat.svg](attachment:6/9acb9e5477%2Foctocat.svg)](attachment:6/9acb9e5477%2Foctocat.svg)","author":{"name":"synthead","emailAddress":"synthead@github.com","id":2,"displayName":"Maxwell
+        Pray","active":true,"slug":"synthead","type":"NORMAL","links":{"self":[{"href":"https://example.com/users/synthead"}]}},"createdDate":1564079571534,"updatedDate":1564079571534,"comments":[],"tasks":[],"permittedOperations":{"editable":false,"deletable":true}}},{"id":514,"createdDate":1564079468667,"user":{"name":"synthead","emailAddress":"synthead@github.com","id":2,"displayName":"Maxwell
+        Pray","active":true,"slug":"synthead","type":"NORMAL","links":{"self":[{"href":"https://example.com/users/synthead"}]}},"action":"COMMENTED","commentAction":"ADDED","comment":{"properties":{"repositoryId":6},"id":175,"version":0,"text":"[i-am-a.md](attachment:6/edb6a2201d%2Fi-am-a.md)","author":{"name":"synthead","emailAddress":"synthead@github.com","id":2,"displayName":"Maxwell
+        Pray","active":true,"slug":"synthead","type":"NORMAL","links":{"self":[{"href":"https://example.com/users/synthead"}]}},"createdDate":1564079468667,"updatedDate":1564079468667,"comments":[],"tasks":[],"permittedOperations":{"editable":false,"deletable":true}}},{"id":513,"createdDate":1564079444785,"user":{"name":"synthead","emailAddress":"synthead@github.com","id":2,"displayName":"Maxwell
+        Pray","active":true,"slug":"synthead","type":"NORMAL","links":{"self":[{"href":"https://example.com/users/synthead"}]}},"action":"COMMENTED","commentAction":"ADDED","comment":{"properties":{"repositoryId":6},"id":174,"version":0,"text":"[i-am-a.log](attachment:6/8599dcf6c2%2Fi-am-a.log)","author":{"name":"synthead","emailAddress":"synthead@github.com","id":2,"displayName":"Maxwell
+        Pray","active":true,"slug":"synthead","type":"NORMAL","links":{"self":[{"href":"https://example.com/users/synthead"}]}},"createdDate":1564079444785,"updatedDate":1564079444785,"comments":[],"tasks":[],"permittedOperations":{"editable":false,"deletable":true}}},{"id":491,"createdDate":1562180613623,"user":{"name":"synthead","emailAddress":"synthead@github.com","id":2,"displayName":"Maxwell
+        Pray","active":true,"slug":"synthead","type":"NORMAL","links":{"self":[{"href":"https://example.com/users/synthead"}]}},"action":"COMMENTED","commentAction":"ADDED","comment":{"properties":{"repositoryId":6},"id":160,"version":0,"text":"[![octocat.png](attachment:6/955b9a8607%2Foctocat.png)](attachment:6/955b9a8607%2Foctocat.png)","author":{"name":"synthead","emailAddress":"synthead@github.com","id":2,"displayName":"Maxwell
+        Pray","active":true,"slug":"synthead","type":"NORMAL","links":{"self":[{"href":"https://example.com/users/synthead"}]}},"createdDate":1562180613623,"updatedDate":1562180613623,"comments":[],"tasks":[],"permittedOperations":{"editable":false,"deletable":true}}},{"id":413,"createdDate":1560799994608,"user":{"name":"synthead","emailAddress":"synthead@github.com","id":2,"displayName":"Maxwell
+        Pray","active":true,"slug":"synthead","type":"NORMAL","links":{"self":[{"href":"https://example.com/users/synthead"}]}},"action":"COMMENTED","commentAction":"ADDED","comment":{"properties":{"repositoryId":6},"id":130,"version":3,"text":"[![octocat.png](attachment:6/955b9a8607%2Foctocat.png)](attachment:6/955b9a8607%2Foctocat.png)","author":{"name":"synthead","emailAddress":"synthead@github.com","id":2,"displayName":"Maxwell
+        Pray","active":true,"slug":"synthead","type":"NORMAL","links":{"self":[{"href":"https://example.com/users/synthead"}]}},"createdDate":1560799994608,"updatedDate":1562180535214,"comments":[{"properties":{"repositoryId":6},"id":159,"version":0,"text":"[![octocat.png](attachment:6/955b9a8607%2Foctocat.png)](attachment:6/955b9a8607%2Foctocat.png)","author":{"name":"synthead","emailAddress":"synthead@github.com","id":2,"displayName":"Maxwell
+        Pray","active":true,"slug":"synthead","type":"NORMAL","links":{"self":[{"href":"https://example.com/users/synthead"}]}},"createdDate":1562180602143,"updatedDate":1562180602143,"comments":[],"tasks":[],"permittedOperations":{"editable":false,"deletable":true}}],"tasks":[],"permittedOperations":{"editable":false,"deletable":true}},"commentAnchor":{"fromHash":"8b72d91417eb24704dfa79e73daae03e11a206cb","toHash":"582f07ff2b1d519fb2a075d51c5f5b21fd682c54","line":14,"lineType":"REMOVED","fileType":"FROM","path":"README.md","diffType":"EFFECTIVE","orphaned":false},"diff":{"source":null,"destination":{"components":["README.md"],"parent":"","name":"README.md","extension":"md","toString":"README.md"},"hunks":[{"context":"First,
+        set up this app by clicking the button below. It''ll walk you","sourceLine":4,"sourceSpan":12,"destinationLine":4,"destinationSpan":10,"segments":[{"type":"CONTEXT","lines":[{"destination":4,"source":4,"line":"through
+        the steps to configure it.","truncated":false},{"destination":5,"source":5,"line":"","truncated":false},{"destination":6,"source":6,"line":"[![Deploy
+        to Heroku](https://cdn.herokuapp.com/deploy/button.svg)](https://heroku.com/deploy)","truncated":false},{"destination":7,"source":7,"line":"","truncated":false},{"destination":8,"source":8,"line":"Next,
+        create a GitHub repository and add a hugo-pages branch to it.","truncated":false},{"destination":9,"source":9,"line":"See
+        [this repository''s hugo-pages branch](https://github.com/spraints/hugo-pages/tree/hugo-pages)","truncated":false},{"destination":10,"source":10,"line":"for
+        an example.","truncated":false},{"destination":11,"source":11,"line":"","truncated":false},{"destination":12,"source":12,"line":"Finally,
+        visit your GitHub Pages site! For example, see","truncated":false},{"destination":13,"source":13,"line":"[http://pickardayune.com/hugo-pages](http://spraints.github.io/hugo-pages).","truncated":false}],"truncated":false},{"type":"REMOVED","lines":[{"destination":14,"source":14,"line":"","truncated":false,"commentIds":[130]},{"destination":14,"source":15,"line":"testing","truncated":false}],"truncated":false}],"truncated":false}],"truncated":false,"properties":{"toHash":"582f07ff2b1d519fb2a075d51c5f5b21fd682c54","current":true,"fromHash":"8b72d91417eb24704dfa79e73daae03e11a206cb"}}},{"id":411,"createdDate":1560799673160,"user":{"name":"synthead","emailAddress":"synthead@github.com","id":2,"displayName":"Maxwell
+        Pray","active":true,"slug":"synthead","type":"NORMAL","links":{"self":[{"href":"https://example.com/users/synthead"}]}},"action":"COMMENTED","commentAction":"ADDED","comment":{"properties":{"repositoryId":6},"id":128,"version":5,"text":"[octocat.png\\\\\\]  \nand\ntext](
+        attachment:6/955b9a8607%2Foctocat.png \n''a\\''''  )\n","author":{"name":"synthead","emailAddress":"synthead@github.com","id":2,"displayName":"Maxwell
+        Pray","active":true,"slug":"synthead","type":"NORMAL","links":{"self":[{"href":"https://example.com/users/synthead"}]}},"createdDate":1560799673160,"updatedDate":1562180562356,"comments":[],"tasks":[],"permittedOperations":{"editable":false,"deletable":true}}},{"id":410,"createdDate":1560799414940,"user":{"name":"synthead","emailAddress":"synthead@github.com","id":2,"displayName":"Maxwell
+        Pray","active":true,"slug":"synthead","type":"NORMAL","links":{"self":[{"href":"https://example.com/users/synthead"}]}},"action":"OPENED"}],"start":0}'
+    http_version: null
+    adapter_metadata:
+      vcr_decompressed: gzip
+  recorded_at: Thu, 30 Sep 2021 22:34:56 GMT
+- request:
+    method: head
+    uri: https://example.com/projects/MIGR8/repos/hugo-pages/attachments/c130bc1d9f/i-am-a.txt
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.17.3
+      Accept:
+      - "*/*"
+      Authorization:
+      - "<API_BASIC_AUTH>"
+      Accept-Encoding:
+      - gzip,deflate
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.12.1
+      Date:
+      - Thu, 30 Sep 2021 22:34:57 GMT
+      Content-Type:
+      - text/plain;charset=UTF-8
+      Content-Length:
+      - '12'
+      Connection:
+      - keep-alive
+      Cache-Control:
+      - private, max-age=2419200
+      Expires:
+      - Thu, 28 Oct 2021 22:34:57 GMT
+      X-Arequestid:
+      - "@16BQAY7x1354x192304x0"
+      X-Asen:
+      - SEN-10038470
+      Set-Cookie:
+      - BITBUCKETSESSIONID=629C30906CF0524B2ECC1F31D013CD24; Path=/; Secure; HttpOnly
+      X-Auserid:
+      - '55'
+      X-Ausername:
+      - unit-test
+      X-Asessionid:
+      - d5c9tr
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Content-Type-Options:
+      - nosniff
+      Pragma:
+      - ''
+      Content-Disposition:
+      - inline; filename="i-am-a.txt"; filename*=UTF-8''i-am-a.txt
+    body:
+      encoding: ASCII-8BIT
+      string: ''
+    http_version: null
+  recorded_at: Thu, 30 Sep 2021 22:34:56 GMT
+- request:
+    method: get
+    uri: https://example.com/projects/MIGR8/repos/hugo-pages/attachments/c130bc1d9f/i-am-a.txt
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.17.3
+      Accept:
+      - "*/*"
+      Authorization:
+      - "<API_BASIC_AUTH>"
+      Accept-Encoding:
+      - gzip,deflate
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.12.1
+      Date:
+      - Thu, 30 Sep 2021 22:34:57 GMT
+      Content-Type:
+      - text/plain;charset=UTF-8
+      Content-Length:
+      - '12'
+      Connection:
+      - keep-alive
+      Cache-Control:
+      - private, max-age=2419200
+      Expires:
+      - Thu, 28 Oct 2021 22:34:57 GMT
+      X-Arequestid:
+      - "@16BQAY7x1354x192305x0"
+      X-Asen:
+      - SEN-10038470
+      Set-Cookie:
+      - BITBUCKETSESSIONID=A71853AEBCE0D1C2A295C710C631D6BF; Path=/; Secure; HttpOnly
+      X-Auserid:
+      - '55'
+      X-Ausername:
+      - unit-test
+      X-Asessionid:
+      - cr20wd
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Content-Type-Options:
+      - nosniff
+      Pragma:
+      - ''
+      Content-Disposition:
+      - inline; filename="i-am-a.txt"; filename*=UTF-8''i-am-a.txt
+    body:
+      encoding: ASCII-8BIT
+      string: 'I am a text
+
+'
+    http_version: null
+  recorded_at: Thu, 30 Sep 2021 22:34:56 GMT
+- request:
+    method: head
+    uri: https://example.com/projects/MIGR8/repos/hugo-pages/attachments/9acb9e5477/octocat.svg
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.17.3
+      Accept:
+      - "*/*"
+      Authorization:
+      - "<API_BASIC_AUTH>"
+      Accept-Encoding:
+      - gzip,deflate
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.12.1
+      Date:
+      - Thu, 30 Sep 2021 22:34:57 GMT
+      Content-Type:
+      - image/svg+xml
+      Content-Length:
+      - '2958'
+      Connection:
+      - keep-alive
+      Cache-Control:
+      - private, max-age=2419200
+      Expires:
+      - Thu, 28 Oct 2021 22:34:57 GMT
+      X-Arequestid:
+      - "@16BQAY7x1354x192306x0"
+      X-Asen:
+      - SEN-10038470
+      Set-Cookie:
+      - BITBUCKETSESSIONID=1B1DF87AACD0E611FE7D442A3D54BBC0; Path=/; Secure; HttpOnly
+      X-Auserid:
+      - '55'
+      X-Ausername:
+      - unit-test
+      X-Asessionid:
+      - 1yjmxod
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Content-Type-Options:
+      - nosniff
+      Pragma:
+      - ''
+      Content-Disposition:
+      - attachment; filename="octocat.svg"; filename*=UTF-8''octocat.svg
+      X-Download-Options:
+      - noopen
+    body:
+      encoding: ASCII-8BIT
+      string: ''
+    http_version: null
+  recorded_at: Thu, 30 Sep 2021 22:34:57 GMT
+- request:
+    method: head
+    uri: https://example.com/projects/MIGR8/repos/hugo-pages/attachments/edb6a2201d/i-am-a.md
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.17.3
+      Accept:
+      - "*/*"
+      Authorization:
+      - "<API_BASIC_AUTH>"
+      Accept-Encoding:
+      - gzip,deflate
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.12.1
+      Date:
+      - Thu, 30 Sep 2021 22:34:57 GMT
+      Content-Type:
+      - text/x-markdown;charset=UTF-8
+      Content-Length:
+      - '16'
+      Connection:
+      - keep-alive
+      Cache-Control:
+      - private, max-age=2419200
+      Expires:
+      - Thu, 28 Oct 2021 22:34:57 GMT
+      X-Arequestid:
+      - "@16BQAY7x1354x192307x0"
+      X-Asen:
+      - SEN-10038470
+      Set-Cookie:
+      - BITBUCKETSESSIONID=85D2F4E17E281E5F7F3DB5C9A7D5A860; Path=/; Secure; HttpOnly
+      X-Auserid:
+      - '55'
+      X-Ausername:
+      - unit-test
+      X-Asessionid:
+      - 137nd85
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Content-Type-Options:
+      - nosniff
+      Pragma:
+      - ''
+      Content-Disposition:
+      - inline; filename="i-am-a.md"; filename*=UTF-8''i-am-a.md
+    body:
+      encoding: ASCII-8BIT
+      string: ''
+    http_version: null
+  recorded_at: Thu, 30 Sep 2021 22:34:57 GMT
+- request:
+    method: head
+    uri: https://example.com/projects/MIGR8/repos/hugo-pages/attachments/8599dcf6c2/i-am-a.log
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.17.3
+      Accept:
+      - "*/*"
+      Authorization:
+      - "<API_BASIC_AUTH>"
+      Accept-Encoding:
+      - gzip,deflate
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.12.1
+      Date:
+      - Thu, 30 Sep 2021 22:34:57 GMT
+      Content-Type:
+      - application/octet-stream
+      Content-Length:
+      - '11'
+      Connection:
+      - keep-alive
+      Cache-Control:
+      - private, max-age=2419200
+      Expires:
+      - Thu, 28 Oct 2021 22:34:57 GMT
+      X-Arequestid:
+      - "@16BQAY7x1354x192308x0"
+      X-Asen:
+      - SEN-10038470
+      Set-Cookie:
+      - BITBUCKETSESSIONID=9AD963BC9AFB454CA6AA9EBB83BD289D; Path=/; Secure; HttpOnly
+      X-Auserid:
+      - '55'
+      X-Ausername:
+      - unit-test
+      X-Asessionid:
+      - 19lb4sk
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Content-Type-Options:
+      - nosniff
+      Pragma:
+      - ''
+      Content-Disposition:
+      - attachment; filename="i-am-a.log"; filename*=UTF-8''i-am-a.log
+      X-Download-Options:
+      - noopen
+    body:
+      encoding: ASCII-8BIT
+      string: ''
+    http_version: null
+  recorded_at: Thu, 30 Sep 2021 22:34:57 GMT
+- request:
+    method: get
+    uri: https://example.com/projects/MIGR8/repos/hugo-pages/attachments/8599dcf6c2/i-am-a.log
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.17.3
+      Accept:
+      - "*/*"
+      Authorization:
+      - "<API_BASIC_AUTH>"
+      Accept-Encoding:
+      - gzip,deflate
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.12.1
+      Date:
+      - Thu, 30 Sep 2021 22:34:57 GMT
+      Content-Type:
+      - application/octet-stream
+      Content-Length:
+      - '11'
+      Connection:
+      - keep-alive
+      Cache-Control:
+      - private, max-age=2419200
+      Expires:
+      - Thu, 28 Oct 2021 22:34:57 GMT
+      X-Arequestid:
+      - "@16BQAY7x1354x192309x0"
+      X-Asen:
+      - SEN-10038470
+      Set-Cookie:
+      - BITBUCKETSESSIONID=B7E1577DD3D7492C0B3572BC61B0BA9C; Path=/; Secure; HttpOnly
+      X-Auserid:
+      - '55'
+      X-Ausername:
+      - unit-test
+      X-Asessionid:
+      - 1l5kku1
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Content-Type-Options:
+      - nosniff
+      Pragma:
+      - ''
+      Content-Disposition:
+      - attachment; filename="i-am-a.log"; filename*=UTF-8''i-am-a.log
+      X-Download-Options:
+      - noopen
+    body:
+      encoding: ASCII-8BIT
+      string: 'I am a log
+
+'
+    http_version: null
+  recorded_at: Thu, 30 Sep 2021 22:34:57 GMT
+- request:
+    method: get
+    uri: https://example.com/rest/api/1.0/projects/MIGR8/repos/hugo-pages/commits/582f07ff2b1d519fb2a075d51c5f5b21fd682c54
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.17.3
+      Accept:
+      - "*/*"
+      Authorization:
+      - "<API_BASIC_AUTH>"
+      Accept-Encoding:
+      - gzip,deflate
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.12.1
+      Date:
+      - Thu, 30 Sep 2021 22:34:58 GMT
+      Content-Type:
+      - application/json;charset=UTF-8
+      Connection:
+      - keep-alive
+      Cache-Control:
+      - private, no-cache, no-transform
+      Expires:
+      - Thu, 01 Jan 1970 00:00:00 UTC
+      X-Arequestid:
+      - "@16BQAY7x1354x192310x0"
+      X-Asen:
+      - SEN-10038470
+      Set-Cookie:
+      - BITBUCKETSESSIONID=F2D1A86A5E789769008DAF5361FAB411; Path=/; Secure; HttpOnly
+      X-Auserid:
+      - '55'
+      X-Ausername:
+      - unit-test
+      X-Asessionid:
+      - gjfwm
+      Vary:
+      - X-AUSERNAME,Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    body:
+      encoding: ASCII-8BIT
+      string: '{"id":"582f07ff2b1d519fb2a075d51c5f5b21fd682c54","displayId":"582f07ff2b1","author":{"name":"synthead","emailAddress":"synthead@github.com","id":2,"displayName":"Maxwell
+        Pray","active":true,"slug":"synthead","type":"NORMAL","links":{"self":[{"href":"https://example.com/users/synthead"}]}},"authorTimestamp":1572985570000,"committer":{"name":"synthead","emailAddress":"synthead@github.com","id":2,"displayName":"Maxwell
+        Pray","active":true,"slug":"synthead","type":"NORMAL","links":{"self":[{"href":"https://example.com/users/synthead"}]}},"committerTimestamp":1572985570000,"message":"Automatic
+        merge","parents":[{"id":"8b72d91417eb24704dfa79e73daae03e11a206cb","displayId":"8b72d91417e","author":{"name":"Jared
+        Fine","emailAddress":"jfine@github.com"},"authorTimestamp":1572985566000,"committer":{"name":"Jared
+        Fine","emailAddress":"jfine@github.com"},"committerTimestamp":1572985566000,"message":"Add
+        files with 99 and 255 character file names","parents":[{"id":"0a3d9216927256a854a219f3c7cdb757aee11dbc","displayId":"0a3d9216927"}]},{"id":"268576529491c67f19db1af0fd2906cee0abb1f2","displayId":"26857652949","author":{"name":"Maxwell
+        Pray","emailAddress":"synthead@github.com"},"authorTimestamp":1560799060000,"committer":{"name":"Maxwell
+        Pray","emailAddress":"synthead@github.com"},"committerTimestamp":1560799060000,"message":"Remove
+        \"testing\" from README.md.","parents":[{"id":"6150ca7e1fd18c96e2907a4ba31880e8b2329459","displayId":"6150ca7e1fd"}]}]}'
+    http_version: null
+    adapter_metadata:
+      vcr_decompressed: gzip
+  recorded_at: Thu, 30 Sep 2021 22:34:57 GMT
+- request:
+    method: get
+    uri: https://example.com/rest/api/1.0/projects/MIGR8/repos/hugo-pages/pull-requests/9/diff/README.md?diffType=COMMIT&sinceId=8b72d91417eb24704dfa79e73daae03e11a206cb&untilId=582f07ff2b1d519fb2a075d51c5f5b21fd682c54
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.17.3
+      Accept:
+      - "*/*"
+      Authorization:
+      - "<API_BASIC_AUTH>"
+      Accept-Encoding:
+      - gzip,deflate
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.12.1
+      Date:
+      - Thu, 30 Sep 2021 22:34:58 GMT
+      Content-Type:
+      - application/json;charset=UTF-8
+      Connection:
+      - keep-alive
+      Cache-Control:
+      - private, no-cache, no-transform
+      Expires:
+      - Thu, 01 Jan 1970 00:00:00 UTC
+      X-Arequestid:
+      - "@16BQAY7x1354x192311x0"
+      X-Asen:
+      - SEN-10038470
+      Set-Cookie:
+      - BITBUCKETSESSIONID=FEA6D469C8160E3CF00AF6ACE2E4ED45; Path=/; Secure; HttpOnly
+      X-Auserid:
+      - '55'
+      X-Ausername:
+      - unit-test
+      X-Asessionid:
+      - 1tc57n7
+      Vary:
+      - X-AUSERNAME,Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    body:
+      encoding: ASCII-8BIT
+      string: '{"fromHash":"8b72d91417eb24704dfa79e73daae03e11a206cb","toHash":"582f07ff2b1d519fb2a075d51c5f5b21fd682c54","contextLines":10,"whitespace":"SHOW","diffs":[{"source":{"components":["README.md"],"parent":"","name":"README.md","extension":"md","toString":"README.md"},"destination":{"components":["README.md"],"parent":"","name":"README.md","extension":"md","toString":"README.md"},"hunks":[{"context":"First,
+        set up this app by clicking the button below. It''ll walk you","sourceLine":4,"sourceSpan":12,"destinationLine":4,"destinationSpan":10,"segments":[{"type":"CONTEXT","lines":[{"source":4,"destination":4,"line":"through
+        the steps to configure it.","truncated":false},{"source":5,"destination":5,"line":"","truncated":false},{"source":6,"destination":6,"line":"[![Deploy
+        to Heroku](https://cdn.herokuapp.com/deploy/button.svg)](https://heroku.com/deploy)","truncated":false},{"source":7,"destination":7,"line":"","truncated":false},{"source":8,"destination":8,"line":"Next,
+        create a GitHub repository and add a hugo-pages branch to it.","truncated":false},{"source":9,"destination":9,"line":"See
+        [this repository''s hugo-pages branch](https://github.com/spraints/hugo-pages/tree/hugo-pages)","truncated":false},{"source":10,"destination":10,"line":"for
+        an example.","truncated":false},{"source":11,"destination":11,"line":"","truncated":false},{"source":12,"destination":12,"line":"Finally,
+        visit your GitHub Pages site! For example, see","truncated":false},{"source":13,"destination":13,"line":"[http://pickardayune.com/hugo-pages](http://spraints.github.io/hugo-pages).","truncated":false}],"truncated":false},{"type":"REMOVED","lines":[{"source":14,"destination":14,"line":"","truncated":false,"commentIds":[130]},{"source":15,"destination":14,"line":"testing","truncated":false}],"truncated":false}],"truncated":false}],"truncated":false,"lineComments":[{"properties":{"repositoryId":6},"id":130,"version":3,"text":"[![octocat.png](attachment:6/955b9a8607%2Foctocat.png)](attachment:6/955b9a8607%2Foctocat.png)","author":{"name":"synthead","emailAddress":"synthead@github.com","id":2,"displayName":"Maxwell
+        Pray","active":true,"slug":"synthead","type":"NORMAL"},"createdDate":1560799994608,"updatedDate":1562180535214,"comments":[{"properties":{"repositoryId":6},"id":159,"version":0,"text":"[![octocat.png](attachment:6/955b9a8607%2Foctocat.png)](attachment:6/955b9a8607%2Foctocat.png)","author":{"name":"synthead","emailAddress":"synthead@github.com","id":2,"displayName":"Maxwell
+        Pray","active":true,"slug":"synthead","type":"NORMAL"},"createdDate":1562180602143,"updatedDate":1562180602143,"comments":[],"tasks":[],"permittedOperations":{"editable":false,"deletable":true}}],"tasks":[],"permittedOperations":{"editable":false,"deletable":true}}]}],"truncated":false}'
+    http_version: null
+    adapter_metadata:
+      vcr_decompressed: gzip
+  recorded_at: Thu, 30 Sep 2021 22:34:57 GMT
+recorded_with: VCR 5.1.0

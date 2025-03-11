@@ -1,0 +1,238 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://example.com/rest/api/1.0/application-properties
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.8.0
+      Authorization:
+      - "<API_BASIC_AUTH>"
+      Accept-Encoding:
+      - gzip,deflate
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.18.0
+      Date:
+      - Thu, 23 May 2024 20:02:14 GMT
+      Content-Type:
+      - application/json;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      X-Arequestid:
+      - "@1HKY49Bx1202x3258x0"
+      X-Asen:
+      - SEN-20213931
+      Set-Cookie:
+      - BITBUCKETSESSIONID=793E3C1543000E671C1CE4F97C22DED3; Path=/; Secure; HttpOnly
+      X-Auserid:
+      - '52'
+      X-Ausername:
+      - unit-test
+      X-Asessionid:
+      - gyxl1p
+      Cache-Control:
+      - no-cache, no-transform
+      - private, no-cache
+      Pragma:
+      - no-cache
+      Vary:
+      - X-AUSERNAME,Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    body:
+      encoding: ASCII-8BIT
+      string: '{"version":"5.14.4","buildNumber":"5014004","buildDate":"1552860223288","displayName":"Bitbucket"}'
+    http_version: null
+    adapter_metadata:
+      vcr_decompressed: gzip
+  recorded_at: Thu, 23 May 2024 20:02:14 GMT
+- request:
+    method: get
+    uri: https://example.com/rest/api/1.0/admin/users?filter=unit-test&limit=250
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.8.0
+      Authorization:
+      - "<API_BASIC_AUTH>"
+      Accept-Encoding:
+      - gzip,deflate
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.18.0
+      Date:
+      - Thu, 23 May 2024 20:02:14 GMT
+      Content-Type:
+      - application/json;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      X-Arequestid:
+      - "@1HKY49Bx1202x3259x0"
+      X-Asen:
+      - SEN-20213931
+      Set-Cookie:
+      - BITBUCKETSESSIONID=E93F9408D9CF51CC07E43E93BC9B3B4E; Path=/; Secure; HttpOnly
+      X-Auserid:
+      - '52'
+      X-Ausername:
+      - unit-test
+      X-Asessionid:
+      - 1o0c99g
+      Cache-Control:
+      - no-cache, no-transform
+      - private, no-cache
+      Pragma:
+      - no-cache
+      Vary:
+      - X-AUSERNAME,Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    body:
+      encoding: ASCII-8BIT
+      string: '{"size":1,"limit":250,"isLastPage":true,"values":[{"name":"unit-test","emailAddress":"noreply@github.com","id":52,"displayName":"unit-test","active":true,"slug":"unit-test","type":"NORMAL","directoryName":"Bitbucket
+        Internal Directory","deletable":true,"lastAuthenticationTimestamp":1716494534124,"mutableDetails":true,"mutableGroups":true,"links":{"self":[{"href":"https://example.com/users/unit-test"}]}}],"start":0}'
+    http_version: null
+    adapter_metadata:
+      vcr_decompressed: gzip
+  recorded_at: Thu, 23 May 2024 20:02:14 GMT
+- request:
+    method: get
+    uri: https://example.com/rest/api/1.0/projects/MEC/repos/test-attachments
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.8.0
+      Authorization:
+      - "<API_BASIC_AUTH>"
+      Accept-Encoding:
+      - gzip,deflate
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.18.0
+      Date:
+      - Thu, 23 May 2024 20:17:30 GMT
+      Content-Type:
+      - application/json;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      X-Arequestid:
+      - "@1HKY49Bx1217x3410x0"
+      X-Asen:
+      - SEN-20213931
+      Set-Cookie:
+      - BITBUCKETSESSIONID=80129297B05529DFC0DD1123D6D5CD31; Path=/; Secure; HttpOnly
+      X-Auserid:
+      - '52'
+      X-Ausername:
+      - unit-test
+      X-Asessionid:
+      - 1oroc6p
+      Cache-Control:
+      - no-cache, no-transform
+      - private, no-cache
+      Pragma:
+      - no-cache
+      Vary:
+      - X-AUSERNAME,Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    body:
+      encoding: ASCII-8BIT
+      string: '{"slug":"test-attachments","id":165,"name":"test-attachments","scmId":"git","state":"AVAILABLE","statusMessage":"Available","forkable":true,"project":{"key":"MEC","id":142,"name":"mechashark","public":false,"type":"NORMAL","links":{"self":[{"href":"https://example.com/projects/MEC"}]}},"public":false,"links":{"clone":[{"href":"ssh://git@example.com:7999/mec/test-attachments.git","name":"ssh"},{"href":"https://example.com/scm/mec/test-attachments.git","name":"http"}],"self":[{"href":"https://example.com/projects/MEC/repos/test-attachments/browse"}]}}'
+    http_version: null
+    adapter_metadata:
+      vcr_decompressed: gzip
+  recorded_at: Thu, 23 May 2024 20:17:30 GMT
+- request:
+    method: get
+    uri: https://example.com/rest/api/1.0/projects/MEC/repos/test-attachments/pull-requests/1
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.8.0
+      Authorization:
+      - "<API_BASIC_AUTH>"
+      Accept-Encoding:
+      - gzip,deflate
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.18.0
+      Date:
+      - Thu, 23 May 2024 20:17:30 GMT
+      Content-Type:
+      - application/json;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      X-Arequestid:
+      - "@1HKY49Bx1217x3411x0"
+      X-Asen:
+      - SEN-20213931
+      Set-Cookie:
+      - BITBUCKETSESSIONID=97E89E40D135B21680133B8D91F298E8; Path=/; Secure; HttpOnly
+      X-Auserid:
+      - '52'
+      X-Ausername:
+      - unit-test
+      X-Asessionid:
+      - 9n1jgi
+      Cache-Control:
+      - no-cache, no-transform
+      - private, no-cache
+      Pragma:
+      - no-cache
+      Vary:
+      - X-AUSERNAME,Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    body:
+      encoding: ASCII-8BIT
+      string: '{"id":1,"version":2,"title":"README.md edited online with Bitbucket","description":"Some
+        attachment\n\n\n[![image.png](attachment:165/ec664b37d%2Fimage.png)](attachment:165/ec664b37d%2Fimage.png)","state":"OPEN","open":true,"closed":false,"createdDate":1716481666173,"updatedDate":1716481755418,"fromRef":{"id":"refs/heads/another-test-user/READMEmd-1716481648597","displayId":"another-test-user/READMEmd-1716481648597","latestCommit":"fa140ff47fab7bec8928ec99941429624186418c","repository":{"slug":"test-attachments","id":165,"name":"test-attachments","scmId":"git","state":"AVAILABLE","statusMessage":"Available","forkable":true,"project":{"key":"MEC","id":142,"name":"mechashark","public":false,"type":"NORMAL","links":{"self":[{"href":"https://example.com/projects/MEC"}]}},"public":false,"links":{"clone":[{"href":"ssh://git@example.com:7999/mec/test-attachments.git","name":"ssh"},{"href":"https://example.com/scm/mec/test-attachments.git","name":"http"}],"self":[{"href":"https://example.com/projects/MEC/repos/test-attachments/browse"}]}}},"toRef":{"id":"refs/heads/main","displayId":"main","latestCommit":"3335cd39c0ffe2384e3015eac4b6e5e5d787187d","repository":{"slug":"test-attachments","id":165,"name":"test-attachments","scmId":"git","state":"AVAILABLE","statusMessage":"Available","forkable":true,"project":{"key":"MEC","id":142,"name":"mechashark","public":false,"type":"NORMAL","links":{"self":[{"href":"https://example.com/projects/MEC"}]}},"public":false,"links":{"clone":[{"href":"ssh://git@example.com:7999/mec/test-attachments.git","name":"ssh"},{"href":"https://example.com/scm/mec/test-attachments.git","name":"http"}],"self":[{"href":"https://example.com/projects/MEC/repos/test-attachments/browse"}]}}},"locked":false,"author":{"user":{"name":"another-test-user","emailAddress":"noreply@localhost","id":253,"displayName":"Another
+        Test User","active":true,"slug":"another-test-user","type":"NORMAL","links":{"self":[{"href":"https://example.com/users/another-test-user"}]}},"role":"AUTHOR","approved":false,"status":"UNAPPROVED"},"reviewers":[],"participants":[],"links":{"self":[{"href":"https://example.com/projects/MEC/repos/test-attachments/pull-requests/1"}]}}'
+    http_version: null
+    adapter_metadata:
+      vcr_decompressed: gzip
+  recorded_at: Thu, 23 May 2024 20:17:30 GMT
+recorded_with: VCR 5.1.0

@@ -1,0 +1,26 @@
+name: Repositories Migration to GHEC [GEI]
+
+on:
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  migrate:
+    if: contains(github.event.issue.labels.*.name, 'migration') &&
+        contains(github.event.issue.labels.*.name, 'gei') &&
+        !startsWith(github.event.comment.body, '/delete-repositories')
+    uses: ./.github/workflows/shared-github-enterprise-cloud-gei.yml
+    with:
+      TARGET_ORGANIZATION: ${{ vars.TARGET_ORGANIZATION }}
+      RUNNER: ubuntu-latest
+      INSTALL_PREREQS: ${{ vars.INSTALL_PREREQS }}
+    secrets:
+      TARGET_ADMIN_TOKEN: ${{ secrets.TARGET_ADMIN_TOKEN }}
+      SOURCE_ADMIN_TOKEN: ${{ secrets.SOURCE_ADMIN_TOKEN }}
+      AZURE_STORAGE_CONNECTION_STRING: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}      
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

@@ -1,0 +1,90 @@
+# Parses migration issue and creates a comment with next step
+
+name: Org Migration (Prepare)
+
+on:
+  issues:
+    types: [opened, edited]
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  prepare:
+    name: Prepare Org Migration
+    runs-on: ubuntu-latest
+
+    if: github.event_name == 'issues' &&
+      (github.event.action == 'opened' || github.event.action == 'edited') &&
+      contains(github.event.issue.labels.*.name, 'migration') &&
+      contains(github.event.issue.labels.*.name, 'gei-org')
+
+    steps:
+      - name: Check out scripts
+        uses: actions/checkout@v4
+
+      - name: Parse issue body
+        id: parse-issue-body
+        uses: stefanbuck/github-issue-parser@v3
+        with:
+            template-path: .github/ISSUE_TEMPLATE/github-org-migration-gei.yml
+
+      - name: Post prepare message
+        uses: actions/github-script@v7
+        with:
+          script: |
+            let commentBody
+            commentBody = `👋 Thank you for opening this migration issue.
+  
+            The following organizations have been parsed from your issue body:
+          
+            SOURCE ORGANIZATION: ${process.env.SOURCE_ORG}
+            TARGET ORGANIZATION: ${process.env.TARGET_ORG}
+          
+            The ENTERPRISE is set to: ${process.env.ENTERPRISE}
+            
+          
+            ## Run the migration
+          
+            Add a comment to this issue with one of the following two commands in order to run a migration:
+          
+            **Dry-run**
+          
+            We recommend to do a "dry-run" migration first which **will not lock your source repository** and therefore does not block your users from continuing to work on the repository.
+          
+            \`\`\`
+            /run-dry-run-migration
+            \`\`\`
+          
+            **Production**
+          
+            After you have verified your "dry-run" migration and after you have announced the production migration to your users, create a comment with the following command to start the production migration. It **will lock your source repository** and make it unaccessible for your users.
+          
+            \`\`\`
+            /run-production-migration
+            \`\`\``
+            await github.rest.issues.createComment({
+                issue_number: ${{ github.event.issue.number }},
+                owner: '${{ github.REPOSITORY_OWNER }}',
+                repo: '${{ github.event.repository.name }}',
+                body: commentBody
+            })
+        env:
+          ENTERPRISE: ${{ vars.ENTERPRISE }}
+          TARGET_ORG: ${{ steps.parse-issue-body.outputs.issueparser_target_organization }}
+          SOURCE_ORG: ${{ steps.parse-issue-body.outputs.issueparser_source_organization }}
+
+      - name: Post failure message
+        if: ${{ failure() }}
+        uses: actions/github-script@v7
+        with:
+          script: |
+            let commentBody
+            commentBody = `😢 The issue body could not be parsed. Please edit the issue body or open a new issue using an issue template.`
+            await github.rest.issues.createComment({
+              issue_number: ${{ github.event.issue.number }},
+              owner: '${{ github.REPOSITORY_OWNER }}',
+              repo: '${{ github.event.repository.name }}',
+              body: commentBody
+            })

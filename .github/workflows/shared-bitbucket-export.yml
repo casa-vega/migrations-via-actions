@@ -1,0 +1,142 @@
+name: Shared Bitbucket Export
+
+on:
+  workflow_call:
+    inputs:
+      migration-guid:
+        default: migration-archive-${{ github.event.issue.number }}-${{ github.run_number}}
+        type: string
+      runner:
+        default: self-hosted
+        type: string
+      setup-ruby:
+        default: true
+        type: boolean
+      BITBUCKET_SERVER_URL:
+        type: string
+        required: true
+    secrets:
+      BITBUCKET_SERVER_API_TOKEN:
+        required: true
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  export:
+    name: Export
+    runs-on: ${{ inputs.runner }}
+
+    if: github.event_name == 'issue_comment' &&
+      (startsWith(github.event.comment.body, '/run-dry-run-migration') ||
+      startsWith(github.event.comment.body, '/run-production-migration'))
+
+    env:
+      MIGRATION_GUID: ${{ inputs.migration-guid }}
+      BITBUCKET_SERVER_API_TOKEN: ${{ secrets.BITBUCKET_SERVER_API_TOKEN }}
+      BITBUCKET_SERVER_URL: ${{ inputs.BITBUCKET_SERVER_URL }}
+
+    steps:
+
+      - name: Check out scripts
+        uses: actions/checkout@v4
+
+      - name: Set migration type
+        uses: actions/github-script@v7
+        id: migration-type
+        with:
+          result-encoding: string
+          script: |
+            return context.payload.comment.body.match('dry-run') ? 'Dry-run' : 'Production'
+
+      - name: Create workspace
+        run: mkdir -p ${{ inputs.migration-guid }}
+      
+      - name: Parse issue body
+        id: parse-issue-body
+        uses: stefanbuck/github-issue-parser@v3
+
+      - run: echo $JSON_STRING
+        env:
+          JSON_STRING: ${{ steps.parse-issue-body.outputs.jsonString }}
+    
+      - name: Write repository list to file
+        uses: actions/github-script@v7
+        env:
+          REPOSITORIES: ${{ steps.parse-issue-body.outputs.issueparser_repositories }}
+        with:
+          script: |
+            const fs = require('fs')
+            fs.writeFileSync('repositories.txt', process.env.REPOSITORIES.trim())
+
+      - run: cat repositories.txt
+
+      - name: Update issue with running state
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const body = `:hourglass_flowing_sand: Running migration. [View workflow run for details](${context.payload.repository.html_url}/actions/runs/${context.runId})`
+
+            await github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body
+            })
+
+      - if: ${{ inputs.setup-ruby }}
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.6.4
+
+      - name: Update issue with running state
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const migrationType = "${{ steps.migration-type.outputs.result }}".toLowerCase();
+            const body = `:hourglass_flowing_sand: Starting **${migrationType}** export. [View workflow run for details](${context.payload.repository.html_url}/actions/runs/${context.runId})`
+
+            await github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body
+            })
+
+      - name: Run bootstrap script
+        working-directory: ./tools/bbs-exporter
+        run: chmod +x ./script/bootstrap && ./script/bootstrap
+
+      - name: Output bbs-exporter version
+        working-directory: ./tools/bbs-exporter
+        run: bundle exec exe/bbs-exporter --version
+
+      - name: Run export from Bitbucket Server
+        working-directory: ./tools/bbs-exporter
+        run: |
+          bundle exec exe/bbs-exporter -f ../../repositories.txt -o ${MIGRATION_GUID}.tar.gz --ssl-no-verify
+          mv ${MIGRATION_GUID}.tar.gz ../../${MIGRATION_GUID}/
+
+      - if: ${{ failure() }}
+        name: Report failed export
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const body = `:no_entry: **Export failed.** [View workflow run for details](${context.payload.repository.html_url}/actions/runs/${context.runId})`
+
+            await github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body
+            })
+
+      - name: Archive Migration Artifact
+        uses: actions/upload-artifact@v4
+        if: ${{ success() }}
+        with:
+          name: ${{ env.MIGRATION_GUID }}.tar.gz
+          path: ${{ env.MIGRATION_GUID }}/
+          if-no-files-found: error
+          retention-days: 1

@@ -1,0 +1,83 @@
+name: Migration (Delete repositories)
+
+on:
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  delete-repositories:
+    name: Delete repositories
+    runs-on: self-hosted
+
+    if: github.event_name == 'issue_comment' &&
+      (contains(github.event.issue.labels.*.name, 'github-enterprise-cloud') ||
+      contains(github.event.issue.labels.*.name, 'bitbucket-ghes')) &&
+      startsWith(github.event.comment.body, '/delete-repositories')
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+      
+      - name: Parse issue body
+        id: parse-issue-body
+        uses: stefanbuck/github-issue-parser@v3
+
+      - run: echo $JSON_STRING
+        env:
+          JSON_STRING: ${{ steps.parse-issue-body.outputs.jsonString }}
+
+      - name: Delete repositories
+        id: delete-repos      
+        env:
+          GH_ENTERPRISE_TOKEN: ${{ secrets.TARGET_ADMIN_TOKEN }}
+          REPOSITORIES: ${{ steps.parse-issue-body.outputs.issueparser_repositories }}
+          GH_HOST: ${{ vars.TARGET_HOST }}
+        run: |
+          while read SOURCE_REPO
+          do
+            if [[ $SOURCE_REPO != "" ]] && [[ $SOURCE_REPO =~ ^https://* ]]; then
+              REPO_NAME="${SOURCE_REPO##*/}"
+              # remove newline from REPO_NAME
+              REPO_NAME="${REPO_NAME%$'\r'}"
+              ORGANIZATION=`echo $SOURCE_REPO | cut -d "/" -f 4`
+            elif [[ $SOURCE_REPO != "" ]]; then
+              # Repos from BBS are listed as PROJECT_KEY,REPO_NAME
+              REPO_NAME=`echo $SOURCE_REPO | cut -d "," -f 2`
+              # remove newline from REPO_NAME
+              REPO_NAME="${REPO_NAME%$'\r'}"
+              ORGANIZATION=`echo $SOURCE_REPO | cut -d "," -f 1`
+            fi
+            echo "Deleting $ORGANIZATION/$REPO_NAME"
+            gh repo delete $ORGANIZATION/$REPO_NAME --yes
+          done << EOF
+          $REPOSITORIES
+          EOF
+
+      - name: Update issue with failed deletion
+        if: always() && steps.delete-repos.outcome == 'failure'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const body = `Failed to delete **Dry-run** migration. [View workflow run for details](${context.payload.repository.html_url}/actions/runs/${context.runId})\n\n`
+            await github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body
+            })
+      - name: Update issue with running state
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const body = `:wastebasket: Deleted **Dry-run** migration. [View workflow run for details](${context.payload.repository.html_url}/actions/runs/${context.runId})\n\nTo run the production migration enter the following command:\n\`\`\`\n/run-production-migration\n\`\`\``
+
+            await github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body
+            })

@@ -1,0 +1,229 @@
+name: Shared GitHub Enterprise Server Export
+
+on:
+  workflow_call:
+    inputs:
+      migration-guid:
+        default: migration-archive-${{ github.event.issue.number }}-${{ github.run_number}}
+        type: string
+      runner:
+        default: ubuntu-latest
+        type: string
+      SOURCE_HOST:
+        type: string
+        required: true
+    secrets:
+      SOURCE_ADMIN_TOKEN:
+        required: true
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  export:
+    name: Export
+    runs-on: ${{ inputs.runner }}
+
+    if: github.event_name == 'issue_comment' &&
+      (startsWith(github.event.comment.body, '/run-dry-run-migration') ||
+      startsWith(github.event.comment.body, '/run-production-migration'))
+
+    env:
+      GHES_API_URL: https://${{ inputs.SOURCE_HOST }}/api/v3
+      MIGRATION_GUID: ${{ inputs.migration-guid }}
+
+    steps:
+      - name: Check out scripts
+        uses: actions/checkout@v4
+
+      - name: Set migration type
+        uses: actions/github-script@v7
+        id: migration-type
+        with:
+          result-encoding: string
+          script: |
+            if (context.payload.comment.body.match('dry-run')) {
+              core.exportVariable('EXPORT_LOCK', 'false');
+              return 'Dry-run';
+            } else {
+              core.exportVariable('EXPORT_LOCK', 'true');
+              return 'Production';
+            }
+
+      - name: Update issue with running state
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const body = `:hourglass_flowing_sand: Running **${"${{ steps.migration-type.outputs.result }}".toLowerCase()}** migration. [View workflow run for details](${context.payload.repository.html_url}/actions/runs/${context.runId})`
+
+            await github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body
+            })
+
+      - name: Parse issue body
+        id: parse-issue-body
+        uses: stefanbuck/github-issue-parser@v3
+
+      - run: echo $JSON_STRING
+        env:
+          JSON_STRING: ${{ steps.parse-issue-body.outputs.jsonString }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 16
+      - run: |
+          npm i octokit@2.1.0 fs
+
+      - name: Get source repos visibility and write to file
+        if: steps.parse-issue-body.outputs.issueparser_target_repository_visibility == 'Mirror'
+        uses: actions/github-script@v7
+        id: source-repos-visibility
+        with:
+          script: |
+            const repositories = process.env.REPOSITORIES;
+            await require('./.github/scripts/get-source-repos-visibility.js') ({repositories});
+        env:
+          SOURCE_ADMIN_TOKEN: ${{ secrets.SOURCE_ADMIN_TOKEN }}
+          REPOSITORIES: ${{ steps.parse-issue-body.outputs.issueparser_repositories }}
+          SOURCE_HOST: ${{ vars.SOURCE_HOST }}
+          
+      - name: Upload repos visibility file to artifacts
+        if: steps.parse-issue-body.outputs.issueparser_target_repository_visibility == 'Mirror'
+        uses: actions/upload-artifact@v4
+        with:
+          name: source-repos-visibility.json
+          path: ./source-repos-visibility.json
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Export repositories
+        id: export
+        uses: ./tools/github-script
+        env:
+          REPOSITORIES: ${{ steps.parse-issue-body.outputs.issueparser_repositories }}
+        with:
+          base-url: ${{ env.GHES_API_URL }}
+          github-token: ${{ secrets.SOURCE_ADMIN_TOKEN }}
+          script: |
+            const orgs = new Set();
+            const repos = process.env.REPOSITORIES.trim().split(/\s+/).map(function(entry) {
+              const [scheme, _, host, owner, repo_name] = entry.split('/');
+              orgs.add(owner);
+              return {
+                name: `${owner}/${repo_name}`,
+                org: owner,
+              }
+            });
+
+            let org;
+            // Validate that all of the repositories are in the same organization.
+            if (orgs.size > 1) {
+              core.setFailed('Cannot migrate together repositories of different organizations. Please limit your selection to repositories of a single organization.');
+              return;
+            } else {
+              org = orgs.values().next().value;
+              core.exportVariable('ORG', org);
+            }
+
+            const response = await github.rest.migrations.startForOrg({
+                org: org,
+                repositories: repos.map((repo) => repo.name),
+                lock_repositories: process.env.EXPORT_LOCK === 'true',
+            });
+
+            core.debug(response);
+            core.exportVariable('EXPORT_ID', response.data.id);
+
+      - name: Poll export status
+        uses: ./tools/github-script
+        with:
+          base-url: ${{ env.GHES_API_URL }}
+          github-token: ${{ secrets.SOURCE_ADMIN_TOKEN }}
+          script: |
+            let response;
+            
+            do {
+              await exec.exec('sleep 60');
+              response = await github.rest.migrations.getStatusForOrg({
+                org: process.env.ORG,
+                migration_id: process.env.EXPORT_ID,
+              });
+              console.log(response);
+            } while (response.data.state === 'pending' || response.data.state === 'exporting');
+
+      - name: Download migration archive
+        id: download-migration-archive
+        uses: ./tools/github-script
+        env:
+          GHES_ADMIN_TOKEN: ${{ secrets.SOURCE_ADMIN_TOKEN }}
+        with:
+          base-url: ${{ env.GHES_API_URL }}
+          github-token: ${{ secrets.SOURCE_ADMIN_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const requestOptions = github.rest.migrations.downloadArchiveForOrg.endpoint({
+              org: process.env.ORG,
+              migration_id: process.env.EXPORT_ID,
+            });
+            
+            const response = await fetch(requestOptions.url, { headers: { authorization: `token ${process.env.GHES_ADMIN_TOKEN}` } });
+            const archive_filename = `${process.env.RUNNER_TEMP}/${process.env.MIGRATION_GUID}.tar.gz`;
+            const dest = fs.createWriteStream(archive_filename);
+            response.body.pipe(dest);
+            response.body.on("end", () => console.log("done"));
+            response.body.on("error", console.error);
+          
+            core.setOutput('migration-archive-path', archive_filename);
+
+      - name: Upload migration archive to artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.MIGRATION_GUID }}.tar.gz
+          path: ${{ steps.download-migration-archive.outputs.migration-archive-path }}
+          if-no-files-found: error
+          retention-days: 1
+
+      - name: Delete migration archive from GHES
+        uses: ./tools/github-script
+        with:
+          base-url: ${{ env.GHES_API_URL }}
+          github-token: ${{ secrets.SOURCE_ADMIN_TOKEN }}
+          script: |
+            const response = await github.rest.migrations.deleteArchiveForOrg({
+              org: process.env.ORG,
+              migration_id: process.env.EXPORT_ID,
+            });
+            console.log(response);
+
+      - name: Generate user mapping file
+        if: ${{ contains(github.event.comment.body, 'dry-run') }}
+        run: |          
+          echo "source,target" > user-mappings-template.csv
+          tar -zxf ./$MIGRATION_GUID.tar.gz --wildcards 'users_*.json' --to-stdout | jq -r .[].login >> user-mappings-template.csv
+  
+      - name: Upload user mapping file to artifacts
+        if: ${{ contains(github.event.comment.body, 'dry-run') }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: user-mappings-template.csv
+          path: ./user-mappings-template.csv
+          if-no-files-found: error
+          retention-days: 30
+
+      - if: ${{ failure() }}
+        name: Report failed migration
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const body = `:no_entry: **Export failed.** [View workflow run for details](${context.payload.repository.html_url}/actions/runs/${context.runId})`
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body
+            })

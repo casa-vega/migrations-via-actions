@@ -1,0 +1,99 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://example.com/rest/api/1.0/admin/users?filter=unit-test&limit=250
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.17.0
+      Accept:
+      - "*/*"
+      Authorization:
+      - "<API_BASIC_AUTH>"
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.12.1
+      Date:
+      - Thu, 12 Dec 2019 19:05:33 GMT
+      Content-Type:
+      - application/json;charset=UTF-8
+      Connection:
+      - keep-alive
+      Cache-Control:
+      - private, no-cache, no-transform
+      Expires:
+      - Thu, 01 Jan 1970 00:00:00 UTC
+      X-Arequestid:
+      - "@NR2V1Tx1145x384565x0"
+      X-Asen:
+      - SEN-10038470
+      X-Auserid:
+      - '55'
+      X-Ausername:
+      - unit-test
+      Vary:
+      - X-AUSERNAME,Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    body:
+      encoding: ASCII-8BIT
+      string: '{"size":1,"limit":250,"isLastPage":true,"values":[{"name":"unit-test","emailAddress":"unit-test@github.com","id":55,"displayName":"Unit
+        Test","active":true,"slug":"unit-test","type":"NORMAL","directoryName":"Bitbucket
+        Internal Directory","deletable":true,"lastAuthenticationTimestamp":1576177478228,"mutableDetails":true,"mutableGroups":true,"links":{"self":[{"href":"https://example.com/users/unit-test"}]}}],"start":0}'
+    http_version: null
+  recorded_at: Thu, 12 Dec 2019 19:05:34 GMT
+- request:
+    method: get
+    uri: https://example.com/rest/api/1.0/application-properties
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.17.3
+      Accept:
+      - "*/*"
+      Authorization:
+      - "<API_BASIC_AUTH>"
+      Accept-Encoding:
+      - gzip,deflate
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.12.1
+      Date:
+      - Thu, 30 Sep 2021 22:26:20 GMT
+      Content-Type:
+      - application/json;charset=UTF-8
+      Connection:
+      - keep-alive
+      Cache-Control:
+      - private, no-cache, no-transform
+      Expires:
+      - Thu, 01 Jan 1970 00:00:00 UTC
+      X-Arequestid:
+      - "@16BQAY7x1346x191809x0"
+      X-Asen:
+      - SEN-10038470
+      Vary:
+      - X-AUSERNAME,Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    body:
+      encoding: ASCII-8BIT
+      string: '{"version":"5.8.1","buildNumber":"5008001","buildDate":"1519714812594","displayName":"Bitbucket"}'
+    http_version: null
+    adapter_metadata:
+      vcr_decompressed: gzip
+  recorded_at: Thu, 30 Sep 2021 22:26:20 GMT
+recorded_with: VCR 5.1.0

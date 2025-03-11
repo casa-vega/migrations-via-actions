@@ -1,0 +1,480 @@
+name: Shared GitHub Enterprise Cloud GEI Migration
+
+on:
+  workflow_call:
+    inputs:
+      TARGET_ORGANIZATION:
+        description: 'The GitHub Enterprise Cloud organization to migrate to'
+        required: true
+        type: string
+      RUNNER:
+        description: 'The runner to use for all of the jobs in the workflow'
+        type: string
+        default: 'ubuntu-latest'
+      INSTALL_PREREQS:
+        description: 'If set to true, installs pre-requisites from apt, pwsh, and gei'
+        type: string
+        default: 'true'
+    secrets:
+      TARGET_ADMIN_TOKEN:
+        required: true
+      SOURCE_ADMIN_TOKEN:
+        required: true
+      AZURE_STORAGE_CONNECTION_STRING:
+        required: true
+      AWS_ACCESS_KEY_ID:
+        required: true
+      AWS_SECRET_ACCESS_KEY:
+        required: true
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  prepare:
+    name: Prepare
+    runs-on: ${{ inputs.RUNNER }}
+    outputs:
+      repositories: ${{ steps.json.outputs.repositories }}
+      migration-type: ${{ steps.migration-type.outputs.result }}
+      parsed-issue: ${{ steps.parse-issue-body.outputs.jsonString }}
+
+    if: github.event_name == 'issue_comment' &&
+      (contains(github.event.comment.body, '/run-dry-run-migration') ||
+      contains(github.event.comment.body, '/run-production-migration'))
+
+    steps:
+      - name: Check out scripts
+        uses: actions/checkout@v4
+
+      - name: Parse issue body
+        id: parse-issue-body
+        uses: stefanbuck/github-issue-parser@v3
+
+      - run: echo $JSON_STRING
+        env:
+          JSON_STRING: ${{ steps.parse-issue-body.outputs.jsonString }}
+
+      - name: Set migration type
+        uses: actions/github-script@v7
+        id: migration-type
+        with:
+          result-encoding: string
+          script: |
+            return context.payload.comment.body.match('dry-run') ? 'Dry-run' : 'Production'
+
+      - name: Add migration comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const body = `:hourglass: **${{ steps.migration-type.outputs.result }} migration in progress.** [View workflow run for details](${context.payload.repository.html_url}/actions/runs/${context.runId})`
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body
+            })
+
+      - name: Build matrix
+        uses: actions/github-script@v7
+        id: json
+        with:
+          script: |
+            let repositories = process.env.REPOSITORIES.replace(/\r/g, '').split('\n');
+            let json = JSON.stringify(repositories);
+            console.log(json);
+            core.setOutput('repositories', json);
+        env:
+          REPOSITORIES: ${{ steps.parse-issue-body.outputs.issueparser_repositories }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        if: steps.parse-issue-body.outputs.issueparser_target_repository_visibility == 'Mirror'
+        with:
+          node-version: 20
+      - run: |
+          npm i octokit@2.1.0 fs
+
+      - name: Get source repos visibility and write to file
+        if: steps.parse-issue-body.outputs.issueparser_target_repository_visibility == 'Mirror'
+        uses: actions/github-script@v7
+        id: source-repos-visibility
+        with:
+          script: |
+            const repositories = process.env.REPOSITORIES;
+            await require('./.github/scripts/get-source-repos-visibility.js') ({repositories});
+        env:
+          SOURCE_ADMIN_TOKEN: ${{ secrets.SOURCE_ADMIN_TOKEN }}
+          REPOSITORIES: ${{ steps.parse-issue-body.outputs.issueparser_repositories }}
+          SOURCE_HOST: ${{ vars.SOURCE_HOST }}
+          
+      - name: Upload repos visibility file to artifacts
+        if: steps.parse-issue-body.outputs.issueparser_target_repository_visibility == 'Mirror'
+        uses: actions/upload-artifact@v4
+        with:
+          name: source-repos-visibility.json
+          path: ./source-repos-visibility.json
+          if-no-files-found: error
+          retention-days: 30
+
+  migrate:
+    name: GEI
+    runs-on: ${{ inputs.RUNNER }}
+    needs: prepare
+    strategy:
+      matrix: 
+        repository: ${{ fromJson(needs.prepare.outputs.repositories) }}
+      fail-fast: false
+      max-parallel: 15
+
+    # Maximize the timeout to 50,400 minutes (35 days) from the default
+    # limit of 360 minutes (6 hours), as migrations can take some time.
+    timeout-minutes: 50400
+
+    steps:
+      - name: Check out scripts
+        uses: actions/checkout@v4
+
+      - name: Install common dependencies
+        if: ${{ inputs.INSTALL_PREREQS == 'true' || inputs.INSTALL_PREREQS == '' }}
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes git unzip curl wget apt-transport-https software-properties-common
+
+      - name: Install GitHub Enterprise Importer
+        if: ${{ inputs.INSTALL_PREREQS == 'true' || inputs.INSTALL_PREREQS == '' }}
+        run: |
+          if [ -z "$(command -v gei)" ]
+          then
+            wget https://github.com/github/gh-gei/releases/latest/download/gei-linux-amd64
+            sudo install --owner root --group root --mode 755 gei-linux-amd64 /usr/local/bin/gei
+          fi
+
+      - if: runner.debug
+        name: GEI version number
+        run: gei --version
+
+      - name: Install PowerShell
+        if: ${{ inputs.INSTALL_PREREQS == 'true' || inputs.INSTALL_PREREQS == '' }}
+        run: |
+          if [ -z "$(command -v pwsh)" ]
+          then
+            wget "https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-microsoft-prod.deb"
+            sudo dpkg --install packages-microsoft-prod.deb
+            sudo apt-get update
+            sudo apt-get install --yes powershell
+          fi
+
+      - if: runner.debug
+        name: PowerShell version number
+        run: pwsh --version
+
+      - name: Create lock flag based on migration type
+        uses: actions/github-script@v7
+        id: lock-flag
+        with:
+          result-encoding: string
+          script: |
+            return '${{ needs.prepare.outputs.migration-type }}' === 'Production' ? '--lock-source-repo' : ''
+  
+      - name: Download repos visibility file
+        uses: actions/download-artifact@v4
+        if: fromJson(needs.prepare.outputs.parsed-issue).target_repository_visibility == 'Mirror'
+        with:
+          name: source-repos-visibility.json
+
+      - name: Migrate repository
+        shell: pwsh
+        id: migrate
+        run: |
+          function Exec {
+            param (
+              [scriptblock]$ScriptBlock
+            )
+            & @ScriptBlock
+            if ($lastexitcode -ne 0) {
+              exit $lastexitcode
+            }
+          }
+
+          function ExecAndGetMigrationID {
+            param (
+              [scriptblock]$ScriptBlock
+            )
+            $MigrationID = Exec $ScriptBlock | ForEach-Object {
+              Write-Host $_
+              $_
+            } | Select-String -Pattern "\(ID: (.+)\)" | ForEach-Object { $_.matches.groups[1] }
+            return $MigrationID
+          }
+
+          if ($Env:VISIBILITY -eq 'None') {
+            $VisibilityValue = 'private'
+          } elseif ($Env:VISIBILITY -eq 'Mirror') {
+            $jsonFilePath = "./source-repos-visibility.json"
+            $jsonContent = Get-Content -Raw -Path $jsonFilePath | ConvertFrom-Json
+            $repositoryUrl = $Env:REPOSITORY
+            if ($jsonContent.PSObject.Properties[$repositoryUrl]) {
+                $visibilityValue = $jsonContent.$repositoryUrl
+                if ($visibilityValue -eq 'public') {
+                    $visibilityValue = 'internal'
+                }
+            } else {
+                Write-Output "Repository URL not found in the JSON file...default to private"
+                $visibilityValue = 'private'
+            }
+          } else {
+            $VisibilityValue = $Env:VISIBILITY.ToLower()
+          }
+
+          $RepoMigrations = [ordered]@{}
+          $RepoSources = $Env:REPOSITORY.Split("`n")
+
+          if ('${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}' -ne '') {
+            $AzureStorageIncludeArg = "--azure-storage-connection-string"
+            $AzureStorageIncludeValue = "${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}"
+          }
+
+          if ('${{ secrets.AWS_ACCESS_KEY_ID }}' -ne '') {
+            $AwsAccessKeyIdArg = "--aws-access-key"
+            $AwsAccessKeyIdValue = "${{ secrets.AWS_ACCESS_KEY_ID }}"
+            $AwsSecretAccessKeyArg = "--aws-secret-key"
+            $AwsSecretAccessKeyValue = "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
+            $AwsRegionArg = "--aws-region"
+            $AwsRegionValue = "${{ vars.AWS_REGION }}"
+            $AwsBucketArg = "--aws-bucket-name"
+            $AwsBucketValue = "${{ vars.AWS_BUCKET_NAME }}"
+          }
+
+          foreach ($Repo in $RepoSources) {
+            $Repo = $Repo.Trim()
+            Write-Host "Repo: $Repo"
+            Write-Host "Visibility: $VisibilityValue"
+
+            $Parts = $Repo.Split("/")
+            $RepoName = $Parts[$Parts.length - 1]
+            $RepoOrg = $Parts[$Parts.length -2]
+            $RepoHost = $Parts[2]
+
+            if ($RepoHost -ne 'github.com') {
+              $ServerIncludeArg = "--ghes-api-url" 
+              $ServerIncludeValue = "https://$($RepoHost)/api/v3"
+            }
+
+            $MigrationID = ExecAndGetMigrationID {
+              gei migrate-repo                                                                     `
+              --source-repo $RepoName                                                              `
+              --target-repo $RepoName                                                              `
+              --github-source-org $RepoOrg                                                         `
+              --github-target-org '${{ env.TARGET_ORGANIZATION }}'                              `
+              --target-repo-visibility $VisibilityValue                                            `
+              $AzureStorageIncludeArg $AzureStorageIncludeValue                                    `
+              $ServerIncludeArg $ServerIncludeValue                                                `
+              $AwsAccessKeyIdArg $AwsAccessKeyIdValue                                              `
+              $AwsSecretAccessKeyArg $AwsSecretAccessKeyValue                                      `
+              $AwsRegionArg $AwsRegionValue                                                        `
+              $AwsBucketArg $AwsBucketValue                                                        `
+              ${{ steps.lock-flag.outputs.result }} `
+              --queue-only
+            }
+            
+            if (!$null -eq $MigrationID) {
+              Write-Host "Queued migration of repository $RepoName with ID $MigrationID"
+              $RepoMigrations[$RepoName] = $MigrationID
+            }
+          }
+
+          if ($RepoMigrations.count -eq 0) {
+            Write-Host "No migrations were started. Exiting..."
+            exit 1
+          }
+
+          Write-Host "Queued $($RepoMigrations.count) migration(s). Waiting for them to complete..."
+
+          foreach ($RepoName in $RepoMigrations.Keys) {
+            $MigrationID = $RepoMigrations[$RepoName]
+            Write-Host "Waiting for migration of repository $RepoName with ID $MigrationID to complete..."
+
+            gei wait-for-migration --migration-id $MigrationID
+          }
+
+        env:
+          GH_PAT: ${{ secrets.TARGET_ADMIN_TOKEN }}
+          GH_SOURCE_PAT: ${{ secrets.SOURCE_ADMIN_TOKEN }}
+          REPOSITORY: ${{ matrix.repository }}
+          VISIBILITY: ${{ fromJson(needs.prepare.outputs.parsed-issue).target_repository_visibility }}
+          TARGET_ORGANIZATION: ${{ inputs.TARGET_ORGANIZATION }}
+
+      # TODO: if you can, automatically map the mannequins to the correct users
+
+      - name: Reclaim mannequins
+        env:
+          TARGET_ORGANIZATION: ${{ inputs.TARGET_ORGANIZATION }}
+        run: |
+          gei reclaim-mannequin \
+            --csv user-mappings-gei.csv \
+            --github-target-org ${{ env.TARGET_ORGANIZATION }} \
+            --github-target-pat ${{ secrets.TARGET_ADMIN_TOKEN }}
+
+      - name: Write repo migration status
+        if: always()
+        id: write-status
+        run: |
+          reponame=$(basename ${{ matrix.repository }})
+          echo "repo-name=$reponame" >> "$GITHUB_OUTPUT" 
+          echo "${{ matrix.repository }}, ${{ job.status }}" > ${reponame}.txt
+
+      - name: Upload repo migration status
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: migration-status-${{ steps.write-status.outputs.repo-name }}
+          path: ${{ steps.write-status.outputs.repo-name }}.txt
+
+  generate-mannequins:
+    name: Get Mannequins
+    runs-on: ${{ inputs.RUNNER }}
+    needs: [prepare, migrate]
+    if: ${{ contains(github.event.comment.body, 'dry-run') && (failure() || success()) }}
+    steps:
+      - name: Install GitHub Enterprise Importer
+        if: ${{ inputs.INSTALL_PREREQS == 'true' || inputs.INSTALL_PREREQS == '' }}
+        run: |
+          if [ -z "$(command -v gei)" ]
+          then
+            wget https://github.com/github/gh-gei/releases/latest/download/gei-linux-amd64
+            sudo install --owner root --group root --mode 755 gei-linux-amd64 /usr/local/bin/gei
+          fi
+
+      - if: runner.debug
+        name: GEI version number
+        run: gei --version
+
+      - name: Generate user mapping file
+        env:
+          TARGET_ORGANIZATION: ${{ inputs.TARGET_ORGANIZATION }}
+        run: |
+          gei generate-mannequin-csv \
+          --output user-mappings-template.csv \
+          --github-target-org ${{ env.TARGET_ORGANIZATION }} \
+          --github-target-pat ${{ secrets.TARGET_ADMIN_TOKEN }}
+  
+      - name: Upload user mapping file to artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: user-mappings-template.csv
+          path: ./user-mappings-template.csv
+          if-no-files-found: error
+          retention-days: 30
+
+  report-failure:
+    name: Report Failure
+    runs-on: ${{ inputs.RUNNER }}
+    needs: [prepare, migrate]
+    if: failure()
+    steps:
+      - name: Download repo migration statuses
+        uses: actions/download-artifact@v4
+        id: download-artifact
+        with:
+          pattern: migration-status-*
+          path: migration-status
+          merge-multiple: true
+      - name: Get failed repositories
+        id: get-failed-repos
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+
+            let failedRepos = [];
+            const dir = 'migration-status';
+
+            fs.readdirSync(`./${dir}`).forEach(file => {
+              if (path.extname(file) === '.txt') {
+                let [repo, status] = fs.readFileSync(`${dir}/${file}`, 'utf-8').split(',');
+                console.log(`Repo: ${repo}, Status: ${status}`);
+                if (status.trim() !== 'success') {
+                  failedRepos.push(repo);
+                }
+              }
+            });
+
+            console.log(`Failed repos: \n${failedRepos.join('\n')}`);
+            core.setOutput('failed-repos', failedRepos.join('\n'));
+
+      - name: Report failed migration
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const repositories = `${{ steps.get-failed-repos.outputs.failed-repos }}`;
+            let body = `:no_entry: **${{ needs.prepare.outputs.migration-type }} migration failed.** [View workflow run for details](${context.payload.repository.html_url}/actions/runs/${context.runId})\n`
+
+            if ('${{ steps.download-artifact.conclusion }}' === 'success') {
+              body += `\n${repositories.trim().split('\n').length}/${process.env.REPOSITORIES.trim().split('\n').length} repo(s) failed: 
+              \`\`\`
+              ${{ steps.get-failed-repos.outputs.failed-repos }}
+              \`\`\``
+
+              const migrationType = '${{ needs.prepare.outputs.migration-type }}';
+              const issueTitle = 'GHES%2FGHEC+repos+to+GitHub+migration+%5BGEI%5D';
+              const issueRepositories = repositories.replace(/\n/g, '%0A');
+              if (migrationType === 'Production' && repositories.trim().split('\n').length !== process.env.REPOSITORIES.trim().split('\n').length) {
+                body += `\nSince this was a partially successful **${{ needs.prepare.outputs.migration-type }}** run, click [here](${context.payload.repository.html_url}/issues/new?template=github-repos-migration-gei.yml&title=${issueTitle}&repositories=${issueRepositories}&labels=gei,migration) to create a new issue with the failed repo(s).`
+              }
+            }
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body
+            })
+        env:
+          REPOSITORIES: ${{ fromJson(needs.prepare.outputs.parsed-issue).repositories }}
+
+  report-success:
+    name: Report Success
+    runs-on: ${{ inputs.RUNNER }}
+    needs: [prepare, migrate]
+    if: success()
+    steps:
+      - name: Report successful migration
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const body = `:tada: **${{ needs.prepare.outputs.migration-type }} migration succeeded.** [View workflow run for details](${context.payload.repository.html_url}/actions/runs/${context.runId})`
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body
+            })
+
+      - name: Add delete repositories comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const migrationType = '${{ needs.prepare.outputs.migration-type }}'
+
+            if (migrationType === 'Dry-run') {
+              let body = `In order to delete the migrated repositories of the dry-run, add a comment with the following slash command:
+
+              \`\`\`
+              /delete-repositories
+              \`\`\`
+              `
+
+              // remove leading whitespace
+              body = body.replace(/  +/g, '')
+
+              await github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body
+              })
+            }

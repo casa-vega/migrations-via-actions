@@ -1,0 +1,23 @@
+name: Migration from Azure DevOps [GEI]
+
+on:
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  migrate:
+    if: contains(github.event.issue.labels.*.name, 'migration') &&
+        contains(github.event.issue.labels.*.name, 'gei-azure-devops') &&
+        !startsWith(github.event.comment.body, '/delete-repositories')
+    uses: ./.github/workflows/shared-azure-devops-gei.yml
+    with:
+      TARGET_ORGANIZATION: ${{ vars.TARGET_ORGANIZATION }}
+      RUNNER: ubuntu-latest
+      INSTALL_PREREQS: ${{ vars.INSTALL_PREREQS }}
+    secrets:
+      TARGET_ADMIN_TOKEN: ${{ secrets.TARGET_ADMIN_TOKEN }}
+      SOURCE_ADMIN_TOKEN: ${{ secrets.SOURCE_ADMIN_TOKEN }}

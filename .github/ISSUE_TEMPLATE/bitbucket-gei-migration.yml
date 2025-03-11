@@ -1,0 +1,25 @@
+name: BitBucket to GitHub migration [GEI]
+description: Perform a migration from BitBucket Server to GitHub Enterprise Cloud using GEI
+title: "BitBucket Server to GitHub migration [GEI]"
+labels: ["migration", "gei-bitbucket"]
+body:
+  - type: textarea
+    id: repositories
+    attributes:
+      label: Repositories
+      description: Please enter the repositories that you would like to migrate from BitBucket Server to GitHub Enterprise Cloud
+      placeholder: |
+        your-project-key,your-repository-1
+        your-project-key,your-repository-2
+    validations:
+      required: true
+  - type: dropdown
+    id: visibility
+    attributes:
+      label: Target repository visibility
+      description: Please select the visibility for the repositories on GitHub Enterprise Cloud after they have been migrated
+      options:
+        - private
+        - internal
+    validations:
+      required: true

@@ -1,0 +1,29 @@
+name: Migration from GitHub Enterprise Server
+
+on:
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  export:
+    if: contains(github.event.issue.labels.*.name, 'github-enterprise-server') && !contains(github.event.issue.labels.*.name, 'gei')
+    uses: ./.github/workflows/shared-github-enterprise-server-export.yml
+    with:
+      runner: self-hosted
+      SOURCE_HOST: ${{ vars.SOURCE_HOST }}
+    secrets:
+      SOURCE_ADMIN_TOKEN: ${{ secrets.SOURCE_ADMIN_TOKEN }}
+
+  import:
+    needs: export
+    uses: ./.github/workflows/shared-github-enterprise-cloud-import.yml
+    with:
+      user-mappings-path: ../../user-mappings.csv
+      user-mappings-source-url: https://${{ vars.SOURCE_HOST }} # https://github.example.com
+      TARGET_ORGANIZATION: ${{ vars.TARGET_ORGANIZATION }}
+    secrets:
+      TARGET_ADMIN_TOKEN: ${{ secrets.TARGET_ADMIN_TOKEN }}

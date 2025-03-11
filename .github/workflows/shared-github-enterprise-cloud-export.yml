@@ -1,0 +1,128 @@
+name: Shared GitHub Enterprise Cloud Export
+
+on:
+  workflow_call:
+    inputs:
+      migration-guid:
+        default: migration-archive-${{ github.event.issue.number }}-${{ github.run_number}}
+        type: string
+      runner:
+        default: self-hosted
+        type: string
+    secrets:
+      SOURCE_ADMIN_TOKEN:
+        required: true
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  export:
+    name: Export
+    runs-on: ${{ inputs.runner }}
+
+    if: github.event_name == 'issue_comment' &&
+      (startsWith(github.event.comment.body, '/run-dry-run-migration') ||
+      startsWith(github.event.comment.body, '/run-production-migration'))
+
+    env:
+      MIGRATION_GUID: ${{ inputs.migration-guid }}
+      SOURCE_ADMIN_TOKEN: ${{ secrets.SOURCE_ADMIN_TOKEN }}
+
+    steps:
+      - name: Check out scripts
+        uses: actions/checkout@v4
+
+      - name: Set migration type
+        uses: actions/github-script@v7
+        id: migration-type
+        with:
+          result-encoding: string
+          script: |
+            return context.payload.comment.body.match('dry-run') ? 'Dry-run' : 'Production'
+
+      - name: Create workspace
+        run: mkdir -p ${{ inputs.migration-guid }}
+
+      - name: Parse issue body
+        id: parse-issue-body
+        uses: stefanbuck/github-issue-parser@v3
+
+      - run: echo $JSON_STRING
+        env:
+          JSON_STRING: ${{ steps.parse-issue-body.outputs.jsonString }}
+          
+      - name: Write repository list to file
+        uses: actions/github-script@v7
+        env:
+          REPOSITORIES: ${{ steps.parse-issue-body.outputs.issueparser_repositories }}
+        with:
+          script: |
+            const fs = require('fs')
+            fs.writeFileSync('${{ inputs.migration-guid }}/repositories.txt', process.env.REPOSITORIES.trim().replace(/https:\/\/github.com\//g,''))
+
+      - name: Update issue with running state
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const migrationType = "${{ steps.migration-type.outputs.result }}".toLowerCase();
+            const body = `:hourglass_flowing_sand: Starting **${migrationType}** migration. [View workflow run for details](${context.payload.repository.html_url}/actions/runs/${context.runId})`
+
+            await github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body
+            })
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 16
+      - run: |
+          npm i octokit@2.1.0
+
+      - name: Update issue with running state
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const migrationType = "${{ steps.migration-type.outputs.result }}".toLowerCase();
+            const body = `:hourglass_flowing_sand: Starting **${migrationType}** export. [View workflow run for details](${context.payload.repository.html_url}/actions/runs/${context.runId})`
+
+            await github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body
+            })
+
+      - name: Run migration
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { runMigration } = require('./.github/scripts/export-from-github.js');
+            const lock_repositories = ${{ steps.migration-type.outputs.result == 'Production' }};
+            runMigration(lock_repositories);
+
+      - if: ${{ failure() }}
+        name: Report failed migration
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const migrationType = "${{ steps.migration-type.outputs.result }}".toLowerCase();
+            const body = `:no_entry: **${migrationType} Export failed.** [View workflow run for details](${context.payload.repository.html_url}/actions/runs/${context.runId})`
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body
+            })
+
+      - name: Archive Migration Artifact
+        uses: actions/upload-artifact@v4
+        if: ${{ success() }}
+        with:
+          name: ${{ env.MIGRATION_GUID }}
+          path: ${{ inputs.migration-guid }}/
+          retention-days: 1

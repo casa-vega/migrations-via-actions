@@ -1,0 +1,25 @@
+name: Azure DevOps to GitHub migration [GEI]
+description: Perform a migration from Azure DevOps to GitHub Enterprise Cloud using GEI
+title: "Azure DevOps to GitHub migration [GEI]"
+labels: ["migration", "gei-azure-devops"]
+body:
+  - type: textarea
+    id: repositories
+    attributes:
+      label: Repositories
+      description: Please enter the repositories that you would like to migrate from GitHub Enterprise Server to GitHub Enterprise Cloud
+      placeholder: |
+        https://organization-name.visualstudio.com/project-name/_git/repository-name
+        https://dev.azure.com/organization-name/project-name/_git/repository-name
+    validations:
+      required: true
+  - type: dropdown
+    id: visibility
+    attributes:
+      label: Target repository visibility
+      description: Please select the visibility for the repositories on GitHub Enterprise Cloud after they have been migrated
+      options:
+        - private
+        - internal
+    validations:
+      required: true

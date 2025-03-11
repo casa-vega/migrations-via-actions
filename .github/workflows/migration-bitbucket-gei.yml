@@ -1,0 +1,36 @@
+name: Migration from Bitbucket [GEI]
+
+on:
+  issue_comment:
+    types: [created]
+
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  migrate:
+    if: contains(github.event.issue.labels.*.name, 'migration') &&
+        contains(github.event.issue.labels.*.name, 'gei-bitbucket') &&
+        !startsWith(github.event.comment.body, '/delete-repositories')
+    uses: ./.github/workflows/shared-bitbucket-gei.yml
+    with:
+      runner: ubuntu-latest
+      bitbucket-username: ${{ vars.BITBUCKET_USERNAME }}
+      bitbucket-server-url: ${{ vars.BITBUCKET_SERVER_URL }}
+      TARGET_ORGANIZATION: ${{ vars.TARGET_ORGANIZATION }}
+      bitbucket-ssh-user: ${{ vars.BITBUCKET_SSH_USER }}
+      bitbucket-ssh-port: ${{ vars.BITBUCKET_SSH_PORT }}
+      bitbucket-archive-download-host:  ${{ vars.BITBUCKET_ARCHIVE_DOWNLOAD_HOST }} # optional
+      bitbucket-shared-home: ${{ vars.BITBUCKET_SHARED_HOME }} # optional
+      AWS_REGION: ${{ vars.AWS_REGION }}
+      AWS_BUCKET_NAME: ${{ vars.AWS_BUCKET_NAME }}
+      INSTALL_PREREQS: ${{ vars.INSTALL_PREREQS }}
+    secrets:
+      BITBUCKET_PASSWORD: ${{ secrets.BITBUCKET_PASSWORD }}
+      BITBUCKET_SSH_KEY: ${{ secrets.BITBUCKET_SSH_KEY }}
+      TARGET_ADMIN_TOKEN: ${{ secrets.TARGET_ADMIN_TOKEN }}
+      # use azure or aws
+      AZURE_STORAGE_CONNECTION_STRING: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

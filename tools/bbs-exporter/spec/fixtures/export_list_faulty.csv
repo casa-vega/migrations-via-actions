@@ -1,0 +1,5 @@
+OCTOTEST,bbs-test-repo
+OCTOTEST,bbs-empty-repo
+OCTOTEST,should-get-404
+~unit-test,personal-repo
+~~unit-test,personal-repo

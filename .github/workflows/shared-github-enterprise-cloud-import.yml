@@ -1,0 +1,156 @@
+name: Shared GitHub Enterprise Cloud Import
+
+on:
+  workflow_call:
+    inputs:
+      migration-guid:
+        default: migration-archive-${{ github.event.issue.number }}-${{ github.run_number}}
+        type: string
+      user-mappings-path:
+        required: true
+        type: string
+      user-mappings-source-url:
+        required: true
+        type: string
+      TARGET_ORGANIZATION:
+        description: 'The GitHub Enterprise Cloud organization to migrate to'
+        required: true
+        type: string
+    secrets:
+      TARGET_ADMIN_TOKEN:
+        required: true
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  import:
+    name: Import
+    runs-on: ubuntu-latest
+
+    env:
+      MIGRATION_GUID: ${{ inputs.migration-guid }}
+
+    defaults:
+      run:
+        working-directory: ./tools/ghec-importer
+
+    steps:
+      - name: Set migration type
+        uses: actions/github-script@v7
+        id: migration-type
+        with:
+          result-encoding: string
+          script: |
+            return context.payload.comment.body.match('dry-run') ? 'Dry-run' : 'Production'
+
+      - name: Check out repository for ghec-importer, user-mappings.csv file and scripts
+        uses: actions/checkout@v4
+
+      - name: Parse issue body
+        id: parse-issue-body
+        uses: stefanbuck/github-issue-parser@v3
+
+      - run: echo $JSON_STRING
+        env:
+          JSON_STRING: ${{ steps.parse-issue-body.outputs.jsonString }}
+
+      - name: Download migration archive from artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.MIGRATION_GUID }}.tar.gz
+
+      - name: Create subset of user mappings with only users included in the migration archive
+        run: | 
+          users=$(tar -zxf ../../${{ env.MIGRATION_GUID }}.tar.gz --wildcards 'users_*.json' --to-stdout | jq -r '.[].login' | sort | uniq)
+          echo "source,target" > ../../subset-user-mappings.csv
+          for i in $users; do echo $i; grep $i"," ${{ inputs.user-mappings-path }} >> ../../subset-user-mappings.csv || echo "$i not found in user-mappings.csv"; done
+
+      - name: Output subset-user-mappings.csv content in log (for debugging)
+        run: cat ../../subset-user-mappings.csv
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 16
+
+      - name: Install dependencies for ghec-importer
+        run: |
+          npm ci --omit=dev
+
+      - name: Link ghec-importer
+        run: npm link
+
+      - name: Run import
+        id: import
+        run: ghec-importer import ../../${{ env.MIGRATION_GUID }}.tar.gz --debug
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GHEC_IMPORTER_ADMIN_TOKEN: ${{ secrets.TARGET_ADMIN_TOKEN }}
+          GHEC_IMPORTER_TARGET_ORGANIZATION: ${{ inputs.TARGET_ORGANIZATION }}
+          GHEC_IMPORTER_RESOLVE_REPOSITORY_RENAMES: guid-suffix
+          GHEC_IMPORTER_DISALLOW_TEAM_MERGES: true
+          GHEC_IMPORTER_USER_MAPPINGS_PATH: ../../subset-user-mappings.csv
+          GHEC_IMPORTER_USER_MAPPINGS_SOURCE_URL: ${{ inputs.user-mappings-source-url }}
+          GHEC_IMPORTER_MAKE_INTERNAL: ${{ steps.parse-issue-body.outputs.issueparser_target_repository_visibility == 'Internal' }}
+          NODE_OPTIONS: --unhandled-rejections=strict # Terminate process with non-zero exit code if file system (fs) operations fail (https://nodejs.org/api/cli.html#cli_unhandled_rejections_mode)
+
+      - name: Download repo visibility file from artifacts
+        if: steps.parse-issue-body.outputs.issueparser_target_repository_visibility == 'Mirror'
+        uses: actions/download-artifact@v4
+        with:
+          name: source-repos-visibility.json
+
+      - run: npm i octokit@2.1.0 fs
+        if: steps.parse-issue-body.outputs.issueparser_target_repository_visibility == 'Mirror'
+        working-directory: ${{ github.workspace }}
+
+      - name: Set target repo visibility
+        if: steps.parse-issue-body.outputs.issueparser_target_repository_visibility == 'Mirror'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const organization = process.env.TARGET_ORGANIZATION;
+            await require('./.github/scripts/set-target-repos-visibility.js')({organization});
+        env:
+          TARGET_ADMIN_TOKEN: ${{ secrets.TARGET_ADMIN_TOKEN }}
+          TARGET_ORGANIZATION: ${{ inputs.TARGET_ORGANIZATION }}
+  
+      - if: ${{ failure() }}
+        name: Report failed migration
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const body = `:no_entry: **${{ steps.migration-type.outputs.result }} migration failed.** [View workflow run for details](${context.payload.repository.html_url}/actions/runs/${context.runId})`
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body
+            })
+
+      - if: ${{ success() }}
+        name: Add delete repositories comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const migrationType = '${{ steps.migration-type.outputs.result }}'
+
+            if (migrationType === 'Dry-run') {
+              let body = `In order to delete the migrated repositories of the dry-run, add a comment with the following slash command:
+
+              \`\`\`
+              /delete-repositories ${{ steps.import.outputs.migration-guid }}
+              \`\`\`
+              `
+
+              // remove leading whitespace
+              body = body.replace(/  +/g, '')
+
+              await github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body
+              })
+            }

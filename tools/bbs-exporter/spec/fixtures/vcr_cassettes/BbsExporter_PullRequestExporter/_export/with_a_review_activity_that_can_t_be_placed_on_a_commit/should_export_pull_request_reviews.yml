@@ -1,0 +1,368 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://example.com/rest/api/1.0/projects/IM/repos/test-commit-id-blank-review/pull-requests/1/commits?limit=5000
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.8.0
+      Authorization:
+      - "<API_BASIC_AUTH>"
+      Accept-Encoding:
+      - gzip,deflate
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.18.0
+      Date:
+      - Thu, 01 Dec 2022 15:21:38 GMT
+      Content-Type:
+      - application/json;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      X-Arequestid:
+      - "@61818Vx921x2802x0"
+      X-Asen:
+      - SEN-20213931
+      Set-Cookie:
+      - BITBUCKETSESSIONID=92AAC95A58C7468CEB4F7892F93FF200; Path=/; Secure; HttpOnly
+      X-Auserid:
+      - '52'
+      X-Ausername:
+      - unit-test
+      X-Asessionid:
+      - y15hax
+      Cache-Control:
+      - no-cache, no-transform
+      - private, no-cache
+      Pragma:
+      - no-cache
+      Vary:
+      - X-AUSERNAME,Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    body:
+      encoding: ASCII-8BIT
+      string: '{"values":[{"id":"97f96e1c98f0e91f24f50570ad6c155fbbceac3c","displayId":"97f96e1c98f","author":{"name":"Daniel
+        Perez","emailAddress":"dpmex4527@github.com"},"authorTimestamp":1668892975000,"committer":{"name":"Daniel
+        Perez","emailAddress":"dpmex4527@github.com"},"committerTimestamp":1668892975000,"message":"Added
+        new line tomorrow","parents":[{"id":"75d7aacefe193bcfb2a216047bf4edfdd4ecdfe8","displayId":"75d7aacefe1"}]}],"size":1,"isLastPage":true,"start":0,"limit":5000,"nextPageStart":null}'
+    http_version: null
+    adapter_metadata:
+      vcr_decompressed: gzip
+  recorded_at: Thu, 01 Dec 2022 15:21:37 GMT
+- request:
+    method: get
+    uri: https://example.com/rest/api/1.0/projects/IM/repos/test-commit-id-blank-review/pull-requests/1
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.8.0
+      Authorization:
+      - "<API_BASIC_AUTH>"
+      Accept-Encoding:
+      - gzip,deflate
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.18.0
+      Date:
+      - Thu, 01 Dec 2022 15:21:38 GMT
+      Content-Type:
+      - application/json;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      X-Arequestid:
+      - "@61818Vx921x2803x0"
+      X-Asen:
+      - SEN-20213931
+      Set-Cookie:
+      - BITBUCKETSESSIONID=7FCC6E2F0F3B19F9FB5C7023DC1875E4; Path=/; Secure; HttpOnly
+      X-Auserid:
+      - '52'
+      X-Ausername:
+      - unit-test
+      X-Asessionid:
+      - 1rnjip6
+      Cache-Control:
+      - no-cache, no-transform
+      - private, no-cache
+      Pragma:
+      - no-cache
+      Vary:
+      - X-AUSERNAME,Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    body:
+      encoding: ASCII-8BIT
+      string: '{"id":1,"version":1,"title":"Added new line tomorrow","state":"OPEN","open":true,"closed":false,"createdDate":1668806631791,"updatedDate":1668806631791,"fromRef":{"id":"refs/heads/tomorrow-commit","displayId":"tomorrow-commit","latestCommit":"97f96e1c98f0e91f24f50570ad6c155fbbceac3c","repository":{"slug":"test-commit-id-blank-review","id":39,"name":"test-commit-id-blank-review","scmId":"git","state":"AVAILABLE","statusMessage":"Available","forkable":true,"project":{"key":"IM","id":63,"name":"import-testing","public":false,"type":"NORMAL","links":{"self":[{"href":"https://example.com/projects/IM"}]}},"public":false,"links":{"clone":[{"href":"ssh://git@example.com:7999/im/test-commit-id-blank-review.git","name":"ssh"},{"href":"https://example.com/scm/im/test-commit-id-blank-review.git","name":"http"}],"self":[{"href":"https://example.com/projects/IM/repos/test-commit-id-blank-review/browse"}]}}},"toRef":{"id":"refs/heads/master","displayId":"master","latestCommit":"77ffdac61980886ad12dccd72b181c60a005ebc4","repository":{"slug":"test-commit-id-blank-review","id":39,"name":"test-commit-id-blank-review","scmId":"git","state":"AVAILABLE","statusMessage":"Available","forkable":true,"project":{"key":"IM","id":63,"name":"import-testing","public":false,"type":"NORMAL","links":{"self":[{"href":"https://example.com/projects/IM"}]}},"public":false,"links":{"clone":[{"href":"ssh://git@example.com:7999/im/test-commit-id-blank-review.git","name":"ssh"},{"href":"https://example.com/scm/im/test-commit-id-blank-review.git","name":"http"}],"self":[{"href":"https://example.com/projects/IM/repos/test-commit-id-blank-review/browse"}]}}},"locked":false,"author":{"user":{"name":"bbsadmin","emailAddress":"noreply@github.com","id":1,"displayName":"bbsadmin","active":true,"slug":"bbsadmin","type":"NORMAL","links":{"self":[{"href":"https://example.com/users/bbsadmin"}]}},"role":"AUTHOR","approved":false,"status":"UNAPPROVED"},"reviewers":[{"user":{"name":"unit-test","emailAddress":"noreply@github.com","id":52,"displayName":"unit-test","active":true,"slug":"unit-test","type":"NORMAL","links":{"self":[{"href":"https://example.com/users/unit-test"}]}},"lastReviewedCommit":"97f96e1c98f0e91f24f50570ad6c155fbbceac3c","role":"REVIEWER","approved":true,"status":"APPROVED"}],"participants":[],"links":{"self":[{"href":"https://example.com/projects/IM/repos/test-commit-id-blank-review/pull-requests/1"}]}}'
+    http_version: null
+    adapter_metadata:
+      vcr_decompressed: gzip
+  recorded_at: Thu, 01 Dec 2022 15:21:37 GMT
+- request:
+    method: get
+    uri: https://example.com/rest/api/1.0/projects/IM/repos/test-commit-id-blank-review
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.8.0
+      Authorization:
+      - "<API_BASIC_AUTH>"
+      Accept-Encoding:
+      - gzip,deflate
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.18.0
+      Date:
+      - Thu, 01 Dec 2022 15:21:38 GMT
+      Content-Type:
+      - application/json;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      X-Arequestid:
+      - "@61818Vx921x2804x0"
+      X-Asen:
+      - SEN-20213931
+      Set-Cookie:
+      - BITBUCKETSESSIONID=E02A4F6800BBB882F222B782CA636257; Path=/; Secure; HttpOnly
+      X-Auserid:
+      - '52'
+      X-Ausername:
+      - unit-test
+      X-Asessionid:
+      - v1ix96
+      Cache-Control:
+      - no-cache, no-transform
+      - private, no-cache
+      Pragma:
+      - no-cache
+      Vary:
+      - X-AUSERNAME,Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    body:
+      encoding: ASCII-8BIT
+      string: '{"slug":"test-commit-id-blank-review","id":39,"name":"test-commit-id-blank-review","scmId":"git","state":"AVAILABLE","statusMessage":"Available","forkable":true,"project":{"key":"IM","id":63,"name":"import-testing","public":false,"type":"NORMAL","links":{"self":[{"href":"https://example.com/projects/IM"}]}},"public":false,"links":{"clone":[{"href":"ssh://git@example.com:7999/im/test-commit-id-blank-review.git","name":"ssh"},{"href":"https://example.com/scm/im/test-commit-id-blank-review.git","name":"http"}],"self":[{"href":"https://example.com/projects/IM/repos/test-commit-id-blank-review/browse"}]}}'
+    http_version: null
+    adapter_metadata:
+      vcr_decompressed: gzip
+  recorded_at: Thu, 01 Dec 2022 15:21:37 GMT
+- request:
+    method: get
+    uri: https://example.com/rest/api/1.0/projects/IM/repos/test-commit-id-blank-review/pull-requests/1/activities?limit=250
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.8.0
+      Authorization:
+      - "<API_BASIC_AUTH>"
+      Accept-Encoding:
+      - gzip,deflate
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.18.0
+      Date:
+      - Thu, 01 Dec 2022 15:21:38 GMT
+      Content-Type:
+      - application/json;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      X-Arequestid:
+      - "@61818Vx921x2805x0"
+      X-Asen:
+      - SEN-20213931
+      Set-Cookie:
+      - BITBUCKETSESSIONID=4ED4429C6C8FE31A6B1A876CD0BB6839; Path=/; Secure; HttpOnly
+      X-Auserid:
+      - '52'
+      X-Ausername:
+      - unit-test
+      X-Asessionid:
+      - 1y3qh1b
+      Cache-Control:
+      - no-cache, no-transform
+      - private, no-cache
+      Pragma:
+      - no-cache
+      Vary:
+      - X-AUSERNAME,Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    body:
+      encoding: ASCII-8BIT
+      string: '{"size":4,"limit":250,"isLastPage":true,"values":[{"id":219,"createdDate":1668806718692,"user":{"name":"unit-test","emailAddress":"noreply@github.com","id":52,"displayName":"unit-test","active":true,"slug":"unit-test","type":"NORMAL","links":{"self":[{"href":"https://example.com/users/unit-test"}]}},"action":"APPROVED"},{"id":218,"createdDate":1668806716498,"user":{"name":"unit-test","emailAddress":"noreply@github.com","id":52,"displayName":"unit-test","active":true,"slug":"unit-test","type":"NORMAL","links":{"self":[{"href":"https://example.com/users/unit-test"}]}},"action":"UPDATED","addedReviewers":[{"name":"unit-test","emailAddress":"noreply@github.com","id":52,"displayName":"unit-test","active":true,"slug":"unit-test","type":"NORMAL","links":{"self":[{"href":"https://example.com/users/unit-test"}]}}],"removedReviewers":[]},{"id":217,"createdDate":1668806711701,"user":{"name":"unit-test","emailAddress":"noreply@github.com","id":52,"displayName":"unit-test","active":true,"slug":"unit-test","type":"NORMAL","links":{"self":[{"href":"https://example.com/users/unit-test"}]}},"action":"COMMENTED","commentAction":"ADDED","comment":{"properties":{"repositoryId":39},"id":36,"version":0,"text":"This
+        looks great","author":{"name":"unit-test","emailAddress":"noreply@github.com","id":52,"displayName":"unit-test","active":true,"slug":"unit-test","type":"NORMAL","links":{"self":[{"href":"https://example.com/users/unit-test"}]}},"createdDate":1668806711701,"updatedDate":1668806711701,"comments":[],"tasks":[],"permittedOperations":{"editable":true,"deletable":true}},"commentAnchor":{"fromHash":"75d7aacefe193bcfb2a216047bf4edfdd4ecdfe8","toHash":"8228f7f18ad788d0c6e3ac9b04a1a0092fedd52e","line":4,"lineType":"ADDED","fileType":"TO","path":"README.md","diffType":"EFFECTIVE","orphaned":true},"diff":{"source":null,"destination":{"components":["README.md"],"parent":"","name":"README.md","extension":"md","toString":"README.md"},"hunks":[{"sourceLine":1,"sourceSpan":3,"destinationLine":1,"destinationSpan":4,"segments":[{"type":"CONTEXT","lines":[{"destination":1,"source":1,"line":"#
+        Test Commit Id Blank review","truncated":false},{"destination":2,"source":2,"line":"","truncated":false},{"destination":3,"source":3,"line":"Some
+        README.md","truncated":false}],"truncated":false},{"type":"ADDED","lines":[{"destination":4,"source":4,"line":"add
+        line","truncated":false,"commentIds":[36]}],"truncated":false}],"truncated":false}],"truncated":false,"properties":{"toHash":"8228f7f18ad788d0c6e3ac9b04a1a0092fedd52e","current":false,"fromHash":"75d7aacefe193bcfb2a216047bf4edfdd4ecdfe8"}}},{"id":216,"createdDate":1668806631835,"user":{"name":"bbsadmin","emailAddress":"noreply@github.com","id":1,"displayName":"bbsadmin","active":true,"slug":"bbsadmin","type":"NORMAL","links":{"self":[{"href":"https://example.com/users/bbsadmin"}]}},"action":"OPENED"}],"start":0}'
+    http_version: null
+    adapter_metadata:
+      vcr_decompressed: gzip
+  recorded_at: Thu, 01 Dec 2022 15:21:37 GMT
+- request:
+    method: get
+    uri: https://example.com/rest/api/1.0/projects/IM/repos/test-commit-id-blank-review/commits/8228f7f18ad788d0c6e3ac9b04a1a0092fedd52e
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.8.0
+      Authorization:
+      - "<API_BASIC_AUTH>"
+      Accept-Encoding:
+      - gzip,deflate
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.18.0
+      Date:
+      - Thu, 01 Dec 2022 15:21:38 GMT
+      Content-Type:
+      - application/json;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      X-Arequestid:
+      - "@61818Vx921x2806x0"
+      X-Asen:
+      - SEN-20213931
+      Set-Cookie:
+      - BITBUCKETSESSIONID=BC4A43AF9F4CA77DB9FC2555620AF780; Path=/; Secure; HttpOnly
+      X-Auserid:
+      - '52'
+      X-Ausername:
+      - unit-test
+      X-Asessionid:
+      - 1cjju0j
+      Cache-Control:
+      - no-cache, no-transform
+      - private, no-cache
+      Pragma:
+      - no-cache
+      Vary:
+      - X-AUSERNAME,Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    body:
+      encoding: ASCII-8BIT
+      string: '{"id":"8228f7f18ad788d0c6e3ac9b04a1a0092fedd52e","displayId":"8228f7f18ad","author":{"name":"bbsadmin","emailAddress":"noreply@github.com","id":1,"displayName":"bbsadmin","active":true,"slug":"bbsadmin","type":"NORMAL","links":{"self":[{"href":"https://example.com/users/bbsadmin"}]}},"authorTimestamp":1668806632000,"committer":{"name":"bbsadmin","emailAddress":"noreply@github.com","id":1,"displayName":"bbsadmin","active":true,"slug":"bbsadmin","type":"NORMAL","links":{"self":[{"href":"https://example.com/users/bbsadmin"}]}},"committerTimestamp":1668806632000,"message":"Automatic
+        merge","parents":[{"id":"75d7aacefe193bcfb2a216047bf4edfdd4ecdfe8","displayId":"75d7aacefe1","author":{"name":"Daniel
+        Perez","emailAddress":"dpmex4527@github.com"},"authorTimestamp":1668806381000,"committer":{"name":"Daniel
+        Perez","emailAddress":"dpmex4527@github.com"},"committerTimestamp":1668806381000,"message":"Initial
+        commit","parents":[]},{"id":"97f96e1c98f0e91f24f50570ad6c155fbbceac3c","displayId":"97f96e1c98f","author":{"name":"Daniel
+        Perez","emailAddress":"dpmex4527@github.com"},"authorTimestamp":1668892975000,"committer":{"name":"Daniel
+        Perez","emailAddress":"dpmex4527@github.com"},"committerTimestamp":1668892975000,"message":"Added
+        new line tomorrow","parents":[{"id":"75d7aacefe193bcfb2a216047bf4edfdd4ecdfe8","displayId":"75d7aacefe1"}]}]}'
+    http_version: null
+    adapter_metadata:
+      vcr_decompressed: gzip
+  recorded_at: Thu, 01 Dec 2022 15:21:38 GMT
+- request:
+    method: get
+    uri: https://example.com/rest/api/1.0/projects/IM/repos/test-commit-id-blank-review/pull-requests/1/diff/README.md?diffType=COMMIT&sinceId=75d7aacefe193bcfb2a216047bf4edfdd4ecdfe8&untilId=8228f7f18ad788d0c6e3ac9b04a1a0092fedd52e
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.8.0
+      Authorization:
+      - "<API_BASIC_AUTH>"
+      Accept-Encoding:
+      - gzip,deflate
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.18.0
+      Date:
+      - Thu, 01 Dec 2022 15:21:39 GMT
+      Content-Type:
+      - application/json;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      X-Arequestid:
+      - "@61818Vx921x2807x0"
+      X-Asen:
+      - SEN-20213931
+      Set-Cookie:
+      - BITBUCKETSESSIONID=71F72333E480D9C44014F8E372086721; Path=/; Secure; HttpOnly
+      X-Auserid:
+      - '52'
+      X-Ausername:
+      - unit-test
+      X-Asessionid:
+      - 1s28kpz
+      Cache-Control:
+      - no-cache, no-transform
+      - private, no-cache
+      Pragma:
+      - no-cache
+      Vary:
+      - X-AUSERNAME,Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    body:
+      encoding: ASCII-8BIT
+      string: '{"fromHash":"75d7aacefe193bcfb2a216047bf4edfdd4ecdfe8","toHash":"8228f7f18ad788d0c6e3ac9b04a1a0092fedd52e","contextLines":10,"whitespace":"SHOW","diffs":[{"source":{"components":["README.md"],"parent":"","name":"README.md","extension":"md","toString":"README.md"},"destination":{"components":["README.md"],"parent":"","name":"README.md","extension":"md","toString":"README.md"},"hunks":[{"sourceLine":1,"sourceSpan":3,"destinationLine":1,"destinationSpan":4,"segments":[{"type":"CONTEXT","lines":[{"source":1,"destination":1,"line":"#
+        Test Commit Id Blank review","truncated":false},{"source":2,"destination":2,"line":"","truncated":false},{"source":3,"destination":3,"line":"Some
+        README.md","truncated":false}],"truncated":false},{"type":"ADDED","lines":[{"source":4,"destination":4,"line":"add
+        line","truncated":false}],"truncated":false}],"truncated":false}],"truncated":false}],"truncated":false}'
+    http_version: null
+    adapter_metadata:
+      vcr_decompressed: gzip
+  recorded_at: Thu, 01 Dec 2022 15:21:38 GMT
+recorded_with: VCR 5.1.0

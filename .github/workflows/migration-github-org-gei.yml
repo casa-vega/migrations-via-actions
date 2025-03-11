@@ -1,0 +1,21 @@
+name: Organization Migration to GHEC [GEI]
+
+on:
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  migrate:
+    if: contains(github.event.issue.labels.*.name, 'migration') &&
+        contains(github.event.issue.labels.*.name, 'gei-org')
+    uses: ./.github/workflows/shared-github-org-gei.yml
+    with:
+      RUNNER: ubuntu-latest
+      INSTALL_PREREQS: ${{ vars.INSTALL_PREREQS }}
+    secrets:
+      TARGET_ADMIN_TOKEN: ${{ secrets.TARGET_ADMIN_TOKEN }}
+      SOURCE_ADMIN_TOKEN: ${{ secrets.SOURCE_ADMIN_TOKEN }}

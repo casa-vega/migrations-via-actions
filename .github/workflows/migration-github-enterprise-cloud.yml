@@ -1,0 +1,31 @@
+name: Migration from GitHub Enterprise Cloud
+
+on:
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  export:
+    if: contains(github.event.issue.labels.*.name, 'github-enterprise-cloud')
+    uses: ./.github/workflows/shared-github-enterprise-cloud-export.yml
+    with:
+      runner: self-hosted
+    secrets:
+      SOURCE_ADMIN_TOKEN: ${{ secrets.SOURCE_ADMIN_TOKEN }}
+
+  import:
+    needs: export
+    uses: ./.github/workflows/shared-github-enterprise-server-import.yml
+    with:
+      runner: self-hosted
+      user-mappings-source-url: https://${{ vars.SOURCE_HOST }}
+      TARGET_ADMIN_USERNAME: ${{ vars.TARGET_ADMIN_USERNAME }}
+      TARGET_HOST: ${{ vars.TARGET_HOST }}
+    secrets:
+      TARGET_ADMIN_TOKEN: ${{ secrets.TARGET_ADMIN_TOKEN }}
+      SSH_PRIVATE_KEY: ${{ secrets.GHES_ADMIN_SSH_PRIVATE_KEY }}
+

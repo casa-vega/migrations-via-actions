@@ -1,0 +1,292 @@
+name: Shared GitHub Enterprise Server Import
+
+on:
+  workflow_call:
+    inputs:
+      migration-guid:
+        default: migration-archive-${{ github.event.issue.number }}-${{ github.run_number}}
+        type: string
+      runner:
+        default: self-hosted
+        type: string
+      user-mappings-source-url:
+        required: true
+        type: string
+      TARGET_ADMIN_USERNAME:
+        type: string
+        required: true
+      TARGET_HOST:
+        type: string
+        required: true
+    secrets:
+      TARGET_ADMIN_TOKEN:
+        required: true
+      SSH_PRIVATE_KEY:
+        required: true
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  export:
+    name: Import
+    runs-on: ${{ inputs.runner }}
+
+    if: github.event_name == 'issue_comment' &&
+      (startsWith(github.event.comment.body, '/run-dry-run-migration') ||
+      startsWith(github.event.comment.body, '/run-production-migration'))
+
+    env:
+      MIGRATION_GUID: ${{ inputs.migration-guid }}
+      GHES_SSH: ssh -i ssh.key -p 122 admin@${{ inputs.TARGET_HOST }}
+      GHES_SCP: scp -i ssh.key -P 122
+      GHES_HOSTNAME: ${{ inputs.TARGET_HOST }}
+      SOURCE_HOSTNAME: ${{ inputs.user-mappings-source-url}}
+
+    steps:
+      - name: Check out scripts
+        uses: actions/checkout@v4
+
+      - name: Setup SSH key
+        shell: bash
+        run: |
+          echo -e "${{ secrets.SSH_PRIVATE_KEY }}" > ssh.key
+          chmod 400 ssh.key
+
+      - name: Set migration type
+        uses: actions/github-script@v7
+        id: migration-type
+        with:
+          result-encoding: string
+          script: |
+            return context.payload.comment.body.match('dry-run') ? 'Dry-run' : 'Production'
+
+      - name: Display GHES version
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -p 122 -H ${{ inputs.TARGET_HOST }} >> ~/.ssh/known_hosts
+          $GHES_SSH -- ghe-version
+
+      - name: Display migration GUID
+        run: echo $MIGRATION_GUID
+
+      - name: Create workspace
+        run: mkdir -p $MIGRATION_GUID
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.MIGRATION_GUID }}.tar.gz
+          path: ${{ inputs.migration-guid }}/
+
+      - name: Upload migration archive to GHES
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -p 122 -H ${{ inputs.TARGET_HOST }} >> ~/.ssh/known_hosts
+          $GHES_SCP \
+          ${{ inputs.migration-guid }}/${{ env.MIGRATION_GUID }}.tar.gz admin@$GHES_HOSTNAME:/home/admin
+            
+      - name: Create subset of user mappings with only users included in the migration archive
+        run: | 
+            users=$(tar -zxf ${{ inputs.migration-guid }}/${{ env.MIGRATION_GUID }}.tar.gz --wildcards 'users_*.json' --to-stdout | jq -r '.[].login' | sort | uniq)
+            echo "source,target" > ../../subset-user-mappings.csv
+            for i in $users; do echo $i; grep $i"," user-mappings.csv >> ../../subset-user-mappings.csv || echo "$i not found in user-mappings.csv"; done
+      
+      - name: Update subset-user-mappings.csv content
+        run: |
+            chmod +x .github/scripts/process-mappings.sh
+            .github/scripts/process-mappings.sh -f "../../subset-user-mappings.csv" -s "$SOURCE_HOSTNAME" -t "https://$GHES_HOSTNAME" -m user
+            cat new-user-mappings.csv
+
+      # If organization mapping is needed for the migration, uncomment the following steps and add the org-mappings.csv file to the root of the repository
+      # - name: Update org-mappings.csv content
+      #   run: |
+      #       .github/scripts/process-mappings.sh -f "org-mappings.csv" -s "$SOURCE_HOSTNAME" -t "https://$GHES_HOSTNAME" -m organization
+      #       cat new-organization-mappings.csv
+
+      - name: Prepare migration
+        run: |
+          $GHES_SSH -- ghe-migrator prepare \
+          /home/admin/${{ env.MIGRATION_GUID }}.tar.gz \
+          --guid ${{ inputs.migration-guid }}
+
+      - name: Update issue with status
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const migrationType = "${{ steps.migration-type.outputs.result }}".toLowerCase();
+            const body = `:hourglass_flowing_sand: Prepared **${migrationType}** migration. [View workflow run for details](${context.payload.repository.html_url}/actions/runs/${context.runId})`
+
+            await github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body
+            })
+
+      - name: Upload mapping-files to GHES
+        run: |
+          $GHES_SCP \
+          new-*-mappings.csv admin@$GHES_HOSTNAME:/home/admin
+      # If organization mapping is needed for the migration, uncomment the following step
+      # - name: Map Organizations
+      #   run: |
+      #       $GHES_SSH -- ghe-migrator map -i new-organization-mappings.csv -g ${{ inputs.migration-guid }}
+      
+      - name: Map Custom Mapping Users
+        run: |
+            $GHES_SSH -- ghe-migrator map -i new-user-mappings.csv -g ${{ inputs.migration-guid }}
+    
+
+      - name: Generate conflicts.csv file
+        if: ${{ contains(github.event.comment.body, 'dry-run') }}
+        run: |
+          if [ ! -f conflicts.csv ]; then
+            # Generate conflicts.csv file
+            $GHES_SSH -- ghe-migrator conflicts \
+              --guid ${{ inputs.migration-guid }} \
+              > conflicts.csv
+          fi
+
+      - name: Upload conflicts.csv file to artifacts
+        if: ${{ contains(github.event.comment.body, 'dry-run') }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: conflicts.csv
+          path: ./conflicts.csv
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Resolve conflicts
+        run: |
+          if [ -f conflicts.csv ]; then
+            $GHES_SCP conflicts.csv admin@$GHES_HOSTNAME:/home/admin/${{ inputs.migration-guid }}-conflicts.csv
+            $GHES_SSH -- ghe-migrator map \
+              --input ${{ inputs.migration-guid }}-conflicts.csv \
+              --guid ${{ inputs.migration-guid }}
+          else
+            exit 1
+          fi
+
+      - name: Update issue with status
+        uses: actions/github-script@v7
+        if: ${{ success() }}
+        with:
+          script: |
+            const migrationType = "${{ steps.migration-type.outputs.result }}".toLowerCase();
+            const body = `:hourglass_flowing_sand: Resolved Conflicts for **${migrationType}** migration. [View workflow run for details](${context.payload.repository.html_url}/actions/runs/${context.runId})`
+
+            await github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body
+            })
+
+      - name: Start Migration
+        run: |
+          $GHES_SSH -- ghe-migrator import \
+          /home/admin/${{ env.MIGRATION_GUID }}.tar.gz \
+          --guid ${{ inputs.migration-guid }} \
+          --username=${{ inputs.TARGET_ADMIN_USERNAME }} \
+          --pat=${{ secrets.TARGET_ADMIN_TOKEN }}
+
+      - name: Update issue with status
+        uses: actions/github-script@v7
+        if: ${{ success() }}
+        with:
+          script: |
+            const migrationType = "${{ steps.migration-type.outputs.result }}".toLowerCase();
+            const body = `:hourglass_flowing_sand: Completed **${migrationType}** migration successfully. [View workflow run for details](${context.payload.repository.html_url}/actions/runs/${context.runId})`
+
+            await github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body
+            })
+
+      - name: Migration Unlock
+        run: |
+          $GHES_SSH -- ghe-migrator unlock \
+          --guid ${{ inputs.migration-guid }}
+
+      - name: Migration Cleanup
+        run: |
+          $GHES_SSH -- rm ${{ env.MIGRATION_GUID }}.tar.gz
+          $GHES_SSH -- rm ${{ inputs.migration-guid }}-conflicts.csv new-*-mappings.csv
+
+      - name: Update issue with status
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const migrationType = "${{ steps.migration-type.outputs.result }}".toLowerCase();
+            const body = `:hourglass_flowing_sand: Unlocked **${migrationType}** repos. [View workflow run for details](${context.payload.repository.html_url}/actions/runs/${context.runId})`
+
+            await github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body
+            })
+
+      - name: Add delete repositories comment
+        uses: actions/github-script@v7
+        if: ${{ contains(github.event.comment.body, 'Dry-run') }}
+        with:
+          script: |
+            const migrationType = "${{ steps.migration-type.outputs.result }}";
+            if (migrationType === 'Dry-run') {
+              let body = `In order to delete the migrated repositories of the dry-run, add a comment with the following slash command:
+              \`\`\`
+              /delete-repositories
+              \`\`\`
+              `
+              // remove leading whitespace
+              body = body.replace(/  +/g, '')
+              await github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body
+              })
+            }
+
+      - name: Close Issue
+        uses: actions/github-script@v7
+        if: ${{ contains(github.event.comment.body, 'Production') }}
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: ':rocket: Migration Completed'
+            })
+
+            await github.rest.issues.update({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'closed',
+            });
+
+            await github.rest.issues.lock({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              lock_reason: 'resolved'
+            })
+            
+      - if: ${{ failure() }}
+        name: Report failed migration
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const body = `:no_entry: **${{ steps.migration-type.outputs.result }} import failed.** [View workflow run for details](${context.payload.repository.html_url}/actions/runs/${context.runId})`
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body
+            })

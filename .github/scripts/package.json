@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "@octokit/rest": "^19.0.8",
+    "octokit": "3.1.2"
+  },
+  "devDependencies": {
+    "mocha": "^10.2.0",
+    "nock": "^13.3.1",
+    "nyc": "^15.1.0",
+    "uvu": "^0.5.6"
+  }
+}

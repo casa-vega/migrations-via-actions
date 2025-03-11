@@ -1,0 +1,655 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://example.com/rest/api/1.0/admin/groups?limit=250
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.17.3
+      Accept:
+      - "*/*"
+      Authorization:
+      - "<API_BASIC_AUTH>"
+      Accept-Encoding:
+      - gzip,deflate
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.12.1
+      Date:
+      - Fri, 11 Sep 2020 15:54:25 GMT
+      Content-Type:
+      - application/json;charset=UTF-8
+      Connection:
+      - keep-alive
+      Cache-Control:
+      - private, no-cache, no-transform
+      Expires:
+      - Thu, 01 Jan 1970 00:00:00 UTC
+      X-Arequestid:
+      - "@DA6EJ6x954x56322x0"
+      X-Asen:
+      - SEN-10038470
+      X-Auserid:
+      - '55'
+      X-Ausername:
+      - unit-test
+      Vary:
+      - X-AUSERNAME,Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    body:
+      encoding: ASCII-8BIT
+      string: '{"size":12,"limit":250,"isLastPage":true,"values":[{"name":"Development
+        and Support Services - WMS - Employees Only","deletable":true},{"name":"project-create-access","deletable":true},{"name":"Project_read
+        Access","deletable":true},{"name":"project_read_access","deletable":true},{"name":"stash-users","deletable":true},{"name":"TeamWithCaps","deletable":true},{"name":"team
+        with spaces","deletable":true},{"name":"Test%3","deletable":true},{"name":"test_group","deletable":true},{"name":"test
+        group case sensitive","deletable":true},{"name":"test-team-proj-level","deletable":true},{"name":"test-team-repo-level","deletable":true}],"start":0}'
+    http_version: null
+    adapter_metadata:
+      vcr_decompressed: gzip
+  recorded_at: Fri, 11 Sep 2020 15:54:25 GMT
+- request:
+    method: get
+    uri: https://example.com/rest/api/1.0/projects/MIGR8/permissions/groups?limit=250
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.17.3
+      Accept:
+      - "*/*"
+      Authorization:
+      - "<API_BASIC_AUTH>"
+      Accept-Encoding:
+      - gzip,deflate
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.12.1
+      Date:
+      - Fri, 11 Sep 2020 15:54:25 GMT
+      Content-Type:
+      - application/json;charset=UTF-8
+      Connection:
+      - keep-alive
+      Cache-Control:
+      - private, no-cache, no-transform
+      Expires:
+      - Thu, 01 Jan 1970 00:00:00 UTC
+      X-Arequestid:
+      - "@DA6EJ6x954x56323x0"
+      X-Asen:
+      - SEN-10038470
+      X-Auserid:
+      - '55'
+      X-Ausername:
+      - unit-test
+      Vary:
+      - X-AUSERNAME,Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    body:
+      encoding: ASCII-8BIT
+      string: '{"size":3,"limit":250,"isLastPage":true,"values":[{"group":{"name":"project_read
+        access"},"permission":"PROJECT_READ"},{"group":{"name":"project_read_access"},"permission":"PROJECT_READ"},{"group":{"name":"stash-users"},"permission":"PROJECT_ADMIN"}],"start":0}'
+    http_version: null
+    adapter_metadata:
+      vcr_decompressed: gzip
+  recorded_at: Fri, 11 Sep 2020 15:54:25 GMT
+- request:
+    method: get
+    uri: https://example.com/rest/api/1.0/projects/MIGR8/repos/hugo-pages/permissions/groups?limit=250
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.17.3
+      Accept:
+      - "*/*"
+      Authorization:
+      - "<API_BASIC_AUTH>"
+      Accept-Encoding:
+      - gzip,deflate
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.12.1
+      Date:
+      - Fri, 11 Sep 2020 15:54:25 GMT
+      Content-Type:
+      - application/json;charset=UTF-8
+      Connection:
+      - keep-alive
+      Cache-Control:
+      - private, no-cache, no-transform
+      Expires:
+      - Thu, 01 Jan 1970 00:00:00 UTC
+      X-Arequestid:
+      - "@DA6EJ6x954x56324x0"
+      X-Asen:
+      - SEN-10038470
+      X-Auserid:
+      - '55'
+      X-Ausername:
+      - unit-test
+      Vary:
+      - X-AUSERNAME,Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    body:
+      encoding: ASCII-8BIT
+      string: '{"size":2,"limit":250,"isLastPage":true,"values":[{"group":{"name":"project_read
+        access"},"permission":"REPO_WRITE"},{"group":{"name":"stash-users"},"permission":"REPO_READ"}],"start":0}'
+    http_version: null
+    adapter_metadata:
+      vcr_decompressed: gzip
+  recorded_at: Fri, 11 Sep 2020 15:54:25 GMT
+- request:
+    method: get
+    uri: https://example.com/rest/api/1.0/admin/groups/more-members?context=Project_read%20Access&limit=250
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.17.3
+      Accept:
+      - "*/*"
+      Authorization:
+      - "<API_BASIC_AUTH>"
+      Accept-Encoding:
+      - gzip,deflate
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.12.1
+      Date:
+      - Fri, 11 Sep 2020 15:54:25 GMT
+      Content-Type:
+      - application/json;charset=UTF-8
+      Connection:
+      - keep-alive
+      Cache-Control:
+      - private, no-cache, no-transform
+      Expires:
+      - Thu, 01 Jan 1970 00:00:00 UTC
+      X-Arequestid:
+      - "@DA6EJ6x954x56325x0"
+      X-Asen:
+      - SEN-10038470
+      X-Auserid:
+      - '55'
+      X-Ausername:
+      - unit-test
+      Vary:
+      - X-AUSERNAME,Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    body:
+      encoding: ASCII-8BIT
+      string: '{"size":1,"limit":250,"isLastPage":true,"values":[{"name":"synthead","emailAddress":"synthead@github.com","id":2,"displayName":"Maxwell
+        Pray","active":true,"slug":"synthead","type":"NORMAL","directoryName":"Bitbucket
+        Internal Directory","deletable":true,"lastAuthenticationTimestamp":1584725725837,"mutableDetails":true,"mutableGroups":true,"links":{"self":[{"href":"https://example.com/users/synthead"}]}}],"start":0}'
+    http_version: null
+    adapter_metadata:
+      vcr_decompressed: gzip
+  recorded_at: Fri, 11 Sep 2020 15:54:25 GMT
+- request:
+    method: get
+    uri: https://example.com/rest/api/1.0/projects/MIGR8/repos/hugo-pages
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.17.3
+      Accept:
+      - "*/*"
+      Authorization:
+      - "<API_BASIC_AUTH>"
+      Accept-Encoding:
+      - gzip,deflate
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.12.1
+      Date:
+      - Fri, 11 Sep 2020 15:54:36 GMT
+      Content-Type:
+      - application/json;charset=UTF-8
+      Connection:
+      - keep-alive
+      Cache-Control:
+      - private, no-cache, no-transform
+      Expires:
+      - Thu, 01 Jan 1970 00:00:00 UTC
+      X-Arequestid:
+      - "@DA6EJ6x954x56326x0"
+      X-Asen:
+      - SEN-10038470
+      X-Auserid:
+      - '55'
+      X-Ausername:
+      - unit-test
+      Vary:
+      - X-AUSERNAME,Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    body:
+      encoding: ASCII-8BIT
+      string: '{"slug":"hugo-pages","id":6,"name":"hugo-pages","scmId":"git","state":"AVAILABLE","statusMessage":"Available","forkable":true,"project":{"key":"MIGR8","id":2,"name":"Migrate
+        Me","description":"Test project description","public":false,"type":"NORMAL","links":{"self":[{"href":"https://example.com/projects/MIGR8"}]}},"public":false,"links":{"clone":[{"href":"ssh://git@example.com:7999/migr8/hugo-pages.git","name":"ssh"},{"href":"https://unit-test@example.com/scm/migr8/hugo-pages.git","name":"http"}],"self":[{"href":"https://example.com/projects/MIGR8/repos/hugo-pages/browse"}]}}'
+    http_version: null
+    adapter_metadata:
+      vcr_decompressed: gzip
+  recorded_at: Fri, 11 Sep 2020 15:54:36 GMT
+- request:
+    method: get
+    uri: https://example.com/rest/api/1.0/projects/MIGR8/repos/hugo-pages/permissions/users?limit=250
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.17.3
+      Accept:
+      - "*/*"
+      Authorization:
+      - "<API_BASIC_AUTH>"
+      Accept-Encoding:
+      - gzip,deflate
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.12.1
+      Date:
+      - Fri, 11 Sep 2020 15:54:36 GMT
+      Content-Type:
+      - application/json;charset=UTF-8
+      Connection:
+      - keep-alive
+      Cache-Control:
+      - private, no-cache, no-transform
+      Expires:
+      - Thu, 01 Jan 1970 00:00:00 UTC
+      X-Arequestid:
+      - "@DA6EJ6x954x56327x0"
+      X-Asen:
+      - SEN-10038470
+      X-Auserid:
+      - '55'
+      X-Ausername:
+      - unit-test
+      Vary:
+      - X-AUSERNAME,Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    body:
+      encoding: ASCII-8BIT
+      string: '{"size":13,"limit":250,"isLastPage":true,"values":[{"user":{"name":"dpmex4527","emailAddress":"dpmex4527@github.com","id":4,"displayName":"Daniel
+        Perez","active":true,"slug":"dpmex4527","type":"NORMAL","links":{"self":[{"href":"https://example.com/users/dpmex4527"}]}},"permission":"REPO_ADMIN"},{"user":{"name":"kylemacey","emailAddress":"kylemacey@github.com","id":1,"displayName":"Kyle
+        Macey","active":true,"slug":"kylemacey","type":"NORMAL","links":{"self":[{"href":"https://example.com/users/kylemacey"}]}},"permission":"REPO_ADMIN"},{"user":{"name":"mattcantstop","emailAddress":"mattcantstop@github.com","id":3,"displayName":"Matt
+        Duff","active":true,"slug":"mattcantstop","type":"NORMAL","links":{"self":[{"href":"https://example.com/users/mattcantstop"}]}},"permission":"REPO_ADMIN"},{"user":{"name":"migarjo","emailAddress":"migarjo@github.com","id":5,"displayName":"Michael
+        Jackson \uD83D\uDD7A\uD83C\uDFFB","active":true,"slug":"migarjo","type":"NORMAL","links":{"self":[{"href":"https://example.com/users/migarjo"}]}},"permission":"REPO_ADMIN"},{"user":{"name":"synthead","emailAddress":"synthead@github.com","id":2,"displayName":"Maxwell
+        Pray","active":true,"slug":"synthead","type":"NORMAL","links":{"self":[{"href":"https://example.com/users/synthead"}]}},"permission":"REPO_ADMIN"},{"user":{"name":"test123","emailAddress":"dpmex4527+testing@github.com","id":6,"displayName":"Think
+        Displayname","active":true,"slug":"test123","type":"NORMAL","links":{"self":[{"href":"https://example.com/users/test123"}]}},"permission":"REPO_READ"},{"user":{"name":"testUser1","emailAddress":"mattcantstop+1@github.com","id":7,"displayName":"Test
+        User 1","active":true,"slug":"testuser1","type":"NORMAL","links":{"self":[{"href":"https://example.com/users/testuser1"}]}},"permission":"REPO_READ"},{"user":{"name":"testUser2","emailAddress":"mattcantstop+2@gmail.com","id":8,"displayName":"Test
+        User 2","active":true,"slug":"testuser2","type":"NORMAL","links":{"self":[{"href":"https://example.com/users/testuser2"}]}},"permission":"REPO_READ"},{"user":{"name":"testUser3","emailAddress":"mattcantstop+3@github.com","id":9,"displayName":"Test
+        User 3","active":true,"slug":"testuser3","type":"NORMAL","links":{"self":[{"href":"https://example.com/users/testuser3"}]}},"permission":"REPO_READ"},{"user":{"name":"testUser4","emailAddress":"mattcantstop+4@github.com","id":10,"displayName":"Test
+        User 4","active":true,"slug":"testuser4","type":"NORMAL","links":{"self":[{"href":"https://example.com/users/testuser4"}]}},"permission":"REPO_READ"},{"user":{"name":"testUser5","emailAddress":"mattcantstop+5@github.com","id":11,"displayName":"Test
+        User 5","active":true,"slug":"testuser5","type":"NORMAL","links":{"self":[{"href":"https://example.com/users/testuser5"}]}},"permission":"REPO_READ"},{"user":{"name":"testUser6","emailAddress":"mattcantstop+6@github.com","id":12,"displayName":"Test
+        User 6","active":true,"slug":"testuser6","type":"NORMAL","links":{"self":[{"href":"https://example.com/users/testuser6"}]}},"permission":"REPO_READ"},{"user":{"name":"testUser7","emailAddress":"mattcantstop+7@github.com","id":13,"displayName":"Test
+        User 7","active":true,"slug":"testuser7","type":"NORMAL","links":{"self":[{"href":"https://example.com/users/testuser7"}]}},"permission":"REPO_READ"}],"start":0}'
+    http_version: null
+    adapter_metadata:
+      vcr_decompressed: gzip
+  recorded_at: Fri, 11 Sep 2020 15:54:36 GMT
+- request:
+    method: get
+    uri: https://example.com/rest/api/1.0/admin/groups/more-members?context=project_read_access&limit=250
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.17.3
+      Accept:
+      - "*/*"
+      Authorization:
+      - "<API_BASIC_AUTH>"
+      Accept-Encoding:
+      - gzip,deflate
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.12.1
+      Date:
+      - Fri, 11 Sep 2020 15:54:36 GMT
+      Content-Type:
+      - application/json;charset=UTF-8
+      Connection:
+      - keep-alive
+      Cache-Control:
+      - private, no-cache, no-transform
+      Expires:
+      - Thu, 01 Jan 1970 00:00:00 UTC
+      X-Arequestid:
+      - "@DA6EJ6x954x56328x0"
+      X-Asen:
+      - SEN-10038470
+      X-Auserid:
+      - '55'
+      X-Ausername:
+      - unit-test
+      Vary:
+      - X-AUSERNAME,Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    body:
+      encoding: ASCII-8BIT
+      string: '{"size":1,"limit":250,"isLastPage":true,"values":[{"name":"unit-test","emailAddress":"unit-test@github.com","id":55,"displayName":"Unit
+        Test","active":true,"slug":"unit-test","type":"NORMAL","directoryName":"Bitbucket
+        Internal Directory","deletable":true,"lastAuthenticationTimestamp":1599839665356,"mutableDetails":true,"mutableGroups":true,"links":{"self":[{"href":"https://example.com/users/unit-test"}]}}],"start":0}'
+    http_version: null
+    adapter_metadata:
+      vcr_decompressed: gzip
+  recorded_at: Fri, 11 Sep 2020 15:54:36 GMT
+- request:
+    method: get
+    uri: https://example.com/rest/api/1.0/admin/groups/more-members?context=stash-users&limit=250
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.17.3
+      Accept:
+      - "*/*"
+      Authorization:
+      - "<API_BASIC_AUTH>"
+      Accept-Encoding:
+      - gzip,deflate
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.12.1
+      Date:
+      - Fri, 11 Sep 2020 15:56:13 GMT
+      Content-Type:
+      - application/json;charset=UTF-8
+      Connection:
+      - keep-alive
+      Cache-Control:
+      - private, no-cache, no-transform
+      Expires:
+      - Thu, 01 Jan 1970 00:00:00 UTC
+      X-Arequestid:
+      - "@DA6EJ6x956x56329x0"
+      X-Asen:
+      - SEN-10038470
+      X-Auserid:
+      - '55'
+      X-Ausername:
+      - unit-test
+      Vary:
+      - X-AUSERNAME,Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    body:
+      encoding: ASCII-8BIT
+      string: '{"size":25,"limit":250,"isLastPage":true,"values":[{"name":"admiralawkbar","emailAddress":"admiralawkbar@github.com","id":112,"displayName":"Lucas
+        Gravley","active":true,"slug":"admiralawkbar","type":"NORMAL","directoryName":"Bitbucket
+        Internal Directory","deletable":true,"lastAuthenticationTimestamp":1598547776737,"mutableDetails":true,"mutableGroups":true,"links":{"self":[{"href":"https://example.com/users/admiralawkbar"}]}},{"name":"chocrates","emailAddress":"chocrates@github.com","id":114,"displayName":"Chris
+        McIntosh","active":true,"slug":"chocrates","type":"NORMAL","directoryName":"Bitbucket
+        Internal Directory","deletable":true,"lastAuthenticationTimestamp":1574283473350,"mutableDetails":true,"mutableGroups":true,"links":{"self":[{"href":"https://example.com/users/chocrates"}]}},{"name":"dpmex4527","emailAddress":"dpmex4527@github.com","id":4,"displayName":"Daniel
+        Perez","active":true,"slug":"dpmex4527","type":"NORMAL","directoryName":"Bitbucket
+        Internal Directory","deletable":true,"lastAuthenticationTimestamp":1598635371156,"mutableDetails":true,"mutableGroups":true,"links":{"self":[{"href":"https://example.com/users/dpmex4527"}]}},{"name":"has@weird\uD83C\uDF2Dcharacters","emailAddress":"has.characters@noreply.com","id":106,"displayName":"Has
+        Characters","active":true,"slug":"has_weird\uD83C\uDF2Dcharacters","type":"NORMAL","directoryName":"Bitbucket
+        Internal Directory","deletable":true,"lastAuthenticationTimestamp":1554842542915,"mutableDetails":true,"mutableGroups":true,"links":{"self":[{"href":"https://example.com/users/has_weird%F0%9F%8C%ADcharacters"}]}},{"name":"has%weird\uD83C\uDF2Dcharacters","emailAddress":"weird.characterette@noreply.com","id":107,"displayName":"Weird
+        Characterette","active":true,"slug":"has_weird\uD83C\uDF2Dcharacters0","type":"NORMAL","directoryName":"Bitbucket
+        Internal Directory","deletable":true,"mutableDetails":true,"mutableGroups":true,"links":{"self":[{"href":"https://example.com/users/has_weird%F0%9F%8C%ADcharacters0"}]}},{"name":"jfine","emailAddress":"jfine@github.com","id":111,"displayName":"Jared
+        Fine","active":true,"slug":"jfine","type":"NORMAL","directoryName":"Bitbucket
+        Internal Directory","deletable":true,"lastAuthenticationTimestamp":1599761615962,"mutableDetails":true,"mutableGroups":true,"links":{"self":[{"href":"https://example.com/users/jfine"}]}},{"name":"jwiebalk","emailAddress":"jwiebalk@github.com","id":113,"displayName":"john
+        Wiebalk","active":true,"slug":"jwiebalk","type":"NORMAL","directoryName":"Bitbucket
+        Internal Directory","deletable":true,"lastAuthenticationTimestamp":1597936573879,"mutableDetails":true,"mutableGroups":true,"links":{"self":[{"href":"https://example.com/users/jwiebalk"}]}},{"name":"kylemacey","emailAddress":"kylemacey@github.com","id":1,"displayName":"Kyle
+        Macey","active":true,"slug":"kylemacey","type":"NORMAL","directoryName":"Bitbucket
+        Internal Directory","deletable":true,"lastAuthenticationTimestamp":1599157061470,"mutableDetails":true,"mutableGroups":true,"links":{"self":[{"href":"https://example.com/users/kylemacey"}]}},{"name":"larsxschneider","emailAddress":"noreply@github.com","id":108,"displayName":"Lars
+        Schneider","active":true,"slug":"larsxschneider","type":"NORMAL","directoryName":"Bitbucket
+        Internal Directory","deletable":true,"lastAuthenticationTimestamp":1565945284692,"mutableDetails":true,"mutableGroups":true,"links":{"self":[{"href":"https://example.com/users/larsxschneider"}]}},{"name":"mattcantstop","emailAddress":"mattcantstop@github.com","id":3,"displayName":"Matt
+        Duff","active":true,"slug":"mattcantstop","type":"NORMAL","directoryName":"Bitbucket
+        Internal Directory","deletable":true,"lastAuthenticationTimestamp":1495119205187,"mutableDetails":true,"mutableGroups":true,"links":{"self":[{"href":"https://example.com/users/mattcantstop"}]}},{"name":"michaelsainz","emailAddress":"michaelsainz@github.com","id":33,"displayName":"Michael
+        Sainz","active":true,"slug":"michaelsainz","type":"NORMAL","directoryName":"Bitbucket
+        Internal Directory","deletable":true,"lastAuthenticationTimestamp":1517788836851,"mutableDetails":true,"mutableGroups":true,"links":{"self":[{"href":"https://example.com/users/michaelsainz"}]}},{"name":"migarjo","emailAddress":"migarjo@github.com","id":5,"displayName":"Michael
+        Jackson \uD83D\uDD7A\uD83C\uDFFB","active":true,"slug":"migarjo","type":"NORMAL","directoryName":"Bitbucket
+        Internal Directory","deletable":true,"lastAuthenticationTimestamp":1599355337873,"mutableDetails":true,"mutableGroups":true,"links":{"self":[{"href":"https://example.com/users/migarjo"}]}},{"name":"primetheus","emailAddress":"primetheus@github.com","id":32,"displayName":"Jared
+        Murrell","active":true,"slug":"primetheus","type":"NORMAL","directoryName":"Bitbucket
+        Internal Directory","deletable":true,"lastAuthenticationTimestamp":1511989879594,"mutableDetails":true,"mutableGroups":true,"links":{"self":[{"href":"https://example.com/users/primetheus"}]}},{"name":"steffen","emailAddress":"steffen@github.com","id":109,"displayName":"Steffen
+        Hiller","active":true,"slug":"steffen","type":"NORMAL","directoryName":"Bitbucket
+        Internal Directory","deletable":true,"lastAuthenticationTimestamp":1567761508238,"mutableDetails":true,"mutableGroups":true,"links":{"self":[{"href":"https://example.com/users/steffen"}]}},{"name":"synthead","emailAddress":"synthead@github.com","id":2,"displayName":"Maxwell
+        Pray","active":true,"slug":"synthead","type":"NORMAL","directoryName":"Bitbucket
+        Internal Directory","deletable":true,"lastAuthenticationTimestamp":1584725725837,"mutableDetails":true,"mutableGroups":true,"links":{"self":[{"href":"https://example.com/users/synthead"}]}},{"name":"tambling","emailAddress":"tambling@github.com","id":103,"displayName":"Dean
+        Tambling","active":true,"slug":"tambling","type":"NORMAL","directoryName":"Bitbucket
+        Internal Directory","deletable":true,"lastAuthenticationTimestamp":1544732171539,"mutableDetails":true,"mutableGroups":true,"links":{"self":[{"href":"https://example.com/users/tambling"}]}},{"name":"test123","emailAddress":"dpmex4527+testing@github.com","id":6,"displayName":"Think
+        Displayname","active":true,"slug":"test123","type":"NORMAL","directoryName":"Bitbucket
+        Internal Directory","deletable":true,"mutableDetails":true,"mutableGroups":true,"links":{"self":[{"href":"https://example.com/users/test123"}]}},{"name":"testUser1","emailAddress":"mattcantstop+1@github.com","id":7,"displayName":"Test
+        User 1","active":true,"slug":"testuser1","type":"NORMAL","directoryName":"Bitbucket
+        Internal Directory","deletable":true,"lastAuthenticationTimestamp":1556252109035,"mutableDetails":true,"mutableGroups":true,"links":{"self":[{"href":"https://example.com/users/testuser1"}]}},{"name":"testUser2","emailAddress":"mattcantstop+2@gmail.com","id":8,"displayName":"Test
+        User 2","active":true,"slug":"testuser2","type":"NORMAL","directoryName":"Bitbucket
+        Internal Directory","deletable":true,"mutableDetails":true,"mutableGroups":true,"links":{"self":[{"href":"https://example.com/users/testuser2"}]}},{"name":"testUser3","emailAddress":"mattcantstop+3@github.com","id":9,"displayName":"Test
+        User 3","active":true,"slug":"testuser3","type":"NORMAL","directoryName":"Bitbucket
+        Internal Directory","deletable":true,"mutableDetails":true,"mutableGroups":true,"links":{"self":[{"href":"https://example.com/users/testuser3"}]}},{"name":"testUser4","emailAddress":"mattcantstop+4@github.com","id":10,"displayName":"Test
+        User 4","active":true,"slug":"testuser4","type":"NORMAL","directoryName":"Bitbucket
+        Internal Directory","deletable":true,"mutableDetails":true,"mutableGroups":true,"links":{"self":[{"href":"https://example.com/users/testuser4"}]}},{"name":"testUser5","emailAddress":"mattcantstop+5@github.com","id":11,"displayName":"Test
+        User 5","active":true,"slug":"testuser5","type":"NORMAL","directoryName":"Bitbucket
+        Internal Directory","deletable":true,"mutableDetails":true,"mutableGroups":true,"links":{"self":[{"href":"https://example.com/users/testuser5"}]}},{"name":"testUser6","emailAddress":"mattcantstop+6@github.com","id":12,"displayName":"Test
+        User 6","active":true,"slug":"testuser6","type":"NORMAL","directoryName":"Bitbucket
+        Internal Directory","deletable":true,"mutableDetails":true,"mutableGroups":true,"links":{"self":[{"href":"https://example.com/users/testuser6"}]}},{"name":"testUser7","emailAddress":"mattcantstop+7@github.com","id":13,"displayName":"Test
+        User 7","active":true,"slug":"testuser7","type":"NORMAL","directoryName":"Bitbucket
+        Internal Directory","deletable":true,"mutableDetails":true,"mutableGroups":true,"links":{"self":[{"href":"https://example.com/users/testuser7"}]}},{"name":"unit-test","emailAddress":"unit-test@github.com","id":55,"displayName":"Unit
+        Test","active":true,"slug":"unit-test","type":"NORMAL","directoryName":"Bitbucket
+        Internal Directory","deletable":true,"lastAuthenticationTimestamp":1599839665356,"mutableDetails":true,"mutableGroups":true,"links":{"self":[{"href":"https://example.com/users/unit-test"}]}}],"start":0}'
+    http_version: null
+    adapter_metadata:
+      vcr_decompressed: gzip
+  recorded_at: Fri, 11 Sep 2020 15:56:13 GMT
+- request:
+    method: get
+    uri: https://example.com/rest/branch-permissions/2.0/projects/MIGR8/repos/hugo-pages/restrictions?limit=250
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.17.3
+      Accept:
+      - "*/*"
+      Authorization:
+      - "<API_BASIC_AUTH>"
+      Accept-Encoding:
+      - gzip,deflate
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.12.1
+      Date:
+      - Fri, 11 Sep 2020 15:56:29 GMT
+      Content-Type:
+      - application/json;charset=UTF-8
+      Connection:
+      - keep-alive
+      Cache-Control:
+      - private, no-cache, no-transform
+      Expires:
+      - Thu, 01 Jan 1970 00:00:00 UTC
+      X-Arequestid:
+      - "@DA6EJ6x956x56330x0"
+      X-Asen:
+      - SEN-10038470
+      X-Auserid:
+      - '55'
+      X-Ausername:
+      - unit-test
+      Vary:
+      - X-AUSERNAME,Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    body:
+      encoding: ASCII-8BIT
+      string: '{"size":8,"limit":250,"isLastPage":true,"values":[{"id":109,"scope":{"type":"REPOSITORY","resourceId":6},"type":"pull-request-only","matcher":{"id":"refs/heads/bugfix/branch-permissions-test","displayId":"bugfix/branch-permissions-test","type":{"id":"BRANCH","name":"Branch"},"active":true},"users":[{"name":"synthead","emailAddress":"synthead@github.com","id":2,"displayName":"Maxwell
+        Pray","active":true,"slug":"synthead","type":"NORMAL","links":{"self":[{"href":"https://example.com/users/synthead"}]}}],"groups":["test_group"],"accessKeys":[]},{"id":110,"scope":{"type":"REPOSITORY","resourceId":6},"type":"read-only","matcher":{"id":"refs/heads/bugfix/branch-permissions-test2","displayId":"bugfix/branch-permissions-test2","type":{"id":"BRANCH","name":"Branch"},"active":true},"users":[],"groups":[],"accessKeys":[]},{"id":108,"scope":{"type":"REPOSITORY","resourceId":6},"type":"read-only","matcher":{"id":"refs/heads/bugfix/that/cool/perm-test","displayId":"bugfix/that/cool/perm-test","type":{"id":"BRANCH","name":"Branch"},"active":true},"users":[],"groups":[],"accessKeys":[]},{"id":106,"scope":{"type":"REPOSITORY","resourceId":6},"type":"fast-forward-only","matcher":{"id":"development","displayId":"Development","type":{"id":"MODEL_BRANCH","name":"Branching
+        model branch"},"active":true},"users":[],"groups":[],"accessKeys":[]},{"id":117,"scope":{"type":"REPOSITORY","resourceId":6},"type":"pull-request-only","matcher":{"id":"production","displayId":"Production","type":{"id":"MODEL_BRANCH","name":"Branching
+        model branch"},"active":true},"users":[{"name":"kylemacey","emailAddress":"kylemacey@github.com","id":1,"displayName":"Kyle
+        Macey","active":true,"slug":"kylemacey","type":"NORMAL","links":{"self":[{"href":"https://example.com/users/kylemacey"}]}},{"name":"synthead","emailAddress":"synthead@github.com","id":2,"displayName":"Maxwell
+        Pray","active":true,"slug":"synthead","type":"NORMAL","links":{"self":[{"href":"https://example.com/users/synthead"}]}}],"groups":[],"accessKeys":[]},{"id":107,"scope":{"type":"REPOSITORY","resourceId":6},"type":"fast-forward-only","matcher":{"id":"BUGFIX","displayId":"Bugfix","type":{"id":"MODEL_CATEGORY","name":"Branching
+        model category"},"active":true},"users":[],"groups":[],"accessKeys":[]},{"id":114,"scope":{"type":"REPOSITORY","resourceId":6},"type":"pull-request-only","matcher":{"id":"branch-permissions-tes?","displayId":"branch-permissions-tes?","type":{"id":"PATTERN","name":"Pattern"},"active":true},"users":[{"name":"kylemacey","emailAddress":"kylemacey@github.com","id":1,"displayName":"Kyle
+        Macey","active":true,"slug":"kylemacey","type":"NORMAL","links":{"self":[{"href":"https://example.com/users/kylemacey"}]}}],"groups":[],"accessKeys":[]},{"id":113,"scope":{"type":"REPOSITORY","resourceId":6},"type":"read-only","matcher":{"id":"branch-permissions-tes?","displayId":"branch-permissions-tes?","type":{"id":"PATTERN","name":"Pattern"},"active":true},"users":[{"name":"synthead","emailAddress":"synthead@github.com","id":2,"displayName":"Maxwell
+        Pray","active":true,"slug":"synthead","type":"NORMAL","links":{"self":[{"href":"https://example.com/users/synthead"}]}}],"groups":["test_group","project-create-access","Project_read
+        Access"],"accessKeys":[]}],"start":0}'
+    http_version: null
+    adapter_metadata:
+      vcr_decompressed: gzip
+  recorded_at: Fri, 11 Sep 2020 15:56:29 GMT
+- request:
+    method: get
+    uri: https://example.com/rest/api/1.0/admin/groups/more-members?context=test_group&limit=250
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.17.3
+      Accept:
+      - "*/*"
+      Authorization:
+      - "<API_BASIC_AUTH>"
+      Accept-Encoding:
+      - gzip,deflate
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.12.1
+      Date:
+      - Fri, 11 Sep 2020 15:56:29 GMT
+      Content-Type:
+      - application/json;charset=UTF-8
+      Connection:
+      - keep-alive
+      Cache-Control:
+      - private, no-cache, no-transform
+      Expires:
+      - Thu, 01 Jan 1970 00:00:00 UTC
+      X-Arequestid:
+      - "@DA6EJ6x956x56331x0"
+      X-Asen:
+      - SEN-10038470
+      X-Auserid:
+      - '55'
+      X-Ausername:
+      - unit-test
+      Vary:
+      - X-AUSERNAME,Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    body:
+      encoding: ASCII-8BIT
+      string: '{"size":3,"limit":250,"isLastPage":true,"values":[{"name":"dpmex4527","emailAddress":"dpmex4527@github.com","id":4,"displayName":"Daniel
+        Perez","active":true,"slug":"dpmex4527","type":"NORMAL","directoryName":"Bitbucket
+        Internal Directory","deletable":true,"lastAuthenticationTimestamp":1598635371156,"mutableDetails":true,"mutableGroups":true,"links":{"self":[{"href":"https://example.com/users/dpmex4527"}]}},{"name":"synthead","emailAddress":"synthead@github.com","id":2,"displayName":"Maxwell
+        Pray","active":true,"slug":"synthead","type":"NORMAL","directoryName":"Bitbucket
+        Internal Directory","deletable":true,"lastAuthenticationTimestamp":1584725725837,"mutableDetails":true,"mutableGroups":true,"links":{"self":[{"href":"https://example.com/users/synthead"}]}},{"name":"testUser1","emailAddress":"mattcantstop+1@github.com","id":7,"displayName":"Test
+        User 1","active":true,"slug":"testuser1","type":"NORMAL","directoryName":"Bitbucket
+        Internal Directory","deletable":true,"lastAuthenticationTimestamp":1556252109035,"mutableDetails":true,"mutableGroups":true,"links":{"self":[{"href":"https://example.com/users/testuser1"}]}}],"start":0}'
+    http_version: null
+    adapter_metadata:
+      vcr_decompressed: gzip
+  recorded_at: Fri, 11 Sep 2020 15:56:29 GMT
+- request:
+    method: get
+    uri: https://example.com/rest/api/1.0/admin/groups/more-members?context=project-create-access&limit=250
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.17.3
+      Accept:
+      - "*/*"
+      Authorization:
+      - "<API_BASIC_AUTH>"
+      Accept-Encoding:
+      - gzip,deflate
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.12.1
+      Date:
+      - Fri, 11 Sep 2020 15:56:29 GMT
+      Content-Type:
+      - application/json;charset=UTF-8
+      Connection:
+      - keep-alive
+      Cache-Control:
+      - private, no-cache, no-transform
+      Expires:
+      - Thu, 01 Jan 1970 00:00:00 UTC
+      X-Arequestid:
+      - "@DA6EJ6x956x56332x0"
+      X-Asen:
+      - SEN-10038470
+      X-Auserid:
+      - '55'
+      X-Ausername:
+      - unit-test
+      Vary:
+      - X-AUSERNAME,Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    body:
+      encoding: ASCII-8BIT
+      string: '{"size":1,"limit":250,"isLastPage":true,"values":[{"name":"unit-test","emailAddress":"unit-test@github.com","id":55,"displayName":"Unit
+        Test","active":true,"slug":"unit-test","type":"NORMAL","directoryName":"Bitbucket
+        Internal Directory","deletable":true,"lastAuthenticationTimestamp":1599839773324,"mutableDetails":true,"mutableGroups":true,"links":{"self":[{"href":"https://example.com/users/unit-test"}]}}],"start":0}'
+    http_version: null
+    adapter_metadata:
+      vcr_decompressed: gzip
+  recorded_at: Fri, 11 Sep 2020 15:56:29 GMT
+recorded_with: VCR 5.1.0

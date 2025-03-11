@@ -1,0 +1,190 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://example.com/rest/api/1.0/projects/PRS-FROM-FORKS/repos/prs-from-forks
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.8.0
+      Authorization:
+      - "<API_BASIC_AUTH>"
+      Accept-Encoding:
+      - gzip,deflate
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      X-Arequestid:
+      - "@SLB6CDx178x684x0"
+      X-Auserid:
+      - '2'
+      X-Ausername:
+      - max
+      Cache-Control:
+      - no-cache, no-transform
+      Vary:
+      - x-ausername,x-auserid,cookie,accept-encoding
+      X-Content-Type-Options:
+      - nosniff
+      Content-Type:
+      - application/json;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Wed, 17 Apr 2024 02:58:59 GMT
+    body:
+      encoding: ASCII-8BIT
+      string: '{"slug":"prs-from-forks","id":2,"name":"prs-from-forks","hierarchyId":"89fd23d2c8e4bbe897a9","scmId":"git","state":"AVAILABLE","statusMessage":"Available","forkable":true,"project":{"key":"PRS-FROM-FORKS","id":2,"name":"PRs
+        from forks","public":false,"type":"NORMAL","links":{"self":[{"href":"https://example.com/projects/PRS-FROM-FORKS"}]}},"public":false,"archived":false,"links":{"clone":[{"href":"ssh://git@example.com:7999/prs-from-forks/prs-from-forks.git","name":"ssh"},{"href":"https://example.com/scm/prs-from-forks/prs-from-forks.git","name":"http"}],"self":[{"href":"https://example.com/projects/PRS-FROM-FORKS/repos/prs-from-forks/browse"}]}}'
+    http_version:
+    adapter_metadata:
+      vcr_decompressed: gzip
+  recorded_at: Wed, 17 Apr 2024 02:58:59 GMT
+- request:
+    method: get
+    uri: https://example.com/rest/api/1.0/projects/PRS-FROM-FORKS/repos/prs-from-forks/pull-requests/1
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.8.0
+      Authorization:
+      - "<API_BASIC_AUTH>"
+      Accept-Encoding:
+      - gzip,deflate
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      X-Arequestid:
+      - "@SLB6CDx178x685x0"
+      X-Auserid:
+      - '2'
+      X-Ausername:
+      - max
+      Cache-Control:
+      - no-cache, no-transform
+      Vary:
+      - x-ausername,x-auserid,cookie,accept-encoding
+      X-Content-Type-Options:
+      - nosniff
+      Content-Type:
+      - application/json;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Wed, 17 Apr 2024 02:58:59 GMT
+    body:
+      encoding: ASCII-8BIT
+      string: '{"id":1,"version":2,"title":"Open PR from a fork","state":"OPEN","open":true,"closed":false,"createdDate":1711753377425,"updatedDate":1713321874453,"fromRef":{"id":"refs/heads/test-pr","displayId":"test-pr","latestCommit":"e1c890811d5f87d5e1477b5df1c8bcd25dcfb240","type":"BRANCH","repository":{"slug":"open-pr-from-fork","id":3,"name":"open-pr-from-fork","hierarchyId":"89fd23d2c8e4bbe897a9","scmId":"git","state":"AVAILABLE","statusMessage":"Available","forkable":true,"origin":{"slug":"prs-from-forks","id":2,"name":"prs-from-forks","hierarchyId":"89fd23d2c8e4bbe897a9","scmId":"git","state":"AVAILABLE","statusMessage":"Available","forkable":true,"project":{"key":"PRS-FROM-FORKS","id":2,"name":"PRs
+        from forks","public":false,"type":"NORMAL","links":{"self":[{"href":"https://example.com/projects/PRS-FROM-FORKS"}]}},"public":false,"archived":false,"links":{"clone":[{"href":"ssh://git@example.com:7999/prs-from-forks/prs-from-forks.git","name":"ssh"},{"href":"https://example.com/scm/prs-from-forks/prs-from-forks.git","name":"http"}],"self":[{"href":"https://example.com/projects/PRS-FROM-FORKS/repos/prs-from-forks/browse"}]}},"project":{"key":"PRS-FROM-FORKS","id":2,"name":"PRs
+        from forks","public":false,"type":"NORMAL","links":{"self":[{"href":"https://example.com/projects/PRS-FROM-FORKS"}]}},"public":false,"archived":false,"links":{"clone":[{"href":"https://example.com/scm/prs-from-forks/open-pr-from-fork.git","name":"http"},{"href":"ssh://git@example.com:7999/prs-from-forks/open-pr-from-fork.git","name":"ssh"}],"self":[{"href":"https://example.com/projects/PRS-FROM-FORKS/repos/open-pr-from-fork/browse"}]}}},"toRef":{"id":"refs/heads/master","displayId":"master","latestCommit":"8115ffda8e6b1871f75d814975c45001ccc7cf99","type":"BRANCH","repository":{"slug":"prs-from-forks","id":2,"name":"prs-from-forks","hierarchyId":"89fd23d2c8e4bbe897a9","scmId":"git","state":"AVAILABLE","statusMessage":"Available","forkable":true,"project":{"key":"PRS-FROM-FORKS","id":2,"name":"PRs
+        from forks","public":false,"type":"NORMAL","links":{"self":[{"href":"https://example.com/projects/PRS-FROM-FORKS"}]}},"public":false,"archived":false,"links":{"clone":[{"href":"ssh://git@example.com:7999/prs-from-forks/prs-from-forks.git","name":"ssh"},{"href":"https://example.com/scm/prs-from-forks/prs-from-forks.git","name":"http"}],"self":[{"href":"https://example.com/projects/PRS-FROM-FORKS/repos/prs-from-forks/browse"}]}}},"locked":false,"author":{"user":{"name":"max","emailAddress":"noreply@example.com","active":true,"displayName":"max","id":2,"slug":"max","type":"NORMAL","links":{"self":[{"href":"https://example.com/users/max"}]}},"role":"AUTHOR","approved":false,"status":"UNAPPROVED"},"reviewers":[],"participants":[],"links":{"self":[{"href":"https://example.com/projects/PRS-FROM-FORKS/repos/prs-from-forks/pull-requests/1"}]}}'
+    http_version:
+    adapter_metadata:
+      vcr_decompressed: gzip
+  recorded_at: Wed, 17 Apr 2024 02:58:59 GMT
+- request:
+    method: get
+    uri: https://example.com/rest/api/1.0/projects/PRS-FROM-FORKS/repos/prs-from-forks/pull-requests/1/commits?limit=5000
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.8.0
+      Authorization:
+      - "<API_BASIC_AUTH>"
+      Accept-Encoding:
+      - gzip,deflate
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      X-Arequestid:
+      - "@SLB6CDx178x686x0"
+      X-Auserid:
+      - '2'
+      X-Ausername:
+      - max
+      Cache-Control:
+      - no-cache, no-transform
+      Vary:
+      - x-ausername,x-auserid,cookie,accept-encoding
+      X-Content-Type-Options:
+      - nosniff
+      Content-Type:
+      - application/json;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Wed, 17 Apr 2024 02:58:59 GMT
+    body:
+      encoding: ASCII-8BIT
+      string: '{"values":[{"id":"e1c890811d5f87d5e1477b5df1c8bcd25dcfb240","displayId":"e1c890811d5","author":{"name":"Maxwell
+        Pray","emailAddress":"synthead@github.com"},"authorTimestamp":1711753204000,"committer":{"name":"Maxwell
+        Pray","emailAddress":"synthead@github.com"},"committerTimestamp":1711753204000,"message":"Add
+        commit in a fork.","parents":[{"id":"53e6ec586ffa1ccdfa2a1acdb55b9e8b066e4e16","displayId":"53e6ec586ff"}]}],"size":1,"isLastPage":true,"start":0,"limit":5000,"nextPageStart":null}'
+    http_version:
+    adapter_metadata:
+      vcr_decompressed: gzip
+  recorded_at: Wed, 17 Apr 2024 02:58:59 GMT
+- request:
+    method: get
+    uri: https://example.com/rest/api/1.0/projects/PRS-FROM-FORKS/repos/prs-from-forks/pull-requests/1/activities?limit=250
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.8.0
+      Authorization:
+      - "<API_BASIC_AUTH>"
+      Accept-Encoding:
+      - gzip,deflate
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      X-Arequestid:
+      - "@SLB6CDx178x687x0"
+      X-Auserid:
+      - '2'
+      X-Ausername:
+      - max
+      Cache-Control:
+      - no-cache, no-transform
+      Vary:
+      - x-ausername,x-auserid,cookie,accept-encoding
+      X-Content-Type-Options:
+      - nosniff
+      Content-Type:
+      - application/json;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Wed, 17 Apr 2024 02:58:59 GMT
+    body:
+      encoding: ASCII-8BIT
+      string: '{"size":1,"limit":250,"isLastPage":true,"values":[{"id":43,"createdDate":1711753377522,"user":{"name":"max","emailAddress":"noreply@example.com","active":true,"displayName":"max","id":2,"slug":"max","type":"NORMAL","links":{"self":[{"href":"https://example.com/users/max"}]}},"action":"OPENED"}],"start":0}'
+    http_version:
+    adapter_metadata:
+      vcr_decompressed: gzip
+  recorded_at: Wed, 17 Apr 2024 02:58:59 GMT
+recorded_with: VCR 5.1.0

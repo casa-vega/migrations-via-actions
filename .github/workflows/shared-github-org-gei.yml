@@ -1,0 +1,134 @@
+name: Shared GitHub Enterprise Cloud GEI Org Migration
+
+on:
+  workflow_call:
+    inputs:
+      RUNNER:
+        description: 'The runner to use for all of the jobs in the workflow'
+        type: string
+        default: 'ubuntu-latest'
+      INSTALL_PREREQS:
+        description: 'If set to true, installs pre-requisites from apt, pwsh, and ado2gh'
+        type: string
+        default: 'true'
+    secrets:
+      TARGET_ADMIN_TOKEN:
+        required: true
+      SOURCE_ADMIN_TOKEN:
+        required: true
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  migrate:
+    name: GEI Migrate Org
+    runs-on: ${{ inputs.RUNNER }}
+
+    # Maximize the timeout to 50,400 minutes (35 days) from the default
+    # limit of 360 minutes (6 hours), as migrations can take some tme.
+    timeout-minutes: 50400
+  
+    if: github.event_name == 'issue_comment' &&
+      (startsWith(github.event.comment.body, '/run-dry-run-migration') ||
+      startsWith(github.event.comment.body, '/run-production-migration'))
+
+    steps:
+      - name: Check out scripts
+        uses: actions/checkout@v4
+
+      - name: Install GitHub Enterprise Importer (GEI)
+        if: ${{ inputs.INSTALL_PREREQS == 'true' || inputs.INSTALL_PREREQS == '' }}
+        run: |
+          if [ -z "$(command -v gei)" ]
+          then
+            wget https://github.com/github/gh-gei/releases/latest/download/gei-linux-amd64
+            sudo install --owner root --group root --mode 755 gei-linux-amd64 /usr/local/bin/gei
+          fi
+
+      - if: runner.debug
+        name: GEI version number
+        run: gei --version
+
+      - name: Set migration type
+        uses: actions/github-script@v7
+        id: migration-type
+        with:
+          result-encoding: string
+          script: |
+            return context.payload.comment.body.match('dry-run') ? 'Dry-run' : 'Production'
+
+      - name: Parse issue body
+        id: parse-issue-body
+        uses: stefanbuck/github-issue-parser@v3
+        with:
+            template-path: .github/ISSUE_TEMPLATE/github-org-migration-gei.yml
+
+      - name: Migrate organization
+        run: |
+            gei migrate-org --github-source-org "$SOURCE_ORG" --github-target-org "$TARGET_ORG" --github-target-enterprise $ENTERPRISE
+        env:
+          GH_PAT: ${{ secrets.TARGET_ADMIN_TOKEN }}
+          GH_SOURCE_PAT: ${{ secrets.SOURCE_ADMIN_TOKEN }}
+          ENTERPRISE: ${{ vars.ENTERPRISE }}
+          TARGET_ORG: ${{ steps.parse-issue-body.outputs.issueparser_target_organization }}
+          SOURCE_ORG: ${{ steps.parse-issue-body.outputs.issueparser_source_organization }}
+
+      - name: Generate user mapping file
+        if: ${{ contains(github.event.comment.body, 'dry-run') }}
+        run: |
+          gei generate-mannequin-csv \
+          --output user-mappings-template.csv \
+          --github-target-org $TARGET_ORG \
+          --github-target-pat $GH_PAT
+        env:
+          GH_PAT: ${{ secrets.TARGET_ADMIN_TOKEN }}
+          TARGET_ORG: ${{ steps.parse-issue-body.outputs.issueparser_target_organization }}
+  
+      - name: Upload user mapping file to artifacts
+        if: ${{ contains(github.event.comment.body, 'dry-run') }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: user-mappings-template.csv
+          path: ./user-mappings-template.csv
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Reclaim mannequins
+        run: |
+          gei reclaim-mannequin \
+            --csv user-mappings-gei.csv \
+            --github-target-org $TARGET_ORG \
+            --github-target-pat $GH_PAT
+        env:
+            GH_PAT: ${{ secrets.TARGET_ADMIN_TOKEN }}
+            GH_SOURCE_PAT: ${{ secrets.SOURCE_ADMIN_TOKEN }}
+            TARGET_ORG: ${{ steps.parse-issue-body.outputs.issueparser_target_organization }}
+
+      - if: failure()
+        name: Report failed migration
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const body = `:no_entry: **${{ steps.migration-type.outputs.result }} migration failed.** [View workflow run for details](${context.payload.repository.html_url}/actions/runs/${context.runId})`
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body
+            })
+
+      - if: ${{ success() }}
+        name: Report successful migration
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const body = `:tada: **${{ steps.migration-type.outputs.result }} migration succeeded.** [View workflow run for details](${context.payload.repository.html_url}/actions/runs/${context.runId})`
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body
+            })
+

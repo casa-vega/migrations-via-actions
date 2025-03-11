@@ -1,0 +1,26 @@
+name: GHES/GHEC repos to GitHub migration [GEI]
+description: Perform a migration of repos from GHES or GHEC to GitHub using GEI
+title: "GHES/GHEC repos to GitHub migration [GEI]"
+labels: ["migration", "gei"]
+body:
+  - type: textarea
+    id: repositories
+    attributes:
+      label: Repositories
+      description: Please enter the repositories that you would like to migrate from GitHub Enterprise Server to GitHub Enterprise Cloud
+      placeholder: |
+        https://github.example.com/your-org/your-repository-1
+        https://github.example.com/your-org/your-repository-2
+    validations:
+      required: true
+  - type: dropdown
+    id: visibility
+    attributes:
+      label: Target repository visibility
+      description: Please select the visibility for the repositories on GitHub Enterprise Cloud after they have been migrated
+      options:
+        - Private
+        - Internal
+        - Mirror
+    validations:
+      required: true

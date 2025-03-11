@@ -1,0 +1,78 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://example.com/rest/api/1.0/repos?limit=250
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.17.3
+      Accept:
+      - "*/*"
+      Authorization:
+      - "<API_BASIC_AUTH>"
+      Accept-Encoding:
+      - gzip,deflate
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.12.1
+      Date:
+      - Tue, 21 Jul 2020 19:18:12 GMT
+      Content-Type:
+      - application/json;charset=UTF-8
+      Connection:
+      - keep-alive
+      Cache-Control:
+      - private, no-cache, no-transform
+      Expires:
+      - Thu, 01 Jan 1970 00:00:00 UTC
+      X-Arequestid:
+      - "@DA6EJ6x1158x604x0"
+      X-Asen:
+      - SEN-10038470
+      Set-Cookie:
+      - BITBUCKETSESSIONID=CE604A1EEA0A6EBB99E92B8ED4007B23; Path=/; Secure; HttpOnly
+      X-Auserid:
+      - '55'
+      X-Ausername:
+      - unit-test
+      X-Asessionid:
+      - 12jaer
+      Vary:
+      - X-AUSERNAME,Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    body:
+      encoding: ASCII-8BIT
+      string: '{"size":18,"limit":250,"isLastPage":true,"values":[{"slug":"barfoo","id":7,"name":"barfoo","scmId":"git","state":"AVAILABLE","statusMessage":"Available","forkable":true,"project":{"key":"MIGR8","id":2,"name":"Migrate
+        Me","description":"Test project description","public":false,"type":"NORMAL","links":{"self":[{"href":"https://example.com/projects/MIGR8"}]}},"public":false,"links":{"clone":[{"href":"ssh://git@example.com:7999/migr8/barfoo.git","name":"ssh"},{"href":"https://unit-test@example.com/scm/migr8/barfoo.git","name":"http"}],"self":[{"href":"https://example.com/projects/MIGR8/repos/barfoo/browse"}]}},{"slug":"demo","id":54,"name":"demo","scmId":"git","state":"AVAILABLE","statusMessage":"Available","forkable":true,"project":{"key":"MIGR8","id":2,"name":"Migrate
+        Me","description":"Test project description","public":false,"type":"NORMAL","links":{"self":[{"href":"https://example.com/projects/MIGR8"}]}},"public":false,"links":{"clone":[{"href":"ssh://git@example.com:7999/migr8/demo.git","name":"ssh"},{"href":"https://unit-test@example.com/scm/migr8/demo.git","name":"http"}],"self":[{"href":"https://example.com/projects/MIGR8/repos/demo/browse"}]}},{"slug":"empty-repo","id":9,"name":"empty-repo","scmId":"git","state":"AVAILABLE","statusMessage":"Available","forkable":true,"project":{"key":"MIGR8","id":2,"name":"Migrate
+        Me","description":"Test project description","public":false,"type":"NORMAL","links":{"self":[{"href":"https://example.com/projects/MIGR8"}]}},"public":false,"links":{"clone":[{"href":"ssh://git@example.com:7999/migr8/empty-repo.git","name":"ssh"},{"href":"https://unit-test@example.com/scm/migr8/empty-repo.git","name":"http"}],"self":[{"href":"https://example.com/projects/MIGR8/repos/empty-repo/browse"}]}},{"slug":"export-me","id":23,"name":"export-me","scmId":"git","state":"AVAILABLE","statusMessage":"Available","forkable":true,"project":{"key":"~UNIT-TEST","id":22,"name":"Unit
+        Test","type":"PERSONAL","owner":{"name":"unit-test","emailAddress":"unit-test@github.com","id":55,"displayName":"Unit
+        Test","active":true,"slug":"unit-test","type":"NORMAL","links":{"self":[{"href":"https://example.com/users/unit-test"}]}},"links":{"self":[{"href":"https://example.com/users/unit-test"}]}},"public":false,"links":{"clone":[{"href":"ssh://git@example.com:7999/~unit-test/export-me.git","name":"ssh"},{"href":"https://unit-test@example.com/scm/~unit-test/export-me.git","name":"http"}],"self":[{"href":"https://example.com/users/unit-test/repos/export-me/browse"}]}},{"slug":"hugo-pages","id":6,"name":"hugo-pages","scmId":"git","state":"AVAILABLE","statusMessage":"Available","forkable":true,"project":{"key":"MIGR8","id":2,"name":"Migrate
+        Me","description":"Test project description","public":false,"type":"NORMAL","links":{"self":[{"href":"https://example.com/projects/MIGR8"}]}},"public":false,"links":{"clone":[{"href":"ssh://git@example.com:7999/migr8/hugo-pages.git","name":"ssh"},{"href":"https://unit-test@example.com/scm/migr8/hugo-pages.git","name":"http"}],"self":[{"href":"https://example.com/projects/MIGR8/repos/hugo-pages/browse"}]}},{"slug":"kyle","id":48,"name":"kyle","scmId":"git","state":"AVAILABLE","statusMessage":"Available","forkable":true,"project":{"key":"MIGR8","id":2,"name":"Migrate
+        Me","description":"Test project description","public":false,"type":"NORMAL","links":{"self":[{"href":"https://example.com/projects/MIGR8"}]}},"public":false,"links":{"clone":[{"href":"https://unit-test@example.com/scm/migr8/kyle.git","name":"http"},{"href":"ssh://git@example.com:7999/migr8/kyle.git","name":"ssh"}],"self":[{"href":"https://example.com/projects/MIGR8/repos/kyle/browse"}]}},{"slug":"many-commits","id":8,"name":"many-commits","scmId":"git","state":"AVAILABLE","statusMessage":"Available","forkable":true,"project":{"key":"MIGR8","id":2,"name":"Migrate
+        Me","description":"Test project description","public":false,"type":"NORMAL","links":{"self":[{"href":"https://example.com/projects/MIGR8"}]}},"public":false,"links":{"clone":[{"href":"https://unit-test@example.com/scm/migr8/many-commits.git","name":"http"},{"href":"ssh://git@example.com:7999/migr8/many-commits.git","name":"ssh"}],"self":[{"href":"https://example.com/projects/MIGR8/repos/many-commits/browse"}]}},{"slug":"migrationdemo","id":58,"name":"MigrationDemo","scmId":"git","state":"AVAILABLE","statusMessage":"Available","forkable":true,"project":{"key":"MIGR8","id":2,"name":"Migrate
+        Me","description":"Test project description","public":false,"type":"NORMAL","links":{"self":[{"href":"https://example.com/projects/MIGR8"}]}},"public":false,"links":{"clone":[{"href":"ssh://git@example.com:7999/migr8/migrationdemo.git","name":"ssh"},{"href":"https://unit-test@example.com/scm/migr8/migrationdemo.git","name":"http"}],"self":[{"href":"https://example.com/projects/MIGR8/repos/migrationdemo/browse"}]}},{"slug":"missing-commits-reviews","id":40,"name":"missing-commits-reviews","scmId":"git","state":"AVAILABLE","statusMessage":"Available","forkable":true,"project":{"key":"MIGR8","id":2,"name":"Migrate
+        Me","description":"Test project description","public":false,"type":"NORMAL","links":{"self":[{"href":"https://example.com/projects/MIGR8"}]}},"public":false,"links":{"clone":[{"href":"https://unit-test@example.com/scm/migr8/missing-commits-reviews.git","name":"http"},{"href":"ssh://git@example.com:7999/migr8/missing-commits-reviews.git","name":"ssh"}],"self":[{"href":"https://example.com/projects/MIGR8/repos/missing-commits-reviews/browse"}]}},{"slug":"no-commits-test","id":12,"name":"no-commits-test","scmId":"git","state":"AVAILABLE","statusMessage":"Available","forkable":true,"project":{"key":"MIGR8","id":2,"name":"Migrate
+        Me","description":"Test project description","public":false,"type":"NORMAL","links":{"self":[{"href":"https://example.com/projects/MIGR8"}]}},"public":false,"links":{"clone":[{"href":"https://unit-test@example.com/scm/migr8/no-commits-test.git","name":"http"},{"href":"ssh://git@example.com:7999/migr8/no-commits-test.git","name":"ssh"}],"self":[{"href":"https://example.com/projects/MIGR8/repos/no-commits-test/browse"}]}},{"slug":"personal-repo","id":14,"name":"personal-repo","scmId":"git","state":"AVAILABLE","statusMessage":"Available","forkable":true,"project":{"key":"~UNIT-TEST","id":22,"name":"Unit
+        Test","type":"PERSONAL","owner":{"name":"unit-test","emailAddress":"unit-test@github.com","id":55,"displayName":"Unit
+        Test","active":true,"slug":"unit-test","type":"NORMAL","links":{"self":[{"href":"https://example.com/users/unit-test"}]}},"links":{"self":[{"href":"https://example.com/users/unit-test"}]}},"public":false,"links":{"clone":[{"href":"https://unit-test@example.com/scm/~unit-test/personal-repo.git","name":"http"},{"href":"ssh://git@example.com:7999/~unit-test/personal-repo.git","name":"ssh"}],"self":[{"href":"https://example.com/users/unit-test/repos/personal-repo/browse"}]}},{"slug":"private-repo","id":35,"name":"private-repo","scmId":"git","state":"AVAILABLE","statusMessage":"Available","forkable":true,"project":{"key":"PUB","id":43,"name":"public-project","public":true,"type":"NORMAL","links":{"self":[{"href":"https://example.com/projects/PUB"}]}},"public":true,"links":{"clone":[{"href":"https://unit-test@example.com/scm/pub/private-repo.git","name":"http"},{"href":"ssh://git@example.com:7999/pub/private-repo.git","name":"ssh"}],"self":[{"href":"https://example.com/projects/PUB/repos/private-repo/browse"}]}},{"slug":"public-repo","id":34,"name":"public-repo","scmId":"git","state":"AVAILABLE","statusMessage":"Available","forkable":true,"project":{"key":"PUB","id":43,"name":"public-project","public":true,"type":"NORMAL","links":{"self":[{"href":"https://example.com/projects/PUB"}]}},"public":false,"links":{"clone":[{"href":"ssh://git@example.com:7999/pub/public-repo.git","name":"ssh"},{"href":"https://unit-test@example.com/scm/pub/public-repo.git","name":"http"}],"self":[{"href":"https://example.com/projects/PUB/repos/public-repo/browse"}]}},{"slug":"repo-with-spaces-in-it","id":30,"name":"Repo
+        with spaces in it","scmId":"git","state":"AVAILABLE","statusMessage":"Available","forkable":true,"project":{"key":"MIGR8","id":2,"name":"Migrate
+        Me","description":"Test project description","public":false,"type":"NORMAL","links":{"self":[{"href":"https://example.com/projects/MIGR8"}]}},"public":false,"links":{"clone":[{"href":"ssh://git@example.com:7999/migr8/repo-with-spaces-in-it.git","name":"ssh"},{"href":"https://unit-test@example.com/scm/migr8/repo-with-spaces-in-it.git","name":"http"}],"self":[{"href":"https://example.com/projects/MIGR8/repos/repo-with-spaces-in-it/browse"}]}},{"slug":"test-bbs-mannequins","id":56,"name":"test-bbs-mannequins","scmId":"git","state":"AVAILABLE","statusMessage":"Available","forkable":true,"project":{"key":"MECH","id":23,"name":"Mechashark","description":"Test
+        project used for testing https://github.com/github/bitbucket-server-exporter/issues/101","public":false,"type":"NORMAL","links":{"self":[{"href":"https://example.com/projects/MECH"}]}},"public":false,"links":{"clone":[{"href":"ssh://git@example.com:7999/mech/test-bbs-mannequins.git","name":"ssh"},{"href":"https://unit-test@example.com/scm/mech/test-bbs-mannequins.git","name":"http"}],"self":[{"href":"https://example.com/projects/MECH/repos/test-bbs-mannequins/browse"}]}},{"slug":"test-personal-repo","id":61,"name":"test-personal-repo","scmId":"git","state":"AVAILABLE","statusMessage":"Available","forkable":true,"project":{"key":"~UNIT-TEST","id":22,"name":"Unit
+        Test","type":"PERSONAL","owner":{"name":"unit-test","emailAddress":"unit-test@github.com","id":55,"displayName":"Unit
+        Test","active":true,"slug":"unit-test","type":"NORMAL","links":{"self":[{"href":"https://example.com/users/unit-test"}]}},"links":{"self":[{"href":"https://example.com/users/unit-test"}]}},"public":false,"links":{"clone":[{"href":"https://unit-test@example.com/scm/~unit-test/test-personal-repo.git","name":"http"},{"href":"ssh://git@example.com:7999/~unit-test/test-personal-repo.git","name":"ssh"}],"self":[{"href":"https://example.com/users/unit-test/repos/test-personal-repo/browse"}]}},{"slug":"test-team-with-spaces","id":63,"name":"test-team-with-spaces","scmId":"git","state":"AVAILABLE","statusMessage":"Available","forkable":true,"project":{"key":"MECH","id":23,"name":"Mechashark","description":"Test
+        project used for testing https://github.com/github/bitbucket-server-exporter/issues/101","public":false,"type":"NORMAL","links":{"self":[{"href":"https://example.com/projects/MECH"}]}},"public":false,"links":{"clone":[{"href":"ssh://git@example.com:7999/mech/test-team-with-spaces.git","name":"ssh"},{"href":"https://unit-test@example.com/scm/mech/test-team-with-spaces.git","name":"http"}],"self":[{"href":"https://example.com/projects/MECH/repos/test-team-with-spaces/browse"}]}},{"slug":"twitter-bootstrap","id":3,"name":"twitter-bootstrap","scmId":"git","state":"AVAILABLE","statusMessage":"Available","forkable":true,"project":{"key":"MIGR8","id":2,"name":"Migrate
+        Me","description":"Test project description","public":false,"type":"NORMAL","links":{"self":[{"href":"https://example.com/projects/MIGR8"}]}},"public":false,"links":{"clone":[{"href":"https://unit-test@example.com/scm/migr8/twitter-bootstrap.git","name":"http"},{"href":"ssh://git@example.com:7999/migr8/twitter-bootstrap.git","name":"ssh"}],"self":[{"href":"https://example.com/projects/MIGR8/repos/twitter-bootstrap/browse"}]}}],"start":0}'
+    http_version: null
+    adapter_metadata:
+      vcr_decompressed: gzip
+  recorded_at: Tue, 21 Jul 2020 19:18:12 GMT
+recorded_with: VCR 5.1.0

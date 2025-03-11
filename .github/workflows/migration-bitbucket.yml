@@ -1,0 +1,30 @@
+name: Migration from Bitbucket
+
+on:
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  export:
+    if: contains(github.event.issue.labels.*.name, 'bitbucket')
+    uses: ./.github/workflows/shared-bitbucket-export.yml
+    with:
+      runner: self-hosted
+      setup-ruby: true
+      BITBUCKET_SERVER_URL: ${{ vars.SOURCE_HOST }}
+    secrets:
+      BITBUCKET_SERVER_API_TOKEN: ${{ secrets.SOURCE_ADMIN_TOKEN }}
+
+  import:
+    needs: export
+    uses: ./.github/workflows/shared-github-enterprise-cloud-import.yml
+    with:
+      user-mappings-path: ../../user-mappings.csv
+      user-mappings-source-url: https://${{ vars.SOURCE_HOST }}/users # `/users` is needed to map users
+      TARGET_ORGANIZATION: ${{ vars.TARGET_ORGANIZATION }}
+    secrets:
+      TARGET_ADMIN_TOKEN: ${{ secrets.TARGET_ADMIN_TOKEN }}

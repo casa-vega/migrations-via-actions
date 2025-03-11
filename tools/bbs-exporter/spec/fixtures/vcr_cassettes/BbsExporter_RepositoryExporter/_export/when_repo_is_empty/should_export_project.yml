@@ -1,0 +1,411 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://example.com/rest/api/1.0/application-properties
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.8.0
+      Authorization:
+      - "<API_BASIC_AUTH>"
+      Accept-Encoding:
+      - gzip,deflate
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.18.0
+      Date:
+      - Fri, 19 Jan 2024 19:15:00 GMT
+      Content-Type:
+      - application/json;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      X-Arequestid:
+      - "@AKD3D0x1155x4771190x0"
+      X-Asen:
+      - SEN-20213931
+      Set-Cookie:
+      - BITBUCKETSESSIONID=9561BA6C0C0EAF09DCC632929FFDF179; Path=/; Secure; HttpOnly
+      X-Auserid:
+      - '52'
+      X-Ausername:
+      - unit-test
+      X-Asessionid:
+      - 35mrmh
+      Cache-Control:
+      - no-cache, no-transform
+      - private, no-cache
+      Pragma:
+      - no-cache
+      Vary:
+      - X-AUSERNAME,Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    body:
+      encoding: ASCII-8BIT
+      string: '{"version":"5.14.4","buildNumber":"5014004","buildDate":"1552860223288","displayName":"Bitbucket"}'
+    http_version: null
+    adapter_metadata:
+      vcr_decompressed: gzip
+  recorded_at: Fri, 19 Jan 2024 19:15:00 GMT
+- request:
+    method: get
+    uri: https://example.com/rest/api/1.0/admin/users?filter=unit-test&limit=250
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.8.0
+      Authorization:
+      - "<API_BASIC_AUTH>"
+      Accept-Encoding:
+      - gzip,deflate
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.18.0
+      Date:
+      - Fri, 19 Jan 2024 19:15:00 GMT
+      Content-Type:
+      - application/json;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      X-Arequestid:
+      - "@AKD3D0x1155x4771191x0"
+      X-Asen:
+      - SEN-20213931
+      Set-Cookie:
+      - BITBUCKETSESSIONID=AB4838231C008109280166DDFA9CB9A5; Path=/; Secure; HttpOnly
+      X-Auserid:
+      - '52'
+      X-Ausername:
+      - unit-test
+      X-Asessionid:
+      - 1vggvgb
+      Cache-Control:
+      - no-cache, no-transform
+      - private, no-cache
+      Pragma:
+      - no-cache
+      Vary:
+      - X-AUSERNAME,Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    body:
+      encoding: ASCII-8BIT
+      string: '{"size":1,"limit":250,"isLastPage":true,"values":[{"name":"unit-test","emailAddress":"noreply@github.com","id":52,"displayName":"unit-test","active":true,"slug":"unit-test","type":"NORMAL","directoryName":"Bitbucket
+        Internal Directory","deletable":true,"lastAuthenticationTimestamp":1705691668520,"mutableDetails":true,"mutableGroups":true,"links":{"self":[{"href":"https://example.com/users/unit-test"}]}}],"start":0}'
+    http_version: null
+    adapter_metadata:
+      vcr_decompressed: gzip
+  recorded_at: Fri, 19 Jan 2024 19:15:00 GMT
+- request:
+    method: get
+    uri: https://example.com/rest/api/1.0/projects/MEC/repos/test-empty-repo
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.8.0
+      Authorization:
+      - "<API_BASIC_AUTH>"
+      Accept-Encoding:
+      - gzip,deflate
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.18.0
+      Date:
+      - Fri, 19 Jan 2024 19:15:00 GMT
+      Content-Type:
+      - application/json;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      X-Arequestid:
+      - "@AKD3D0x1155x4771192x0"
+      X-Asen:
+      - SEN-20213931
+      Set-Cookie:
+      - BITBUCKETSESSIONID=AF04C4667B437E291F912E7211D1A82B; Path=/; Secure; HttpOnly
+      X-Auserid:
+      - '52'
+      X-Ausername:
+      - unit-test
+      X-Asessionid:
+      - vtrkpl
+      Cache-Control:
+      - no-cache, no-transform
+      - private, no-cache
+      Pragma:
+      - no-cache
+      Vary:
+      - X-AUSERNAME,Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    body:
+      encoding: ASCII-8BIT
+      string: '{"slug":"test-empty-repo","id":153,"name":"test-empty-repo","scmId":"git","state":"AVAILABLE","statusMessage":"Available","forkable":true,"project":{"key":"MEC","id":142,"name":"mechashark","public":false,"type":"NORMAL","links":{"self":[{"href":"https://example.com/projects/MEC"}]}},"public":false,"links":{"clone":[{"href":"ssh://git@example.com:7999/mec/test-empty-repo.git","name":"ssh"},{"href":"https://example.com/scm/mec/test-empty-repo.git","name":"http"}],"self":[{"href":"https://example.com/projects/MEC/repos/test-empty-repo/browse"}]}}'
+    http_version: null
+    adapter_metadata:
+      vcr_decompressed: gzip
+  recorded_at: Fri, 19 Jan 2024 19:15:00 GMT
+- request:
+    method: get
+    uri: https://example.com/rest/api/1.0/projects/MEC/repos/test-empty-repo/tags?limit=250
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.8.0
+      Authorization:
+      - "<API_BASIC_AUTH>"
+      Accept-Encoding:
+      - gzip,deflate
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.18.0
+      Date:
+      - Fri, 19 Jan 2024 19:15:01 GMT
+      Content-Type:
+      - application/json;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      X-Arequestid:
+      - "@AKD3D0x1155x4771193x0"
+      X-Asen:
+      - SEN-20213931
+      Set-Cookie:
+      - BITBUCKETSESSIONID=A5F9BD928E49D2E548953376A6A32FF7; Path=/; Secure; HttpOnly
+      X-Auserid:
+      - '52'
+      X-Ausername:
+      - unit-test
+      X-Asessionid:
+      - v900t6
+      Cache-Control:
+      - no-cache, no-transform
+      - private, no-cache
+      Pragma:
+      - no-cache
+      Vary:
+      - X-AUSERNAME,Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    body:
+      encoding: ASCII-8BIT
+      string: '{"size":0,"limit":250,"isLastPage":true,"values":[],"start":0}'
+    http_version: null
+    adapter_metadata:
+      vcr_decompressed: gzip
+  recorded_at: Fri, 19 Jan 2024 19:15:01 GMT
+- request:
+    method: get
+    uri: https://example.com/rest/branch-utils/1.0/projects/MEC/repos/test-empty-repo/branchmodel
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.8.0
+      Authorization:
+      - "<API_BASIC_AUTH>"
+      Accept-Encoding:
+      - gzip,deflate
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 409
+      message: ''
+    headers:
+      Server:
+      - nginx/1.18.0
+      Date:
+      - Fri, 19 Jan 2024 19:15:01 GMT
+      Content-Type:
+      - application/json;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      X-Arequestid:
+      - "@AKD3D0x1155x4771194x0"
+      X-Asen:
+      - SEN-20213931
+      Set-Cookie:
+      - BITBUCKETSESSIONID=F0E3026242DBC5A6AD63465AB2EFA0BE; Path=/; Secure; HttpOnly
+      X-Auserid:
+      - '52'
+      X-Ausername:
+      - unit-test
+      X-Asessionid:
+      - 14uc6dq
+      Cache-Control:
+      - no-cache, no-transform
+      - private, no-cache
+      Pragma:
+      - no-cache
+      Vary:
+      - X-AUSERNAME,Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    body:
+      encoding: ASCII-8BIT
+      string: '{"errors":[{"context":null,"message":"Cannot construct branch model
+        for empty repository MEC/test-empty-repo[153]","exceptionName":"com.atlassian.bitbucket.repository.EmptyRepositoryException"}]}'
+    http_version: null
+    adapter_metadata:
+      vcr_decompressed: gzip
+  recorded_at: Fri, 19 Jan 2024 19:15:01 GMT
+- request:
+    method: get
+    uri: https://example.com/rest/api/1.0/projects/MEC/repos/test-empty-repo/permissions/users?limit=250
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.8.0
+      Authorization:
+      - "<API_BASIC_AUTH>"
+      Accept-Encoding:
+      - gzip,deflate
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.18.0
+      Date:
+      - Fri, 19 Jan 2024 19:15:01 GMT
+      Content-Type:
+      - application/json;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      X-Arequestid:
+      - "@AKD3D0x1155x4771195x0"
+      X-Asen:
+      - SEN-20213931
+      Set-Cookie:
+      - BITBUCKETSESSIONID=E70FEC5D15A80D63E82BF2E4D6457551; Path=/; Secure; HttpOnly
+      X-Auserid:
+      - '52'
+      X-Ausername:
+      - unit-test
+      X-Asessionid:
+      - 5sqy30
+      Cache-Control:
+      - no-cache, no-transform
+      - private, no-cache
+      Pragma:
+      - no-cache
+      Vary:
+      - X-AUSERNAME,Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    body:
+      encoding: ASCII-8BIT
+      string: '{"size":0,"limit":250,"isLastPage":true,"values":[],"start":0}'
+    http_version: null
+    adapter_metadata:
+      vcr_decompressed: gzip
+  recorded_at: Fri, 19 Jan 2024 19:15:01 GMT
+- request:
+    method: get
+    uri: https://example.com/rest/keys/1.0/projects/MEC/repos/test-empty-repo/ssh?limit=250
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.8.0
+      Authorization:
+      - "<API_BASIC_AUTH>"
+      Accept-Encoding:
+      - gzip,deflate
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.18.0
+      Date:
+      - Fri, 19 Jan 2024 19:15:01 GMT
+      Content-Type:
+      - application/json;charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      X-Arequestid:
+      - "@AKD3D0x1155x4771196x0"
+      X-Asen:
+      - SEN-20213931
+      Set-Cookie:
+      - BITBUCKETSESSIONID=88FFF333C3AE2A2E085CE49295C63CB1; Path=/; Secure; HttpOnly
+      X-Auserid:
+      - '52'
+      X-Ausername:
+      - unit-test
+      X-Asessionid:
+      - 1gxs6s6
+      Cache-Control:
+      - no-cache, no-transform
+      - private, no-cache
+      Pragma:
+      - no-cache
+      Vary:
+      - X-AUSERNAME,Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    body:
+      encoding: ASCII-8BIT
+      string: '{"size":0,"limit":50,"isLastPage":true,"values":[],"start":0}'
+    http_version: null
+    adapter_metadata:
+      vcr_decompressed: gzip
+  recorded_at: Fri, 19 Jan 2024 19:15:01 GMT
+recorded_with: VCR 5.1.0

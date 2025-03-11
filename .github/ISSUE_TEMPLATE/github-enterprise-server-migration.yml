@@ -1,0 +1,26 @@
+name: GitHub Enterprise Server to GitHub migration
+description: Perform a migration from GitHub Enterprise Server to GitHub Enterprise Cloud
+title: "GitHub Enterprise Server to GitHub migration"
+labels: ["migration", "github-enterprise-server"]
+body:
+  - type: textarea
+    id: repositories
+    attributes:
+      label: Repositories
+      description: Please enter the repositories that you would like to migrate from GitHub Enterprise Server to GitHub Enterprise Cloud
+      placeholder: |
+        https://github.example.com/your-org/your-repository-1
+        https://github.example.com/your-org/your-repository-2
+    validations:
+      required: true
+  - type: dropdown
+    id: visibility
+    attributes:
+      label: Target repository visibility
+      description: Please select the visibility for the repositories on GitHub Enterprise Cloud after they have been migrated
+      options:
+        - Private
+        - Internal
+        - Mirror
+    validations:
+      required: true

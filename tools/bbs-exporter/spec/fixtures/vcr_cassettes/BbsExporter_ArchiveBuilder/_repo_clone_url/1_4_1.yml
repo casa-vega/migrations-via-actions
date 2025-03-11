@@ -1,0 +1,93 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://example.com/rest/api/1.0/projects/BBS651/repos/empty-repo
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.15.4
+      Authorization:
+      - "<API_BASIC_AUTH>"
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.14.0 (Ubuntu)
+      Date:
+      - Fri, 13 Sep 2019 05:59:16 GMT
+      Content-Type:
+      - application/json;charset=UTF-8
+      Connection:
+      - keep-alive
+      X-Arequestid:
+      - "@S4AHCJx359x1554x0"
+      X-Asen:
+      - SEN-L14222024
+      X-Auserid:
+      - '53'
+      X-Ausername:
+      - unit-test
+      Cache-Control:
+      - no-cache, no-transform
+      Vary:
+      - accept-encoding,x-auserid,cookie,x-ausername,accept-encoding
+      X-Content-Type-Options:
+      - nosniff
+    body:
+      encoding: ASCII-8BIT
+      string: '{"slug":"empty-repo","id":12,"name":"empty-repo","scmId":"git","state":"AVAILABLE","statusMessage":"Available","forkable":true,"project":{"key":"BBS651","id":23,"name":"BBS651","public":false,"type":"NORMAL","links":{"self":[{"href":"https://example.com/projects/BBS651"}]}},"public":false,"links":{"clone":[{"href":"ssh://git@bitbucket.gitwubs.com:7999/bbs651/empty-repo.git","name":"ssh"},{"href":"https://example.com/scm/bbs651/empty-repo.git","name":"http"}],"self":[{"href":"https://example.com/projects/BBS651/repos/empty-repo/browse"}]}}'
+    http_version: null
+  recorded_at: Fri, 13 Sep 2019 05:59:16 GMT
+- request:
+    method: get
+    uri: https://example.com/rest/api/1.0/application-properties
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.17.3
+      Accept:
+      - "*/*"
+      Authorization:
+      - "<API_BASIC_AUTH>"
+      Accept-Encoding:
+      - gzip,deflate
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.12.1
+      Date:
+      - Thu, 30 Sep 2021 22:26:17 GMT
+      Content-Type:
+      - application/json;charset=UTF-8
+      Connection:
+      - keep-alive
+      Cache-Control:
+      - private, no-cache, no-transform
+      Expires:
+      - Thu, 01 Jan 1970 00:00:00 UTC
+      X-Arequestid:
+      - "@16BQAY7x1346x191806x0"
+      X-Asen:
+      - SEN-10038470
+      Vary:
+      - X-AUSERNAME,Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    body:
+      encoding: ASCII-8BIT
+      string: '{"version":"5.8.1","buildNumber":"5008001","buildDate":"1519714812594","displayName":"Bitbucket"}'
+    http_version: null
+    adapter_metadata:
+      vcr_decompressed: gzip
+  recorded_at: Thu, 30 Sep 2021 22:26:17 GMT
+recorded_with: VCR 5.1.0

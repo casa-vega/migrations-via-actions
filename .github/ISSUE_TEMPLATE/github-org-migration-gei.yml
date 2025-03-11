@@ -1,0 +1,21 @@
+name: GitHub.com Organization to GHEC EMU migration [GEI]
+description: Perform an organization migration from GitHub.com to GHEC EMU using GEI
+title: "GitHub.com Organization to GHEC EMU migration [GEI]"
+labels: ["migration", "gei-org"]
+body:
+  - type: input
+    id: source_organization
+    attributes:
+      label: Source organization
+      description: Please enter the source organization that you would like to migrate from GitHub.com to GHEC EMU
+      placeholder: my-organization-1
+    validations:
+      required: true
+  - type: input
+    id: target_organization
+    attributes:
+      label: Target organization
+      description: Please enter the target organization to be created in your GHEC EMU account.
+      placeholder: my-organization-2
+    validations:
+      required: true
